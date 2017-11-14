@@ -1,82 +1,9 @@
-In this challenge, you must implement a simple text editor. Initially, your editor contains an empty string, . You must perform  operations of the following  types:
+https://www.hackerrank.com/challenges/simple-text-editor/problem
 
-append - Append string  to the end of .
-delete - Delete the last  characters of .
-print - Print the  character of .
-undo - Undo the last (not previously undone) operation of type  or , reverting  to the state it was in prior to that operation.
-Input Format
-
-The first line contains an integer, , denoting the number of operations. 
-Each line  of the  subsequent lines (where ) defines an operation to be performed. Each operation starts with a single integer,  (where ), denoting a type of operation as defined in the Problem Statement above. If the operation requires an argument,  is followed by its space-separated argument. For example, if  and , line  will be 1 abcd.
-
-Constraints
-
-The sum of the lengths of all  in the input .
-The sum of  over all delete operations .
-All input characters are lowercase English letters.
-It is guaranteed that the sequence of operations given as input is possible to perform.
-Output Format
-
-Each operation of type  must print the  character on a new line.
-
-Sample Input
-
-8
-1 abc
-3 3
-2 3
-1 xy
-3 2
-4 
-4 
-3 1
-Sample Output
-
-c
-y
-a
-Explanation
-
-Initially,  is empty. The following sequence of  operations are described below:
-
-. We append  to , so .
-Print the  character on a new line. Currently, the  character is c.
-Delete the last  characters in  (), so .
-Append  to , so .
-Print the  character on a new line. Currently, the  character is y.
-Undo the last update to , making  empty again (i.e., ).
-Undo the next to last update to  (the deletion of the last  characters), making .
-Print the  character on a new line. Currently, the  character is a.
-Submissions:11640
-Max Score:65
-Difficulty: Medium
-Rate This Challenge:
-More
-Current Buffer (saved locally, editable)      
-C++
-
- 
-1
-#include <cmath>
-2
-#include <cstdio>
-3
-#include <vector>
-4
-#include <iostream>
-5
-#include <algorithm>
-6
-using namespace std;
-7
-​
-8
-​
-9
-int main() {
-10
-    /* Enter your code here. Read input from STDIN. Print output to STDOUT */   
-11
-    return 0;
-12
-}
+A few things to keep in mind:
+•               We like functional paradigms like having limited side effects, to the extent possible in Ruby
+•               Make the code as clean as you would make it if you were submitting it for actual code review while working here (documentation, testing, etc.)
+•               That website has some test cases, but they are not complete so please ensure your answer is accurate independently
+•               Please include documentation explaining your overall approach
+•               It's fine to include standard gems
+•               I'm confident that you can create a solution which works – our goal with this challenge is more to understand the way you approach problems rather than to verify you are able to solve this particular one. I would much rather have you take an extra week and submit something clean than do a quick-and-dirty job, so take all the time you need.
