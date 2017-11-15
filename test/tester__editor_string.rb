@@ -1,8 +1,8 @@
 require 'test/unit'
-require_relative 'editor_string'
-require_relative 'editor_string_exceptions'
+require_relative '../editor_string'
+require_relative '../editor_string_exceptions'
 
-class Tester < Test::Unit::TestCase
+class Tester_EditorString < Test::Unit::TestCase
   include EditorStringExceptions
 
   # Called before every test method runs. Can be used
@@ -74,7 +74,7 @@ class Tester < Test::Unit::TestCase
     s = 123
     k = 1
 
-    exception = self.assert_raise(TypeError){EditorString.deleteLastChars(string: s, charCount: k)}
+    exception = self.assert_raise(TypeError){EditorString.deleteLastChars(string: s, charsToDeleteCount: k)}
     self.assert_equal("string must be a String", exception.message)
 
     self.assert_equal(123, s)
@@ -85,7 +85,7 @@ class Tester < Test::Unit::TestCase
     s = "abc"
     k = "1"
 
-    exception = self.assert_raise(TypeError){EditorString.deleteLastChars(string: s, charCount: k)}
+    exception = self.assert_raise(TypeError){EditorString.deleteLastChars(string: s, charsToDeleteCount: k)}
     self.assert_equal("charCount must be an Integer", exception.message)
 
     self.assert_equal("abc", s)
@@ -96,7 +96,7 @@ class Tester < Test::Unit::TestCase
     s = "abcdef"
     k = 1
 
-    result = EditorString.deleteLastChars(string: s, charCount: k)
+    result = EditorString.deleteLastChars(string: s, charsToDeleteCount: k)
 
     self.assert_equal("abcde", result)
 
@@ -108,7 +108,7 @@ class Tester < Test::Unit::TestCase
     s = "abcdef"
     k = 3
 
-    result = EditorString.deleteLastChars(string: s, charCount: k)
+    result = EditorString.deleteLastChars(string: s, charsToDeleteCount: k)
 
     self.assert_equal("abc", result)
 
@@ -120,7 +120,7 @@ class Tester < Test::Unit::TestCase
     s = "abcdef"
     k = 6
 
-    result = EditorString.deleteLastChars(string: s, charCount: k)
+    result = EditorString.deleteLastChars(string: s, charsToDeleteCount: k)
 
     self.assert_equal("", result)
 
@@ -132,7 +132,7 @@ class Tester < Test::Unit::TestCase
     s = "abcdef"
     k = 0
 
-    exception = self.assert_raise(CharCountOutOfBoundsError){EditorString.deleteLastChars(string: s, charCount: k)}
+    exception = self.assert_raise(CharCountOutOfBoundsError){EditorString.deleteLastChars(string: s, charsToDeleteCount: k)}
     self.assert_equal("1 >= charCount <= string length", exception.message)
 
     self.assert_equal("abcdef", s)
@@ -143,7 +143,7 @@ class Tester < Test::Unit::TestCase
     s = "abcdef"
     k = 7
 
-    exception = self.assert_raise(CharCountOutOfBoundsError){EditorString.deleteLastChars(string: s, charCount: k)}
+    exception = self.assert_raise(CharCountOutOfBoundsError){EditorString.deleteLastChars(string: s, charsToDeleteCount: k)}
     self.assert_equal("1 >= charCount <= string length", exception.message)
 
     self.assert_equal("abcdef", s)
@@ -154,7 +154,7 @@ class Tester < Test::Unit::TestCase
     s = ""
     k = 1
 
-    exception = self.assert_raise(EmptyStringError){EditorString.deleteLastChars(string: s, charCount: k)}
+    exception = self.assert_raise(EmptyStringError){EditorString.deleteLastChars(string: s, charsToDeleteCount: k)}
     self.assert_equal("String may not be empty", exception.message)
 
     self.assert_equal("", s)

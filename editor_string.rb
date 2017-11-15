@@ -13,14 +13,14 @@ class EditorString
   end
 
 
-  def self.deleteLastChars(string:, charCount:)
+  def self.deleteLastChars(string:, charsToDeleteCount:)
     raise TypeError.new("string must be a String") unless (string.kind_of? String)
-    raise TypeError.new("charCount must be an Integer") unless (charCount.kind_of? Integer)
+    raise TypeError.new("charCount must be an Integer") unless (charsToDeleteCount.kind_of? Integer)
 
     raise EmptyStringError.new unless (string.length >= 1)
-    raise CharCountOutOfBoundsError.new unless ((charCount >= 1) && (charCount <= string.length))
+    raise CharCountOutOfBoundsError.new unless ((charsToDeleteCount >= 1) && (charsToDeleteCount <= string.length))
 
-    keepCount = string.length - charCount
+    keepCount = string.length - charsToDeleteCount
     return string.slice(0, keepCount)
   end
 
