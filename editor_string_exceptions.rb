@@ -1,4 +1,5 @@
 module  EditorStringExceptions
+
   class EditorStringError < StandardError
   end
 
@@ -13,4 +14,23 @@ module  EditorStringExceptions
       "Appendage must be all lower case"
     end
   end
+
+  class DeleteLastCharsError < EditorStringError
+    def message
+      "Invalid deleteLastChars"
+    end
+  end
+
+  class CharCountOutOfBoundsError < DeleteLastCharsError
+    def message
+      "1 >= charCount <= string length"
+    end
+  end
+
+  class EmptyStringError < DeleteLastCharsError
+    def message
+      "String may not be empty"
+    end
+  end
+
 end
