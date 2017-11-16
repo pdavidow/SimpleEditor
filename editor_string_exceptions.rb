@@ -23,7 +23,7 @@ module  EditorStringExceptions
 
   class CharCountOutOfBoundsError < DeleteLastCharsError
     def message
-      "1 >= charCount <= string length"
+      "1 >= char count <= string length"
     end
   end
 

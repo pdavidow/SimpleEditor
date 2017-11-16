@@ -3,13 +3,20 @@ require_relative 'history_manager'
 
 class EditorManager
 
+  protected
   attr_accessor :history
+
+  public
 
   def initialize()
     self.history = HistoryManager.addState(
         history: HistoryManager.new.history,
         state: Editor.initialState
     )
+  end
+
+  def s()
+    HistoryManager.currentState(history: self.history)
   end
 
   def append(w:)

@@ -5,16 +5,6 @@ require_relative '../editor_string_exceptions'
 class Tester_EditorString < Test::Unit::TestCase
   include EditorStringExceptions
 
-  # Called before every test method runs. Can be used
-  # to set up fixture information.
-  def setup
-  end
-
-  # Called after every test method runs. Can be used to tear
-  # down fixture information.
-  def teardown
-  end
-
   def test_append_arg1
     s1 = 123
     s2 = "def"
@@ -133,7 +123,7 @@ class Tester_EditorString < Test::Unit::TestCase
     k = 0
 
     exception = self.assert_raise(CharCountOutOfBoundsError){EditorString.deleteLastChars(string: s, charsToDeleteCount: k)}
-    self.assert_equal("1 >= charCount <= string length", exception.message)
+    self.assert_equal("1 >= char count <= string length", exception.message)
 
     self.assert_equal("abcdef", s)
     self.assert_equal(0, k)
@@ -144,7 +134,7 @@ class Tester_EditorString < Test::Unit::TestCase
     k = 7
 
     exception = self.assert_raise(CharCountOutOfBoundsError){EditorString.deleteLastChars(string: s, charsToDeleteCount: k)}
-    self.assert_equal("1 >= charCount <= string length", exception.message)
+    self.assert_equal("1 >= char count <= string length", exception.message)
 
     self.assert_equal("abcdef", s)
     self.assert_equal(7, k)
