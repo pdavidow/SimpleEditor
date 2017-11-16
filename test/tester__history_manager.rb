@@ -13,33 +13,54 @@ class Tester_HistoryManager < Test::Unit::TestCase
   def teardown
   end
 
-  def test_currentState
-    HistoryManager.resetHistory
-    h = HistoryManager.history
+  def test_addState
+    h0 = HistoryManager.new.history
+    state = "abc"
 
-    currentState = HistoryManager.currentState(history:h)
+    h1 = HistoryManager.addState(history: h0, state: state)
+    currentState = HistoryManager.currentState(history: h1)
+    self.assert_equal(currentState, "abc")
+
+    state[2] = "q"
+
+    self.assert_equal(state, "abq")
+    self.assert_equal(currentState, "abc")
+  end
+
+  def test_currentState
+    h0 = HistoryManager.new.history
+
+    currentState = HistoryManager.currentState(history: h0)
     self.assert_equal(currentState, nil)
 
-    h.push(1)
-    currentState = HistoryManager.currentState(history:h)
+    h1 = HistoryManager.addState(history: h0, state: 1)
+    currentState = HistoryManager.currentState(history: h1)
     self.assert_equal(currentState, 1)
   end
 
-  def test_undo
-    HistoryManager.resetHistory
-    h1 = HistoryManager.history
+  def test_removeCurrentState
+    h0 = HistoryManager.new.history
 
-    h1.push(1)
-    h1.push(2)
-    h1.push(3)
+    h1 = HistoryManager.addState(history: h0, state: 1)
+    h2 = HistoryManager.addState(history: h1, state: 2)
+    h3 = HistoryManager.addState(history: h2, state: 3)
 
-    h2 = HistoryManager.undo(history:h1)
-    currentState = HistoryManager.currentState(history:h2)
+    h4 = HistoryManager.removeCurrentState(history: h3)
+    currentState = HistoryManager.currentState(history: h4)
     self.assert_equal(currentState, 2)
 
-    h3 = HistoryManager.undo(history:h2)
-    currentState = HistoryManager.currentState(history:h3)
+    h5 = HistoryManager.removeCurrentState(history: h4)
+    currentState = HistoryManager.currentState(history: h5)
     self.assert_equal(currentState, 1)
+
+    h6 = HistoryManager.removeCurrentState(history: h5)
+    currentState = HistoryManager.currentState(history: h6)
+    self.assert_equal(currentState, nil)
+
+    h7 = HistoryManager.removeCurrentState(history: h6)
+    currentState = HistoryManager.currentState(history: h7)
+    self.assert_equal(currentState, nil)
   end
+
 end
 

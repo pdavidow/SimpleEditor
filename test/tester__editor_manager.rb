@@ -1,7 +1,7 @@
 require 'test/unit'
-require_relative '../editor'
+require_relative '../editor_manager'
 
-class Tester_Editor < Test::Unit::TestCase
+class Tester_EditorManager < Test::Unit::TestCase
 
   # Called before every test method runs. Can be used
   # to set up fixture information.
@@ -13,11 +13,10 @@ class Tester_Editor < Test::Unit::TestCase
   def teardown
   end
 
-  def test_initialState
-    result = Editor.initialState
+  def test_initialize
+    e = EditorManager.new()
 
-    self.assert_equal("", result)
+    self.assert_equal(e.history, [""])
   end
-
 end
 

@@ -9,9 +9,7 @@ class Editor
   def self.append(history:, appendageString:)
     currentState = HistoryManager.currentState(history: history)
     result = EditorString.append(baseString: currentState, appendageString: appendageString)
-
-    historyClone = history.clone
-    historyClone.push(result.clone)
+    historyClone = HistoryManager.addState(history: history, state: result)
 
     return historyClone
   end
@@ -20,9 +18,7 @@ class Editor
   def self.deleteLastChars(history:, charsToDeleteCount:)
     currentState = HistoryManager.currentState(history: history)
     result = EditorString.deleteLastChars(string: currentState, charsToDeleteCount: charsToDeleteCount)
-
-    historyClone = history.clone
-    historyClone.push(result.clone)
+    historyClone = HistoryManager.addState(history: history, state: result)
 
     return historyClone
   end
