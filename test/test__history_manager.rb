@@ -1,7 +1,7 @@
 require 'test/unit'
 require_relative '../history_manager'
 
-class Tester_HistoryManager < Test::Unit::TestCase
+class Test_HistoryManager < Test::Unit::TestCase
 
   def test_addState
     h0 = HistoryManager.new.history

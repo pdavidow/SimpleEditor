@@ -1,9 +1,11 @@
 require 'test/unit'
 require_relative '../editor_manager'
 require_relative '../editor_string_exceptions'
+require_relative 'helper'
 
-class Tester_EditorManager < Test::Unit::TestCase
+class Test_EditorManager < Test::Unit::TestCase
   include EditorStringExceptions
+  include Helper
 
   def test_initialize
     mgr = EditorManager.new()
@@ -18,6 +20,7 @@ class Tester_EditorManager < Test::Unit::TestCase
 
     self.assert_equal(mgr.s(), "abc")
 
+    self.assert_equal(w1, "abc")
     w1[2] = "q"
     self.assert_equal(w1, "abq")
     self.assert_equal(mgr.s(), "abc")
@@ -47,12 +50,15 @@ class Tester_EditorManager < Test::Unit::TestCase
 
     mgr.delete(k: 1)
     self.assert_equal(mgr.s(), "abcde")
+    self.assert_equal(w1, "abcdef")
 
     mgr.delete(k: 4)
     self.assert_equal(mgr.s(), "a")
+    self.assert_equal(w1, "abcdef")
 
     mgr.delete(k: 1)
     self.assert_equal(mgr.s(), "")
+    self.assert_equal(w1, "abcdef")
   end
 
   def test_delete_2
@@ -84,6 +90,90 @@ class Tester_EditorManager < Test::Unit::TestCase
     self.assert_equal("String may not be empty", exception.message)
 
     self.assert_equal(mgr.s(), "")
+  end
+
+  def test_print_1
+    mgr = EditorManager.new()
+    w1 = "abc"
+    mgr.append(w: w1)
+
+    k = 3
+    result = with_captured_stdout {mgr.printCharAt(k: k)}
+
+    self.assert_equal(result, "c\n")
+
+    self.assert_equal(w1, "abc")
+    self.assert_equal(k, 3)
+  end
+
+  def test_print_2
+    mgr = EditorManager.new()
+    w1 = "abc"
+    mgr.append(w: w1)
+
+    k = 1
+    result = with_captured_stdout {mgr.printCharAt(k: k)}
+
+    self.assert_equal(result, "a\n")
+
+    self.assert_equal(w1, "abc")
+    self.assert_equal(k, 1)
+  end
+
+  def test_print_3
+    mgr = EditorManager.new()
+    w1 = "abc"
+    mgr.append(w: w1)
+    w2 = "def"
+    mgr.append(w: w2)
+
+    k = 6
+    result = with_captured_stdout {mgr.printCharAt(k: k)}
+
+    self.assert_equal(result, "f\n")
+
+    self.assert_equal(w1, "abc")
+    self.assert_equal(w2, "def")
+    self.assert_equal(k, 6)
+  end
+
+  def test_print_4
+    mgr = EditorManager.new()
+    w1 = "abc"
+    mgr.append(w: w1)
+
+    k = 0
+    exception = self.assert_raise(OutOfBoundsError){with_captured_stdout {mgr.printCharAt(k: k)}}
+    self.assert_equal("1 >= position <= string length", exception.message)
+
+    self.assert_equal(w1, "abc")
+    self.assert_equal(k, 0)
+  end
+
+  def test_print_5
+    mgr = EditorManager.new()
+    w1 = "abc"
+    mgr.append(w: w1)
+
+    k = 4
+    exception = self.assert_raise(OutOfBoundsError){with_captured_stdout {mgr.printCharAt(k: k)}}
+    self.assert_equal("1 >= position <= string length", exception.message)
+
+    self.assert_equal(w1, "abc")
+    self.assert_equal(k, 4)
+  end
+
+  def test_print_6
+    mgr = EditorManager.new()
+    w1 = ""
+    mgr.append(w: w1)
+
+    k = 1
+    exception = self.assert_raise(EmptyStringError){with_captured_stdout {mgr.printCharAt(k: k)}}
+    self.assert_equal("String may not be empty", exception.message)
+
+    self.assert_equal(w1, "")
+    self.assert_equal(k, 1)
   end
 
   def test_undo

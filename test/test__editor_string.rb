@@ -2,7 +2,7 @@ require 'test/unit'
 require_relative '../editor_string'
 require_relative '../editor_string_exceptions'
 
-class Tester_EditorString < Test::Unit::TestCase
+class Test_EditorString < Test::Unit::TestCase
   include EditorStringExceptions
 
   def test_append_arg1

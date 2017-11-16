@@ -32,6 +32,12 @@ class EditorManager
         charsToDeleteCount: k)
   end
 
+  def printCharAt(k:)
+    string = self.s()
+    result = Editor.charAtPosition(string: string, position: k)
+    puts(result)
+  end
+
   def undo()
     return self.history unless self.history.length > 1
 
