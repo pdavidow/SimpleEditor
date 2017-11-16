@@ -117,5 +117,62 @@ class Tester_Editor < Test::Unit::TestCase
     currentState = HistoryManager.currentState(history: h1)
     self.assert_equal("", currentState)
   end
+
+  def test_charAtPosition_1
+    s = "abc"
+    k = 3
+
+    result = Editor.charAtPosition(string: s, position: k)
+
+    self.assert_equal("c", result)
+
+    self.assert_equal("abc", s)
+    self.assert_equal(3, k)
+  end
+
+  def test_charAtPosition_2
+    s = "abc"
+    k = 1
+
+    result = Editor.charAtPosition(string: s, position: k)
+
+    self.assert_equal("a", result)
+
+    self.assert_equal("abc", s)
+    self.assert_equal(1, k)
+  end
+
+  def test_charAtPosition_3
+    s = "abc"
+    k = 0
+
+    exception = self.assert_raise(OutOfBoundsError){Editor.charAtPosition(string: s, position: k)}
+    self.assert_equal("1 >= position <= string length", exception.message)
+
+    self.assert_equal("abc", s)
+    self.assert_equal(0, k)
+  end
+
+  def test_charAtPosition_4
+    s = "abc"
+    k = 4
+
+    exception = self.assert_raise(OutOfBoundsError){Editor.charAtPosition(string: s, position: k)}
+    self.assert_equal("1 >= position <= string length", exception.message)
+
+    self.assert_equal("abc", s)
+    self.assert_equal(4, k)
+  end
+
+  def test_charAtPosition_5
+    s = ""
+    k = 1
+
+    exception = self.assert_raise(EmptyStringError){Editor.charAtPosition(string: s, position: k)}
+    self.assert_equal("String may not be empty", exception.message)
+
+    self.assert_equal("", s)
+    self.assert_equal(1, k)
+  end
 end
 

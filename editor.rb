@@ -23,4 +23,7 @@ class Editor
     return historyClone
   end
 
+  def self.charAtPosition(string:, position:)
+    return EditorString.charAtPosition(string: string, position: position)
+  end
 end
