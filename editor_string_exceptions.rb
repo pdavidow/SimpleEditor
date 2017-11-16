@@ -15,19 +15,10 @@ module  EditorStringExceptions
     end
   end
 
-  class DeleteLastCharsError < EditorStringError
-    def message
-      "Invalid deleteLastChars"
-    end
+  class OutOfBoundsError < EditorStringError
   end
 
-  class CharCountOutOfBoundsError < DeleteLastCharsError
-    def message
-      "1 >= char count <= string length"
-    end
-  end
-
-  class EmptyStringError < DeleteLastCharsError
+  class EmptyStringError < EditorStringError
     def message
       "String may not be empty"
     end

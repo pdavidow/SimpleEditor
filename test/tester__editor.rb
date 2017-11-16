@@ -76,7 +76,7 @@ class Tester_Editor < Test::Unit::TestCase
 
     count = 7
 
-    exception = self.assert_raise(CharCountOutOfBoundsError){Editor.deleteLastChars(history: h2, charsToDeleteCount: count)}
+    exception = self.assert_raise(OutOfBoundsError){Editor.deleteLastChars(history: h2, charsToDeleteCount: count)}
     self.assert_equal("1 >= char count <= string length", exception.message)
 
     currentState = HistoryManager.currentState(history: h2)
@@ -95,7 +95,7 @@ class Tester_Editor < Test::Unit::TestCase
 
     count = 0
 
-    exception = self.assert_raise(CharCountOutOfBoundsError){Editor.deleteLastChars(history: h2, charsToDeleteCount: count)}
+    exception = self.assert_raise(OutOfBoundsError){Editor.deleteLastChars(history: h2, charsToDeleteCount: count)}
     self.assert_equal("1 >= char count <= string length", exception.message)
 
     currentState = HistoryManager.currentState(history: h2)

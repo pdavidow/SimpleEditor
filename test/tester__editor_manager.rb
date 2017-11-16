@@ -60,7 +60,7 @@ class Tester_EditorManager < Test::Unit::TestCase
     w1 = "abcdef"
     mgr.append(w: w1)
 
-    exception = self.assert_raise(CharCountOutOfBoundsError){mgr.delete(k: 0)}
+    exception = self.assert_raise(OutOfBoundsError){mgr.delete(k: 0)}
     self.assert_equal("1 >= char count <= string length", exception.message)
 
     self.assert_equal(mgr.s(), "abcdef")
@@ -71,7 +71,7 @@ class Tester_EditorManager < Test::Unit::TestCase
     w1 = "abcdef"
     mgr.append(w: w1)
 
-    exception = self.assert_raise(CharCountOutOfBoundsError){mgr.delete(k: 7)}
+    exception = self.assert_raise(OutOfBoundsError){mgr.delete(k: 7)}
     self.assert_equal("1 >= char count <= string length", exception.message)
 
     self.assert_equal(mgr.s(), "abcdef")
