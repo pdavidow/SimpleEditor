@@ -11,7 +11,7 @@ class Editor
     result = EditorString.append(baseString: currentState, appendageString: appendageString)
     historyClone = HistoryManager.addState(history: history, state: result)
 
-    return historyClone
+    historyClone
   end
 
 
@@ -20,10 +20,10 @@ class Editor
     result = EditorString.deleteLastChars(string: currentState, charsToDeleteCount: charsToDeleteCount)
     historyClone = HistoryManager.addState(history: history, state: result)
 
-    return historyClone
+    historyClone
   end
 
   def self.charAtPosition(string:, position:)
-    return EditorString.charAtPosition(string: string, position: position)
+    EditorString.charAtPosition(string: string, position: position)
   end
 end

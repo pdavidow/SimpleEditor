@@ -8,14 +8,14 @@ class EditorManager
 
   public
 
-  def initialize()
+  def initialize
     self.history = HistoryManager.addState(
         history: HistoryManager.new.history,
         state: Editor.initialState
     )
   end
 
-  def s()
+  def s
     HistoryManager.currentState(history: self.history)
   end
 
@@ -32,13 +32,13 @@ class EditorManager
         charsToDeleteCount: k)
   end
 
-  def printCharAt(k:)
+  def printCharAt(k:) # with newline
     string = self.s()
     result = Editor.charAtPosition(string: string, position: k)
     puts(result)
   end
 
-  def undo()
+  def undo
     return self.history unless self.history.length > 1
 
     self.history = HistoryManager.removeCurrentState(

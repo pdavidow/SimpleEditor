@@ -7,3 +7,6 @@ A few things to keep in mind:
 •               Please include documentation explaining your overall approach
 •               It's fine to include standard gems
 •               I'm confident that you can create a solution which works – our goal with this challenge is more to understand the way you approach problems rather than to verify you are able to solve this particular one. I would much rather have you take an extra week and submit something clean than do a quick-and-dirty job, so take all the time you need.
+
+**TODO
+All input characters are lowercase English letters.**

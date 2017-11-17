@@ -1,10 +1,8 @@
 require 'test/unit'
 require_relative '../editor_manager'
-require_relative '../editor_string_exceptions'
 require_relative 'helper'
 
 class Test_EditorManager < Test::Unit::TestCase
-  include EditorStringExceptions
   include Helper
 
   def test_initialize
@@ -35,7 +33,7 @@ class Test_EditorManager < Test::Unit::TestCase
     mgr = EditorManager.new()
     w1 = "abC"
 
-    exception = self.assert_raise(LowerCaseError){mgr.append(w: w1)}
+    exception = self.assert_raise(ArgumentError){mgr.append(w: w1)}
     self.assert_equal("Appendage must be all lower case", exception.message)
 
     self.assert_equal(mgr.s(), "")
@@ -66,7 +64,7 @@ class Test_EditorManager < Test::Unit::TestCase
     w1 = "abcdef"
     mgr.append(w: w1)
 
-    exception = self.assert_raise(OutOfBoundsError){mgr.delete(k: 0)}
+    exception = self.assert_raise(ArgumentError){mgr.delete(k: 0)}
     self.assert_equal("1 >= count <= string length", exception.message)
 
     self.assert_equal(mgr.s(), "abcdef")
@@ -77,7 +75,7 @@ class Test_EditorManager < Test::Unit::TestCase
     w1 = "abcdef"
     mgr.append(w: w1)
 
-    exception = self.assert_raise(OutOfBoundsError){mgr.delete(k: 7)}
+    exception = self.assert_raise(ArgumentError){mgr.delete(k: 7)}
     self.assert_equal("1 >= count <= string length", exception.message)
 
     self.assert_equal(mgr.s(), "abcdef")
@@ -86,7 +84,7 @@ class Test_EditorManager < Test::Unit::TestCase
   def test_delete_4
     mgr = EditorManager.new()
 
-    exception = self.assert_raise(EmptyStringError){mgr.delete(k: 1)}
+    exception = self.assert_raise(ArgumentError){mgr.delete(k: 1)}
     self.assert_equal("String may not be empty", exception.message)
 
     self.assert_equal(mgr.s(), "")
@@ -143,7 +141,7 @@ class Test_EditorManager < Test::Unit::TestCase
     mgr.append(w: w1)
 
     k = 0
-    exception = self.assert_raise(OutOfBoundsError){with_captured_stdout {mgr.printCharAt(k: k)}}
+    exception = self.assert_raise(ArgumentError){with_captured_stdout {mgr.printCharAt(k: k)}}
     self.assert_equal("1 >= position <= string length", exception.message)
 
     self.assert_equal(w1, "abc")
@@ -156,7 +154,7 @@ class Test_EditorManager < Test::Unit::TestCase
     mgr.append(w: w1)
 
     k = 4
-    exception = self.assert_raise(OutOfBoundsError){with_captured_stdout {mgr.printCharAt(k: k)}}
+    exception = self.assert_raise(ArgumentError){with_captured_stdout {mgr.printCharAt(k: k)}}
     self.assert_equal("1 >= position <= string length", exception.message)
 
     self.assert_equal(w1, "abc")
@@ -169,7 +167,7 @@ class Test_EditorManager < Test::Unit::TestCase
     mgr.append(w: w1)
 
     k = 1
-    exception = self.assert_raise(EmptyStringError){with_captured_stdout {mgr.printCharAt(k: k)}}
+    exception = self.assert_raise(ArgumentError){with_captured_stdout {mgr.printCharAt(k: k)}}
     self.assert_equal("String may not be empty", exception.message)
 
     self.assert_equal(w1, "")

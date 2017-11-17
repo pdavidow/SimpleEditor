@@ -1,10 +1,8 @@
 require 'test/unit'
 require_relative '../editor'
 require_relative '../history_manager'
-require_relative '../editor_string_exceptions'
 
 class Tester_Editor < Test::Unit::TestCase
-  include EditorStringExceptions
 
   def test_initialState
     self.assert_equal("", Editor.initialState)
@@ -33,7 +31,7 @@ class Tester_Editor < Test::Unit::TestCase
     currentState1 = HistoryManager.currentState(history: h1)
 
     appendageString = "abC"
-    exception = self.assert_raise(LowerCaseError){Editor.append(history: h1, appendageString: appendageString)}
+    exception = self.assert_raise(ArgumentError){Editor.append(history: h1, appendageString: appendageString)}
     self.assert_equal("Appendage must be all lower case", exception.message)
 
     currentState2 = HistoryManager.currentState(history: h1)
@@ -76,7 +74,7 @@ class Tester_Editor < Test::Unit::TestCase
 
     count = 7
 
-    exception = self.assert_raise(OutOfBoundsError){Editor.deleteLastChars(history: h2, charsToDeleteCount: count)}
+    exception = self.assert_raise(ArgumentError){Editor.deleteLastChars(history: h2, charsToDeleteCount: count)}
     self.assert_equal("1 >= count <= string length", exception.message)
 
     currentState = HistoryManager.currentState(history: h2)
@@ -95,7 +93,7 @@ class Tester_Editor < Test::Unit::TestCase
 
     count = 0
 
-    exception = self.assert_raise(OutOfBoundsError){Editor.deleteLastChars(history: h2, charsToDeleteCount: count)}
+    exception = self.assert_raise(ArgumentError){Editor.deleteLastChars(history: h2, charsToDeleteCount: count)}
     self.assert_equal("1 >= count <= string length", exception.message)
 
     currentState = HistoryManager.currentState(history: h2)
@@ -111,7 +109,7 @@ class Tester_Editor < Test::Unit::TestCase
 
     count = 1
 
-    exception = self.assert_raise(EmptyStringError){Editor.deleteLastChars(history: h1, charsToDeleteCount: count)}
+    exception = self.assert_raise(ArgumentError){Editor.deleteLastChars(history: h1, charsToDeleteCount: count)}
     self.assert_equal("String may not be empty", exception.message)
 
     currentState = HistoryManager.currentState(history: h1)
@@ -146,7 +144,7 @@ class Tester_Editor < Test::Unit::TestCase
     s = "abc"
     k = 0
 
-    exception = self.assert_raise(OutOfBoundsError){Editor.charAtPosition(string: s, position: k)}
+    exception = self.assert_raise(ArgumentError){Editor.charAtPosition(string: s, position: k)}
     self.assert_equal("1 >= position <= string length", exception.message)
 
     self.assert_equal("abc", s)
@@ -157,7 +155,7 @@ class Tester_Editor < Test::Unit::TestCase
     s = "abc"
     k = 4
 
-    exception = self.assert_raise(OutOfBoundsError){Editor.charAtPosition(string: s, position: k)}
+    exception = self.assert_raise(ArgumentError){Editor.charAtPosition(string: s, position: k)}
     self.assert_equal("1 >= position <= string length", exception.message)
 
     self.assert_equal("abc", s)
@@ -168,7 +166,7 @@ class Tester_Editor < Test::Unit::TestCase
     s = ""
     k = 1
 
-    exception = self.assert_raise(EmptyStringError){Editor.charAtPosition(string: s, position: k)}
+    exception = self.assert_raise(ArgumentError){Editor.charAtPosition(string: s, position: k)}
     self.assert_equal("String may not be empty", exception.message)
 
     self.assert_equal("", s)

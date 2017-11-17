@@ -12,14 +12,14 @@ class HistoryManager
     historyClone = history.clone
     historyClone.push(state.clone)
 
-    return historyClone
+    historyClone
   end
 
   def self.removeCurrentState(history:)
     historyClone = history.clone
     historyClone.pop
 
-    return historyClone
+    historyClone
   end
 
 end
