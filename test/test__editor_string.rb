@@ -47,6 +47,17 @@ class Test_EditorString < Test::Unit::TestCase
     self.assert_equal("deF", s2)
   end
 
+  def test_append_2a
+    s1 = "abc"
+    s2 = "de6"
+
+    exception = self.assert_raise(ArgumentError){EditorString.append(baseString: s1, appendageString: s2)}
+    self.assert_equal("Appendage must be all English letters", exception.message)
+
+    self.assert_equal("abc", s1)
+    self.assert_equal("de6", s2)
+  end
+
   def test_append_3
     s1 = "ABC"
     s2 = "def"

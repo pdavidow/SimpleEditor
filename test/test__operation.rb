@@ -57,6 +57,14 @@ class Test_Operation < Test::Unit::TestCase
   end
 
   def test_parseLine_8
+    exception = self.assert_raise(ArgumentError){Operation.new(line: "")}
+    self.assert_equal("Type-Code expected", exception.message)
+
+    exception = self.assert_raise(ArgumentError){Operation.new(line: "\n")}
+    self.assert_equal("Type-Code expected", exception.message)
+  end
+
+  def test_parseLine_9
     exception = self.assert_raise(ArgumentError){Operation.new(line: "1\n")}
     self.assert_equal("Arg expected", exception.message)
 
@@ -67,8 +75,19 @@ class Test_Operation < Test::Unit::TestCase
     self.assert_equal("Arg expected", exception.message)
   end
 
-  def test_parseLine_9
+  def test_parseLine_10
     exception = self.assert_raise(ArgumentError){Operation.new(line: "1 abC\n")}
     self.assert_equal("Appendage must be all lower case", exception.message)
+  end
+
+  def test_parseLine_11
+    exception = self.assert_raise(ArgumentError){Operation.new(line: "1 ab3\n")}
+    self.assert_equal("Appendage must be all English letters", exception.message)
+
+    exception = self.assert_raise(ArgumentError){Operation.new(line: "1 ab&\n")}
+    self.assert_equal("Appendage must be all English letters", exception.message)
+
+    exception = self.assert_raise(ArgumentError){Operation.new(line: "1 ab.\n")}
+    self.assert_equal("Appendage must be all English letters", exception.message)
   end
 end

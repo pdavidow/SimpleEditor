@@ -39,6 +39,26 @@ class Test_EditorManager < Test::Unit::TestCase
     self.assert_equal(mgr.s(), "")
   end
 
+  def test_append_3
+    mgr = EditorManager.new()
+    w1 = "ab3"
+
+    exception = self.assert_raise(ArgumentError){mgr.append(w: w1)}
+    self.assert_equal("Appendage must be all English letters", exception.message)
+
+    self.assert_equal(mgr.s(), "")
+  end
+
+  def test_append_4
+    mgr = EditorManager.new()
+    w1 = ""
+
+    exception = self.assert_raise(ArgumentError){mgr.append(w: w1)}
+    self.assert_equal("Appendage must be all English letters", exception.message)
+
+    self.assert_equal(mgr.s(), "")
+  end
+
   def test_delete_1
     mgr = EditorManager.new()
     w1 = "abcdef"
@@ -159,19 +179,6 @@ class Test_EditorManager < Test::Unit::TestCase
 
     self.assert_equal(w1, "abc")
     self.assert_equal(k, 4)
-  end
-
-  def test_print_6
-    mgr = EditorManager.new()
-    w1 = ""
-    mgr.append(w: w1)
-
-    k = 1
-    exception = self.assert_raise(ArgumentError){with_captured_stdout {mgr.printCharAt(k: k)}}
-    self.assert_equal("String may not be empty", exception.message)
-
-    self.assert_equal(w1, "")
-    self.assert_equal(k, 1)
   end
 
   def test_undo

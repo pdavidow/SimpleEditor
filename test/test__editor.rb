@@ -39,6 +39,20 @@ class Tester_Editor < Test::Unit::TestCase
     self.assert_equal(currentState1, currentState2)
   end
 
+  def test_append_3
+    h0 = HistoryManager.new.history
+    h1 = HistoryManager.addState(history: h0, state: Editor.initialState)
+    currentState1 = HistoryManager.currentState(history: h1)
+
+    appendageString = "ab3"
+    exception = self.assert_raise(ArgumentError){Editor.append(history: h1, appendageString: appendageString)}
+    self.assert_equal("Appendage must be all English letters", exception.message)
+
+    currentState2 = HistoryManager.currentState(history: h1)
+
+    self.assert_equal(currentState1, currentState2)
+  end
+
   def test_deleteLastChars_1
     h0 = HistoryManager.new.history
     h1 = HistoryManager.addState(history: h0, state: Editor.initialState)

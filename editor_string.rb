@@ -5,6 +5,7 @@ class EditorString
     raise TypeError.new("appendageString must be a String") unless (appendageString.kind_of? String)
 
     raise ArgumentError.new("Appendage must be all lower case") unless (appendageString.downcase == appendageString)
+    raise ArgumentError.new("Appendage must be all English letters") if (appendageString.match(/^[[:alpha:]]+$/).nil?) # https://stackoverflow.com/questions/10637606/doesnt-ruby-have-isalpha
 
     baseString ++ appendageString
   end
