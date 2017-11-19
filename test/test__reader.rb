@@ -12,8 +12,8 @@ class Test_Reader < Test::Unit::TestCase
 
     self.assert_equal(9, lines.length())
 
-    self.assert_equal("8\n", lines[0])
-    self.assert_equal("3 1", lines[8])
+    self.assert_equal("8\n", lines[0].string)
+    self.assert_equal("3 1", lines[8].string)
   end
 
   def test_operationCount

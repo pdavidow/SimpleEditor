@@ -1,4 +1,5 @@
 require_relative 'operation'
+require_relative 'input_line'
 require_relative 'helper'
 
 class Reader
@@ -30,7 +31,8 @@ class Reader
   end
 
   def getLines
-    IO.readlines(self.filename)
+    rawLines = IO.readlines(self.filename)
+    rawLines.map.with_index {|line, index| InputLine.new(string: line, number: index + 1)}
   end
 
   def operationCountLineIndex
@@ -42,7 +44,7 @@ class Reader
   end
 
   def getOperationCount
-    string = self.operationCountLine()
+    string = self.operationCountLine.string
     count = nonNegativeIntegerFrom(string: string)
     raise ArgumentError.new("Operation count must be a non-negative integer") if count.nil?
     count
@@ -55,7 +57,7 @@ class Reader
   end
 
   def getOperations
-    self.operationLines.map {|line| Operation.new(line: line)}
+    self.operationLines.map {|line| Operation.new(input_line: line)}
   end
 
   def validate

@@ -7,16 +7,16 @@ class Operation
 
   attr_accessor :typeCode, :arg
 
-  def initialize(line:)
-    self.parseLine(line: line)
+  def initialize(input_line: input_line)
+    self.parseLine(input_line: input_line)
   end
 
   def opProc
     @opProc ||= getOpProc()
   end
 
-  def parseLine(line: line)
-    substrings = line.split(DELIMETER)
+  def parseLine(input_line: input_line)
+    substrings = input_line.string.split(DELIMETER)
 
     self.parseTypeCode(substrings: substrings)
     self.parseArg(substrings: substrings)
@@ -74,7 +74,7 @@ class Operation
 
   def validatedAppendage(string: string)
     raise ArgumentError.new("Appendage must be all lower case") unless (string.downcase == string)
-    raise ArgumentError.new("Appendage must be all English letters") if (string.match(/^[[:alpha:]]+$/).nil?) # https://stackoverflow.com/questions/10637606/doesnt-ruby-have-isalpha
+    raise ArgumentError.new("Appendage must be all English letters") if !is_alpha(string: string)
 
     string
   end

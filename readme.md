@@ -13,3 +13,4 @@ Read input from **STDIN**. Print output to **STDOUT**
 Reader to give errors prefixed with LINE #
 10 to the 6th stuff ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 YESSSSSSSSSSSSSSSSSS: Mark some methods as private/protected 
+all method names are SNAKE case, not camel case. But class names ARE camelCase

@@ -12,4 +12,8 @@ module Helper
     result
   end
 
+  def is_alpha(string: string)
+    # https://stackoverflow.com/questions/10637606/doesnt-ruby-have-isalpha
+     !string.match(/^[[:alpha:]]+$/).nil?
+  end
 end
