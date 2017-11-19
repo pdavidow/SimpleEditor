@@ -1,4 +1,8 @@
+require_relative 'operation'
+require_relative 'helper'
+
 class Reader
+  include Helper
 
   OPERATION_COUNT_LINE_NUMBER = 1
 
@@ -6,22 +10,23 @@ class Reader
 
   def initialize(filename:)
     self.filename = filename
-  end
-
-  def lines
-    @lines ||= getLines()
-  end
-
-  def operationCount
-    @operationCount ||= getOperationCount()
+    self.validate()
   end
 
   def operations
-    @operations ||= getOperations()
+    @operations ||= self.getOperations()
+  end
+
+  def lines
+    @lines ||= self.getLines()
+  end
+
+  def operationCount
+    @operationCount ||= self.getOperationCount()
   end
 
   def operationLines
-    @operationLines ||= getOperationLines()
+    @operationLines ||= self.getOperationLines()
   end
 
   def getLines
@@ -37,16 +42,25 @@ class Reader
   end
 
   def getOperationCount
-    Integer(self.operationCountLine())
+    string = self.operationCountLine()
+    count = nonNegativeIntegerFrom(string: string)
+    raise ArgumentError.new("Operation count must be a non-negative integer") if count.nil?
+    count
   end
 
   def getOperationLines
-    copy = self.lines.copy()
-    copy.delete_at(self.operationCountLineIndex)
-    copy
+    clone = self.lines.clone()
+    clone.delete_at(self.operationCountLineIndex)
+    clone
   end
 
   def getOperations
     self.operationLines.map {|line| Operation.new(line: line)}
+  end
+
+  def validate
+    self.operationCount
+    self.operations
+    raise ScriptError.new("Number of actual operations is wrong") unless (self.operationLines.length == self.operationCount)
   end
 end

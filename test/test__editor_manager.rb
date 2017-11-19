@@ -116,7 +116,7 @@ class Test_EditorManager < Test::Unit::TestCase
     mgr.append(w: w1)
 
     k = 3
-    result = with_captured_stdout {mgr.printCharAt(k: k)}
+    result = withCapturedStdout {mgr.printCharAt(k: k)}
 
     self.assert_equal(result, "c\n")
 
@@ -130,7 +130,7 @@ class Test_EditorManager < Test::Unit::TestCase
     mgr.append(w: w1)
 
     k = 1
-    result = with_captured_stdout {mgr.printCharAt(k: k)}
+    result = withCapturedStdout {mgr.printCharAt(k: k)}
 
     self.assert_equal(result, "a\n")
 
@@ -146,7 +146,7 @@ class Test_EditorManager < Test::Unit::TestCase
     mgr.append(w: w2)
 
     k = 6
-    result = with_captured_stdout {mgr.printCharAt(k: k)}
+    result = withCapturedStdout {mgr.printCharAt(k: k)}
 
     self.assert_equal(result, "f\n")
 
@@ -161,7 +161,7 @@ class Test_EditorManager < Test::Unit::TestCase
     mgr.append(w: w1)
 
     k = 0
-    exception = self.assert_raise(ArgumentError){with_captured_stdout {mgr.printCharAt(k: k)}}
+    exception = self.assert_raise(ArgumentError){withCapturedStdout {mgr.printCharAt(k: k)}}
     self.assert_equal("1 >= position <= string length", exception.message)
 
     self.assert_equal(w1, "abc")
@@ -174,7 +174,7 @@ class Test_EditorManager < Test::Unit::TestCase
     mgr.append(w: w1)
 
     k = 4
-    exception = self.assert_raise(ArgumentError){with_captured_stdout {mgr.printCharAt(k: k)}}
+    exception = self.assert_raise(ArgumentError){withCapturedStdout {mgr.printCharAt(k: k)}}
     self.assert_equal("1 >= position <= string length", exception.message)
 
     self.assert_equal(w1, "abc")

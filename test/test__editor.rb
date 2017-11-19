@@ -2,7 +2,7 @@ require 'test/unit'
 require_relative '../editor'
 require_relative '../history_manager'
 
-class Tester_Editor < Test::Unit::TestCase
+class Test_Editor < Test::Unit::TestCase
 
   def test_initialState
     self.assert_equal("", Editor.initialState)

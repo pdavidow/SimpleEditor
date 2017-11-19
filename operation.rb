@@ -1,4 +1,7 @@
+require_relative 'helper'
+
 class Operation
+  include Helper
 
   DELIMETER = ' '
 
@@ -8,6 +11,10 @@ class Operation
     self.parseLine(line: line)
   end
 
+  def opProc
+    @opProc ||= getOpProc()
+  end
+
   def parseLine(line: line)
     substrings = line.split(DELIMETER)
 
@@ -15,10 +22,21 @@ class Operation
     self.parseArg(substrings: substrings)
   end
 
+  def getOpProc
+    case self.typeCode
+      when 1 then Proc.new{|editorMgr| editorMgr.append(w: self.arg)}
+      when 2 then Proc.new{|editorMgr| editorMgr.delete(k: self.arg)}
+      when 3 then Proc.new{|editorMgr| editorMgr.printCharAt(k: self.arg)}
+      when 4 then Proc.new{|editorMgr| editorMgr.undo()}
+      else
+    end
+  end
+
   def parseTypeCode(substrings: substrings)
     self.validateForPresenceOfTypeCode(substrings: substrings)
 
-    code = Integer(substrings[0])
+    string = substrings[0]
+    code = nonNegativeIntegerFrom(string: string)
     self.typeCode = self.validatedTypeCode(code: code)
   end
 
@@ -60,4 +78,5 @@ class Operation
 
     string
   end
+
 end

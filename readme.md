@@ -9,4 +9,7 @@ A few things to keep in mind:
 •               I'm confident that you can create a solution which works – our goal with this challenge is more to understand the way you approach problems rather than to verify you are able to solve this particular one. I would much rather have you take an extra week and submit something clean than do a quick-and-dirty job, so take all the time you need.
 
 **todo**
+Read input from **STDIN**. Print output to **STDOUT**
+Reader to give errors prefixed with LINE #
 10 to the 6th stuff ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+YESSSSSSSSSSSSSSSSSS: Mark some methods as private/protected 
