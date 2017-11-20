@@ -4,22 +4,22 @@ class HistoryManager
     @history ||= []
   end
 
-  def self.currentState(history:)
+  def self.current_state(history:)
     history.last.clone
   end
 
-  def self.addState(history:, state:)
-    historyClone = history.clone
-    historyClone.push(state.clone)
+  def self.add_state(history:, state:)
+    history_clone = history.clone
+    history_clone.push(state.clone)
 
-    historyClone
+    history_clone
   end
 
-  def self.removeCurrentState(history:)
-    historyClone = history.clone
-    historyClone.pop
+  def self.remove_current_state(history:)
+    history_clone = history.clone
+    history_clone.pop
 
-    historyClone
+    history_clone
   end
 
 end

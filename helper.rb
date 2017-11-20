@@ -3,40 +3,40 @@ require_relative 'editor_exceptions'
 module Helper
   include EditorExceptions
 
-  def self.integerFrom(string: string)
+  def self.integer_from(string: string)
     #see https://stackoverflow.com/questions/24980295/strictly-convert-string-to-integer-or-nil
-    string.to_i if string[/^-?\d+$/]
+    string.to_i if string[/^_?\d+$/]
   end
 
-  def self.nonNegativeIntegerFrom(string: string)
+  def self.non_negative_integer_from(string: string)
     proc = Proc.new{|int| int < 0}
-    self.scopedIntegerFrom(string: string, outOfScope: proc)
+    self.scoped_integer_from(string: string, out_of_scope: proc)
   end
 
-  def self.positiveIntegerFrom(string: string)
+  def self.positive_integer_from(string: string)
     proc = Proc.new{|int| int < 1}
-    self.scopedIntegerFrom(string: string, outOfScope: proc)
+    self.scoped_integer_from(string: string, out_of_scope: proc)
   end
 
-  def self.scopedIntegerFrom(string: string, outOfScope: proc)
-    result = integerFrom(string: string)
+  def self.scoped_integer_from(string: string, out_of_scope: proc)
+    result = integer_from(string: string)
 
     return nil if result.nil?
-    return nil if outOfScope.call(result)
+    return nil if out_of_scope.call(result)
     result
   end
 
-  def self.isAlpha(string: string)
+  def self.is_alpha(string: string)
     # https://stackoverflow.com/questions/10637606/doesnt-ruby-have-isalpha
      !string.match(/^[[:alpha:]]+$/).nil?
   end
 
-  def self.raiseFormatError(lineNumber:, problemDescription:)
-    raise FormatError.new(lineNumber: lineNumber, problemDescription: problemDescription)
+  def self.raise_format_error(line_number:, problem_description:)
+    raise FormatError.new(line_number: line_number, problem_description: problem_description)
   end
 
-  def self.raiseSequenceError(lineNumber:, problemDescription:)
-    raise SequenceError.new(lineNumber: lineNumber, problemDescription: problemDescription)
+  def self.raise_sequence_error(line_number:, problem_description:)
+    raise SequenceError.new(line_number: line_number, problem_description: problem_description)
   end
 
 end

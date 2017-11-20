@@ -1,26 +1,26 @@
 class EditorString
 
-  def self.append(baseString:, appendageString:)
-    raise TypeError.new("baseString must be a String") unless (baseString.kind_of? String)
-    raise TypeError.new("appendageString must be a String") unless (appendageString.kind_of? String)
+  def self.append(base_string:, appendage_string:)
+    raise TypeError.new("base_string must be a string") unless (base_string.kind_of? String)
+    raise TypeError.new("appendage_string must be a string") unless (appendage_string.kind_of? String)
 
-    baseString ++ appendageString
+    base_string ++ appendage_string
   end
 
-  def self.deleteLastChars(string:, charsToDeleteCount:)
-    raise TypeError.new("string must be a String") unless (string.kind_of? String)
-    raise TypeError.new("charsToDeleteCount must be an Integer") unless (charsToDeleteCount.kind_of? Integer)
+  def self.delete_last_chars(string:, chars_to_delete_count:)
+    raise TypeError.new("String must be a string") unless (string.kind_of? String)
+    raise TypeError.new("Count must be an integer") unless (chars_to_delete_count.kind_of? Integer)
 
     raise ArgumentError.new("String may not be empty") unless (string.length >= 1)
-    raise ArgumentError.new("1 >= count <= string length") unless ((charsToDeleteCount >= 1) && (charsToDeleteCount <= string.length))
+    raise ArgumentError.new("1 >= count <= string length") unless ((chars_to_delete_count >= 1) && (chars_to_delete_count <= string.length))
 
-    keepCount = string.length - charsToDeleteCount
-    string.slice(0, keepCount)
+    keep_count = string.length - chars_to_delete_count
+    string.slice(0, keep_count)
   end
 
-  def self.charAtPosition(string:, position:)
-    raise TypeError.new("string must be a String") unless (string.kind_of? String)
-    raise TypeError.new("position must be an Integer") unless (position.kind_of? Integer)
+  def self.char_at_position(string:, position:)
+    raise TypeError.new("String must be a string") unless (string.kind_of? String)
+    raise TypeError.new("Position must be an integer") unless (position.kind_of? Integer)
 
     raise ArgumentError.new("String may not be empty") unless (string.length >= 1)
     raise ArgumentError.new("1 >= position <= string length") unless ((position >= 1) && (position <= string.length))

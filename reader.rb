@@ -15,50 +15,51 @@ class Reader
   end
 
   def operations
-    @operations ||= self.operationLines.map {|line| Operation.new(inputLine: line)}
+    @operations ||= self.operation_lines.map {|line| Operation.new(input_line: line)}
   end
 
   def lines
-    def getLines
-      rawLines = IO.readlines(self.filename)
-      rawLines.map.with_index {|line, index| InputLine.new(string: line, number: index + 1)}
+    def get_lines
+      raw_lines = IO.readlines(self.filename)
+      raw_lines.map.with_index {|line, index| InputLine.new(string: line, number: index + 1)}
     end
 
-    @lines ||= self.getLines
+    @lines ||= self.get_lines
   end
 
-  def operationCount
-    def getOperationCount
-      string = self.operationCountLine.string
-      count = Helper.nonNegativeIntegerFrom(string: string)
-      Helper.raiseFormatError(lineNumber: OPERATION_COUNT_LINE_NUMBER, problemDescription: "Operation count must be a non-negative integer") if count.nil?
+  def operation_count
+    def get_operation_count
+      string = self.operation_count_line.string
+      count = Helper.non_negative_integer_from(string: string)
+      Helper.raise_format_error(line_number: OPERATION_COUNT_LINE_NUMBER, problem_description: "Operation count expected, and must be a non_negative integer. Nothing else on the line expected.") if count.nil?
       count
     end
 
-    @operationCount ||= self.getOperationCount
+    @operation_count ||= self.get_operation_count
   end
 
-  def operationLines
-    def getOperationLines
+  def operation_lines
+    def get_operation_lines
       clone = self.lines.clone
-      clone.delete_at(self.operationCountLineIndex)
+      clone.delete_at(self.operation_count_line_index)
       clone
     end
 
-    @operationLines ||= self.getOperationLines
+    @operation_lines ||= self.get_operation_lines
   end
 
-  def operationCountLineIndex
+  def operation_count_line_index
     OPERATION_COUNT_LINE_NUMBER - 1
   end
 
-  def operationCountLine
-    self.lines[self.operationCountLineIndex]
+  def operation_count_line
+    self.lines[self.operation_count_line_index]
   end
 
   def validate
-    self.operationCount
+    self.operation_count
     self.operations
-    Helper.raiseFormatError(lineNumber: OPERATION_COUNT_LINE_NUMBER, problemDescription: "Number of actual operations is wrong") unless (self.operationLines.length == self.operationCount)
+    Helper.raise_format_error(line_number: OPERATION_COUNT_LINE_NUMBER, problem_description: "Number of actual operations is wrong") unless (self.operation_lines.length == self.operation_count)
   end
 end
+

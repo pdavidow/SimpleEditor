@@ -2,28 +2,28 @@ require_relative 'editor_string'
 
 class Editor # todo consoldate with EditorManager
 
-  def self.initialState
+  def self.initial_state
     ""
   end
 
-  def self.append(history:, appendageString:)
-    currentState = HistoryManager.currentState(history: history)
-    result = EditorString.append(baseString: currentState, appendageString: appendageString)
-    historyClone = HistoryManager.addState(history: history, state: result)
+  def self.append(history:, appendage_string:)
+    current_state = HistoryManager.current_state(history: history)
+    result = EditorString.append(base_string: current_state, appendage_string: appendage_string)
+    history_clone = HistoryManager.add_state(history: history, state: result)
 
-    historyClone
+    history_clone
   end
 
 
-  def self.deleteLastChars(history:, charsToDeleteCount:)
-    currentState = HistoryManager.currentState(history: history)
-    result = EditorString.deleteLastChars(string: currentState, charsToDeleteCount: charsToDeleteCount)
-    historyClone = HistoryManager.addState(history: history, state: result)
+  def self.delete_last_chars(history:, chars_to_delete_count:)
+    current_state = HistoryManager.current_state(history: history)
+    result = EditorString.delete_last_chars(string: current_state, chars_to_delete_count: chars_to_delete_count)
+    history_clone = HistoryManager.add_state(history: history, state: result)
 
-    historyClone
+    history_clone
   end
 
-  def self.charAtPosition(string:, position:)
-    EditorString.charAtPosition(string: string, position: position)
+  def self.char_at_position(string:, position:)
+    EditorString.char_at_position(string: string, position: position)
   end
 end

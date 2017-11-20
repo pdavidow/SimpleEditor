@@ -5,95 +5,95 @@ class Operation
 
   DELIMETER = ' '
 
-  attr_accessor :inputLine, :typeCode, :arg
+  attr_accessor :input_line, :type_code, :arg
 
-  def self.opProc(typeCode:, arg:)
-    case typeCode
-      when 1 then Proc.new{|editorMgr| editorMgr.append(w: arg)}
-      when 2 then Proc.new{|editorMgr| editorMgr.delete(k: arg)}
-      when 3 then Proc.new{|editorMgr| editorMgr.printCharAt(k: arg)}
-      when 4 then Proc.new{|editorMgr| editorMgr.undo}
+  def self.op_proc(type_code:, arg:)
+    case type_code
+      when 1 then Proc.new{|editor_mgr| editor_mgr.append(w: arg)}
+      when 2 then Proc.new{|editor_mgr| editor_mgr.delete(k: arg)}
+      when 3 then Proc.new{|editor_mgr| editor_mgr.print_char_at(k: arg)}
+      when 4 then Proc.new{|editor_mgr| editor_mgr.undo}
       else
     end
   end
 
-  def self.parsedTypeCode(lineNumber:, substrings:)
-    def self.validateForPresenceOfTypeCode(lineNumber:, substrings:)
-      Helper.raiseFormatError(lineNumber: lineNumber, problemDescription: "Operation type expected") if substrings.length == 0
+  def self.parsed_type_code(line_number:, substrings:)
+    def self.validate_for_presence_of_type_code(line_number:, substrings:)
+      Helper.raise_format_error(line_number: line_number, problem_description: "Operation type expected") if substrings.length == 0
     end
 
-    def self.validatedTypeCode(lineNumber:, code:)
+    def self.validated_type_code(line_number:, code:)
       case code
         when 1,2,3,4 then code
-        else Helper.raiseFormatError(lineNumber: lineNumber, problemDescription: "Operation type must be 1, 2, 3, or 4")
+        else Helper.raise_format_error(line_number: line_number, problem_description: "Operation type must be 1, 2, 3, or 4")
       end
     end
 
-    self.validateForPresenceOfTypeCode(lineNumber: lineNumber, substrings: substrings)
+    self.validate_for_presence_of_type_code(line_number: line_number, substrings: substrings)
 
     string = substrings[0]
-    code = Helper.nonNegativeIntegerFrom(string: string)
-    self.validatedTypeCode(lineNumber: lineNumber, code: code)
+    code = Helper.non_negative_integer_from(string: string)
+    self.validated_type_code(line_number: line_number, code: code)
   end
 
-  def self.parsedArg(lineNumber:, substrings:, typeCode:)
-    def self.validateForPresenceOfArg(lineNumber:, substrings:, typeCode:)
+  def self.parsed_arg(line_number:, substrings:, type_code:)
+    def self.validate_for_presence_of_arg(line_number:, substrings:, type_code:)
       if substrings.length == 1 then
-        case typeCode
-          when 1,2,3 then Helper.raiseFormatError(lineNumber: lineNumber, problemDescription: "Argument expected for operation type #{typeCode.to_s}")
+        case type_code
+          when 1,2,3 then Helper.raise_format_error(line_number: line_number, problem_description: "Argument expected for operation type #{type_code.to_s}")
           else
         end
       end
     end
 
-    def self.validatedAppendage(lineNumber:, string:)
-      Helper.raiseFormatError(lineNumber: lineNumber, problemDescription: "Appendage must be all lower case") unless (string.downcase == string)
-      Helper.raiseFormatError(lineNumber: lineNumber, problemDescription: "Appendage must be all English letters") if !Helper.isAlpha(string: string)
+    def self.validated_appendage(line_number:, string:)
+      Helper.raise_format_error(line_number: line_number, problem_description: "Appendage must be all lower case") unless (string.downcase == string)
+      Helper.raise_format_error(line_number: line_number, problem_description: "Appendage must be all English letters") if !Helper.is_alpha(string: string)
       string
     end
 
-    def self.validatedCharCount(lineNumber:, string:)
-      int = Helper.positiveIntegerFrom(string: string)
-      Helper.raiseFormatError(lineNumber: lineNumber, problemDescription: "Char count must be positive integer") if int.nil?
+    def self.validated_char_count(line_number:, string:)
+      int = Helper.positive_integer_from(string: string)
+      Helper.raise_format_error(line_number: line_number, problem_description: "Char count must be positive integer") if int.nil?
       int
     end
 
-    def self.validatedCharPosition(lineNumber:, string:)
-      int = Helper.positiveIntegerFrom(string: string)
-      Helper.raiseFormatError(lineNumber: lineNumber, problemDescription: "Char position must be positive integer") if int.nil?
+    def self.validated_char_position(line_number:, string:)
+      int = Helper.positive_integer_from(string: string)
+      Helper.raise_format_error(line_number: line_number, problem_description: "Char position must be positive integer") if int.nil?
       int
     end
 
-    self.validateForPresenceOfArg(lineNumber: lineNumber, substrings: substrings, typeCode: typeCode)
+    self.validate_for_presence_of_arg(line_number: line_number, substrings: substrings, type_code: type_code)
 
-    argString = substrings[1]
-    case typeCode
-      when 1 then self.validatedAppendage(lineNumber: lineNumber, string: argString)
-      when 2 then self.validatedCharCount(lineNumber: lineNumber, string: argString)
-      when 3 then self.validatedCharPosition(lineNumber: lineNumber, string: argString)
+    arg_string = substrings[1]
+    case type_code
+      when 1 then self.validated_appendage(line_number: line_number, string: arg_string)
+      when 2 then self.validated_char_count(line_number: line_number, string: arg_string)
+      when 3 then self.validated_char_position(line_number: line_number, string: arg_string)
       else
     end
   end
 
-  def initialize(inputLine:)
-    self.inputLine = inputLine
-    self.parseLine(line: self.inputLine)
+  def initialize(input_line:)
+    self.input_line = input_line
+    self.parse_line(line: self.input_line)
   end
 
-  def opProc
-    @opProc ||= self.class.opProc(typeCode: self.typeCode, arg: self.arg)
+  def op_proc
+    @op_proc ||= self.class.op_proc(type_code: self.type_code, arg: self.arg)
   end
 
-  def lineNumber
-    self.inputLine.number
+  def line_number
+    self.input_line.number
   end
 
-  def parseLine(line:)
-    lineNumber = self.lineNumber
+  def parse_line(line:)
+    line_number = self.line_number
     substrings = line.string.split(DELIMETER)
 
-    self.typeCode = self.class.parsedTypeCode(lineNumber: lineNumber, substrings: substrings)
-    self.arg = self.class.parsedArg(lineNumber: lineNumber, substrings: substrings, typeCode: self.typeCode)
+    self.type_code = self.class.parsed_type_code(line_number: line_number, substrings: substrings)
+    self.arg = self.class.parsed_arg(line_number: line_number, substrings: substrings, type_code: self.type_code)
   end
 
 end

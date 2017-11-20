@@ -8,28 +8,28 @@ class Sequencer
   ### input from file todo from STDIN
   ### output to STDOUT
 
-  attr_accessor :inputFilename
+  attr_accessor :input_filename
 
-  def self.sequence(editorManager:, operations:)
+  def self.sequence(editor_manager:, operations:)
     operations.each {|op|
       begin
-        op.opProc.call(editorManager)
+        op.op_proc.call(editor_manager)
       rescue Exception => exception
-        Helper.raiseSequenceError(lineNumber: op.lineNumber, problemDescription: exception.message)
+        Helper.raise_sequence_error(line_number: op.line_number, problem_description: exception.message)
       end
     }
   end
 
-  def initialize(inputFilename:)
-    self.inputFilename = inputFilename
+  def initialize(input_filename:)
+    self.input_filename = input_filename
   end
 
-  def editorManager
-    @editorManager ||= EditorManager.new
+  def editor_manager
+    @editor_manager ||= EditorManager.new
   end
 
   def reader
-    @reader ||= Reader.new(filename: self.inputFilename)
+    @reader ||= Reader.new(filename: self.input_filename)
   end
 
   def operations
@@ -37,6 +37,6 @@ class Sequencer
   end
 
   def sequence
-    self.class.sequence(editorManager: self.editorManager, operations: self.operations)
+    self.class.sequence(editor_manager: self.editor_manager, operations: self.operations)
   end
 end

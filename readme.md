@@ -14,7 +14,6 @@ A few things to keep in mind:
 * Use meaningful method names -- e.g., NOT "s" ('justify' this author liberty in intro doc)
 * 10 to the 6th stuff. generate test input at runtime
 * YESSSSSSSSSSSSSSSSSS: Mark some methods as private/protected 
-* test with blank lines on bottom for matching opCount (should ignore)
-
-
-FORGET IT: all method names are SNAKE case, not camel case. But class names ARE camelCase
+* all test errors should also assert msg (esp test/test__reader.rb)
+* tests to ensure orig history remains unchanged
+* test case all valid, except EXTRA blank lines on bottom

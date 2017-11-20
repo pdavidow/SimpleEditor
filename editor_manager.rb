@@ -8,31 +8,31 @@ class EditorManager
   public
 
   def self.s(history:)
-    HistoryManager.currentState(history: history)
+    HistoryManager.current_state(history: history)
   end
 
   def self.append(w:, history:)
-    Editor.append(history: history, appendageString: w)
+    Editor.append(history: history, appendage_string: w)
   end
 
   def self.delete(k:, history:)
-    Editor.deleteLastChars(history: history, charsToDeleteCount: k)
+    Editor.delete_last_chars(history: history, chars_to_delete_count: k)
   end
 
-  def self.printCharAt(k:, s:) # with newline
-    result = Editor.charAtPosition(string: s, position: k)
+  def self.print_char_at(k:, s:) # with newline
+    result = Editor.char_at_position(string: s, position: k)
     puts(result)
   end
 
   def self.undo(history:)
     return history unless history.length > 1
-    HistoryManager.removeCurrentState(history: history)
+    HistoryManager.remove_current_state(history: history)
   end
 
   def initialize
-    self.history = HistoryManager.addState(
+    self.history = HistoryManager.add_state(
         history: HistoryManager.new.history,
-        state: Editor.initialState
+        state: Editor.initial_state
     )
   end
 
@@ -48,8 +48,8 @@ class EditorManager
     self.history = self.class.delete(k: k, history: self.history)
   end
 
-  def printCharAt(k:)
-    self.class.printCharAt(k: k, s: self.s)
+  def print_char_at(k:)
+    self.class.print_char_at(k: k, s: self.s)
   end
 
   def undo
