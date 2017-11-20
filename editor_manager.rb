@@ -5,8 +5,29 @@ class EditorManager
 
   protected
   attr_accessor :history
-
   public
+
+  def self.s(history:)
+    HistoryManager.currentState(history: history)
+  end
+
+  def self.append(w:, history:)
+    Editor.append(history: history, appendageString: w)
+  end
+
+  def self.delete(k:, history:)
+    Editor.deleteLastChars(history: history, charsToDeleteCount: k)
+  end
+
+  def self.printCharAt(k:, s:) # with newline
+    result = Editor.charAtPosition(string: s, position: k)
+    puts(result)
+  end
+
+  def self.undo(history:)
+    return history unless history.length > 1
+    HistoryManager.removeCurrentState(history: history)
+  end
 
   def initialize
     self.history = HistoryManager.addState(
@@ -16,34 +37,23 @@ class EditorManager
   end
 
   def s
-    HistoryManager.currentState(history: self.history)
+    self.class.s(history: self.history)
   end
 
   def append(w:)
-    self.history = Editor.append(
-        history: self.history,
-        appendageString: w
-    )
+    self.history = self.class.append(w: w, history: self.history)
   end
 
   def delete(k:)
-    self.history = Editor.deleteLastChars(
-        history: self.history,
-        charsToDeleteCount: k)
+    self.history = self.class.delete(k: k, history: self.history)
   end
 
-  def printCharAt(k:) # with newline
-    string = self.s()
-    result = Editor.charAtPosition(string: string, position: k)
-    puts(result)
+  def printCharAt(k:)
+    self.class.printCharAt(k: k, s: self.s)
   end
 
   def undo
-    return self.history unless self.history.length > 1
-
-    self.history = HistoryManager.removeCurrentState(
-        history: self.history
-    )
+    self.history = self.class.undo(history: self.history)
   end
 
 end

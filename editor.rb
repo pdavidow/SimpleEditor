@@ -1,6 +1,6 @@
 require_relative 'editor_string'
 
-class Editor
+class Editor # todo consoldate with EditorManager
 
   def self.initialState
     ""

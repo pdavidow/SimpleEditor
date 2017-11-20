@@ -12,45 +12,17 @@ class Test_Editor < Test::Unit::TestCase
     h0 = HistoryManager.new.history
     h1 = HistoryManager.addState(history: h0, state: Editor.initialState)
 
-    appendageString = "abc"
+    appendageString = "ab3"
     h2 = Editor.append(history: h1, appendageString: appendageString)
     currentState = HistoryManager.currentState(history: h2)
 
-    self.assert_equal("abc", currentState)
+    self.assert_equal("ab3", currentState)
 
-    appendageString = "def"
+    appendageString = "deF"
     h3 = Editor.append(history: h2, appendageString: appendageString)
     currentState = HistoryManager.currentState(history: h3)
 
-    self.assert_equal("abcdef", currentState)
-  end
-
-  def test_append_2
-    h0 = HistoryManager.new.history
-    h1 = HistoryManager.addState(history: h0, state: Editor.initialState)
-    currentState1 = HistoryManager.currentState(history: h1)
-
-    appendageString = "abC"
-    exception = self.assert_raise(ArgumentError){Editor.append(history: h1, appendageString: appendageString)}
-    self.assert_equal("Appendage must be all lower case", exception.message)
-
-    currentState2 = HistoryManager.currentState(history: h1)
-
-    self.assert_equal(currentState1, currentState2)
-  end
-
-  def test_append_3
-    h0 = HistoryManager.new.history
-    h1 = HistoryManager.addState(history: h0, state: Editor.initialState)
-    currentState1 = HistoryManager.currentState(history: h1)
-
-    appendageString = "ab3"
-    exception = self.assert_raise(ArgumentError){Editor.append(history: h1, appendageString: appendageString)}
-    self.assert_equal("Appendage must be all English letters", exception.message)
-
-    currentState2 = HistoryManager.currentState(history: h1)
-
-    self.assert_equal(currentState1, currentState2)
+    self.assert_equal("ab3deF", currentState)
   end
 
   def test_deleteLastChars_1

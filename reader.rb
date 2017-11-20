@@ -11,28 +11,41 @@ class Reader
 
   def initialize(filename:)
     self.filename = filename
-    self.validate()
+    self.validate
   end
 
   def operations
-    @operations ||= self.getOperations()
+    @operations ||= self.operationLines.map {|line| Operation.new(inputLine: line)}
   end
 
   def lines
-    @lines ||= self.getLines()
+    def getLines
+      rawLines = IO.readlines(self.filename)
+      rawLines.map.with_index {|line, index| InputLine.new(string: line, number: index + 1)}
+    end
+
+    @lines ||= self.getLines
   end
 
   def operationCount
-    @operationCount ||= self.getOperationCount()
+    def getOperationCount
+      string = self.operationCountLine.string
+      count = Helper.nonNegativeIntegerFrom(string: string)
+      Helper.raiseFormatError(lineNumber: OPERATION_COUNT_LINE_NUMBER, problemDescription: "Operation count must be a non-negative integer") if count.nil?
+      count
+    end
+
+    @operationCount ||= self.getOperationCount
   end
 
   def operationLines
-    @operationLines ||= self.getOperationLines()
-  end
+    def getOperationLines
+      clone = self.lines.clone
+      clone.delete_at(self.operationCountLineIndex)
+      clone
+    end
 
-  def getLines
-    rawLines = IO.readlines(self.filename)
-    rawLines.map.with_index {|line, index| InputLine.new(string: line, number: index + 1)}
+    @operationLines ||= self.getOperationLines
   end
 
   def operationCountLineIndex
@@ -43,26 +56,9 @@ class Reader
     self.lines[self.operationCountLineIndex]
   end
 
-  def getOperationCount
-    string = self.operationCountLine.string
-    count = nonNegativeIntegerFrom(string: string)
-    raise ArgumentError.new("Operation count must be a non-negative integer") if count.nil?
-    count
-  end
-
-  def getOperationLines
-    clone = self.lines.clone()
-    clone.delete_at(self.operationCountLineIndex)
-    clone
-  end
-
-  def getOperations
-    self.operationLines.map {|line| Operation.new(input_line: line)}
-  end
-
   def validate
     self.operationCount
     self.operations
-    raise ScriptError.new("Number of actual operations is wrong") unless (self.operationLines.length == self.operationCount)
+    Helper.raiseFormatError(lineNumber: OPERATION_COUNT_LINE_NUMBER, problemDescription: "Number of actual operations is wrong") unless (self.operationLines.length == self.operationCount)
   end
 end

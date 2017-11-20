@@ -20,6 +20,10 @@ module Constants
   TEST_INPUT_BAD_FILE_NAME_9 = 'test_input_bad_9.txt'
   TEST_INPUT_BAD_FILE_NAME_10 = 'test_input_bad_10.txt'
   TEST_INPUT_BAD_FILE_NAME_11 = 'test_input_bad_11.txt'
+  TEST_INPUT_BAD_FILE_NAME_12 = 'test_input_bad_12.txt'
+  TEST_INPUT_BAD_FILE_NAME_13 = 'test_input_bad_13.txt'
+  TEST_INPUT_BAD_FILE_NAME_14 = 'test_input_bad_14.txt'
+  TEST_INPUT_BAD_FILE_NAME_15 = 'test_input_bad_15.txt'
 
 
   TEST_OUTPUT_STRING_1 = 'c
