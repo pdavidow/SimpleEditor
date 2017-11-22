@@ -1,13 +1,13 @@
 require_relative 'helper'
+require_relative 'constants'
 
 class InputParser
   include Helper
 
-  DELIMETER = ' '
-
   def self.parsed_operation_count(line_number:, string:)
-    count = Helper.non_negative_integer_from(string: string)
-    Helper.raise_format_error(line_number: line_number, error: "Operation count must be a non_negative integer") if count.nil?
+    count = Helper.positive_integer_from(string: string)
+    Helper.raise_format_error(line_number: line_number, error: 'Operation count must be a positive integer') if count.nil?
+    Helper.raise_format_error(line_number: line_number, error: "Operation count must be a positive integer <= #{OPERATION_COUNT_UPPER_LIMIT.to_s}") if count > OPERATION_COUNT_UPPER_LIMIT
     count
   end
 
@@ -18,17 +18,17 @@ class InputParser
 
   def self.parsed_arg(line_number:, string:, type_code:)
     case type_code
-      when 1 then self.validated_appendage(line_number: line_number, string: string)
-      when 2 then self.validated_char_count(line_number: line_number, string: string)
-      when 3 then self.validated_char_position(line_number: line_number, string: string)
+      when TYPE_APPEND then self.validated_appendage(line_number: line_number, string: string)
+      when TYPE_DELETE then self.validated_char_count(line_number: line_number, string: string)
+      when TYPE_PRINT then self.validated_char_position(line_number: line_number, string: string)
       else
     end
   end
 
   def self.validated_type_code(line_number:, code:)
     case code
-      when 1,2,3,4 then code
-      else Helper.raise_format_error(line_number: line_number, error: "Operation type must be 1, 2, 3, or 4")
+      when TYPE_APPEND, TYPE_DELETE, TYPE_PRINT, TYPE_UNDO then code
+      else Helper.raise_format_error(line_number: line_number, error: "Operation type must be #{TYPE_APPEND.to_s}, #{TYPE_DELETE.to_s}, #{TYPE_PRINT.to_s}, or #{TYPE_UNDO.to_s}")
     end
   end
 

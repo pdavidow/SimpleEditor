@@ -12,3 +12,4 @@ A few things to keep in mind:
 * Use meaningful method names -- e.g., NOT "s" 
 * 10 to the 6th stuff. generate test input at runtime
 * see todos 
+* strings single quote -- unless interpolate

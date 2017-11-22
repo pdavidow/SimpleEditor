@@ -3,7 +3,6 @@ module Constants
   # TEST_INPUT_FILE_NAME = '../test/input.txt' ### todo: doesn't work, so keep in main dir for now
 
   TEST_INPUT_GOOD_FILE_NAME_1 = 'test_input_good_1.txt'
-  TEST_INPUT_GOOD_FILE_NAME_2 = 'test_input_good_2.txt'
   TEST_INPUT_GOOD_FILE_NAME_3 = 'test_input_good_3.txt'
   TEST_INPUT_GOOD_FILE_NAME_4 = 'test_input_good_4.txt'
   TEST_INPUT_GOOD_FILE_NAME_5 = 'test_input_good_5.txt'
@@ -29,14 +28,17 @@ module Constants
   TEST_INPUT_BAD_FILE_NAME_19 = 'test_input_bad_19.txt'
   TEST_INPUT_BAD_FILE_NAME_20 = 'test_input_bad_20.txt'
   TEST_INPUT_BAD_FILE_NAME_21 = 'test_input_bad_21.txt'
+  TEST_INPUT_BAD_FILE_NAME_22 = 'test_input_bad_22.txt'
+  TEST_INPUT_BAD_FILE_NAME_23 = 'test_input_bad_23.txt'
+
+
+  TEST_INPUT_BAD_GENERATED_FILE_NAME_1 = 'test_input_bad_generated_1.txt'
+
 
   TEST_OUTPUT_STRING_1 =
 'c
 y
 a
 '
-
-  TEST_OUTPUT_STRING_2 =
-''
 
 end

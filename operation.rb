@@ -1,6 +1,24 @@
+require_relative 'constants'
+
 class Operation
 
-  attr_accessor :line_number, :proc
+  attr_accessor :line_number,:type_code, :arg, :proc
+
+  def self.append?(operation:)
+    operation.type_code == TYPE_APPEND
+  end
+
+  def self.delete?(operation:)
+    operation.type_code == TYPE_DELETE
+  end
+
+  def self.print?(operation:)
+    operation.type_code == TYPE_PRINT
+  end
+
+  def self.undo?(operation:)
+    operation.type_code == TYPE_UNDO
+  end
 
   def self.proc_for(type_code:, arg:)
     case type_code
@@ -14,6 +32,8 @@ class Operation
 
   def initialize(line_number:, type_code:, arg:)
     self.line_number = line_number
+    self.type_code = type_code
+    self.arg = arg
     self.proc = self.class.proc_for(type_code: type_code, arg: arg)
   end
 

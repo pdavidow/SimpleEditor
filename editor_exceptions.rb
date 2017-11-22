@@ -3,6 +3,9 @@ module EditorExceptions
   class AbstractEditorError < StandardError
   end
 
+  class GlobalConstraintError < AbstractEditorError
+  end
+
   class AbstractLineError < AbstractEditorError
 
     attr_accessor :line_number, :error

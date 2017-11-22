@@ -1,21 +1,20 @@
 require_relative 'input_parser'
 require_relative 'operation'
 require_relative 'helper'
+require_relative 'constants'
 
 class InputLine
   include Helper
 
-  DELIMETER = ' '
-
   def self.operation_count_from(line_number:, string:)
-    substrings = string.split(DELIMETER)
+    substrings = string.split(OPERATION_DELIMETER)
 
     self.validate_for_presence_of_operation_count(line_number: line_number, substrings: substrings)
     InputParser.parsed_operation_count(line_number: line_number, string: substrings[0])
   end
 
   def self.operation_from(line_number:, string:)
-    substrings = string.split(DELIMETER)
+    substrings = string.split(OPERATION_DELIMETER)
 
     self.validate_for_presence_of_type_code(line_number: line_number, substrings: substrings)
     type_code = InputParser.parsed_type_code(line_number: line_number, string: substrings[0])
@@ -37,8 +36,8 @@ class InputLine
 
   def self.validate_for_presence_of_arg(line_number:, substrings:, type_code:)
     case type_code
-      when 1,2,3 then Helper.raise_format_error(line_number: line_number, error: "Argument expected for operation type #{type_code.to_s}") if substrings.length == 1
-      when 4 then Helper.raise_format_error(line_number: line_number, error: 'No argument expected for operation type 4') if substrings.length > 1
+      when TYPE_APPEND,TYPE_DELETE,TYPE_PRINT then Helper.raise_format_error(line_number: line_number, error: "Argument expected for operation type #{type_code.to_s}") if substrings.length == 1
+      when TYPE_UNDO then Helper.raise_format_error(line_number: line_number, error: "No argument expected for operation type #{TYPE_UNDO.to_s}") if substrings.length > 1
       else
     end
   end
