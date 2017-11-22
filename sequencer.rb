@@ -5,38 +5,17 @@ require_relative 'helper'
 class Sequencer
   include Helper
 
-  ### input from file todo from STDIN
-  ### output to STDOUT
+  def self.sequence
+    operations = Reader.read
+    editor_manager = EditorManager.new
 
-  attr_accessor :input_filename
-
-  def self.sequence(editor_manager:, operations:)
     operations.each {|op|
       begin
-        op.op_proc.call(editor_manager)
+        op.proc.call(editor_manager)
       rescue Exception => exception
-        Helper.raise_sequence_error(line_number: op.line_number, problem_description: exception.message)
+        Helper.raise_sequence_error(line_number: op.line_number, problem: exception.message)
       end
     }
   end
 
-  def initialize(input_filename:)
-    self.input_filename = input_filename
-  end
-
-  def editor_manager
-    @editor_manager ||= EditorManager.new
-  end
-
-  def reader
-    @reader ||= Reader.new(filename: self.input_filename)
-  end
-
-  def operations
-    self.reader.operations
-  end
-
-  def sequence
-    self.class.sequence(editor_manager: self.editor_manager, operations: self.operations)
-  end
 end

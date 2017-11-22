@@ -5,18 +5,18 @@ module EditorExceptions
 
   class AbstractLineError < AbstractEditorError
 
-    attr_accessor :line_number, :problem_description
+    attr_accessor :line_number, :problem
 
-    def initialize(line_number:, problem_description:)
+    def initialize(line_number:, problem:)
       self.line_number = line_number
-      self.problem_description = problem_description
+      self.problem = problem
     end
 
     def message
-      "#{self.error_description} error on line# #{self.line_number.to_s}: #{self.problem_description}"
+      "#{self.error_type} error on line# #{self.line_number.to_s}: #{self.problem}"
     end
 
-    def error_description
+    def error_type
       raise NotImplementedError
     end
 
@@ -25,16 +25,16 @@ module EditorExceptions
   class FormatError < AbstractLineError
     # Scope is current line
     # E.g., float instead of integer for operation count, or expecting all lowercase for appendage
-    def error_description
-      "Format"
+    def error_type
+      'Format'
     end
   end
 
   class SequenceError < AbstractLineError
     # Scope is entire input, with error manifesting on current line
     # E.g., string was appended on a prior line, and now attempting to delete char past end of string
-    def error_description
-      "Sequence"
+    def error_type
+      'Sequence'
     end
   end
 

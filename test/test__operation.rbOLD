@@ -1,5 +1,4 @@
 require 'test/unit'
-require_relative '../operation'
 require_relative '../input_line'
 require_relative '../editor_exceptions'
 

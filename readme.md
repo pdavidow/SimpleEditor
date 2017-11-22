@@ -9,11 +9,9 @@ A few things to keep in mind:
 •               I'm confident that you can create a solution which works – our goal with this challenge is more to understand the way you approach problems rather than to verify you are able to solve this particular one. I would much rather have you take an extra week and submit something clean than do a quick-and-dirty job, so take all the time you need.
 
 **todo**
-* Read input from **STDIN**. Print output to **STDOUT**
-* Proc-ify custom editorString validations -- originating from Operation. EditorString is generic.
-* Use meaningful method names -- e.g., NOT "s" ('justify' this author liberty in intro doc)
+* Use meaningful method names -- e.g., NOT "s" 
 * 10 to the 6th stuff. generate test input at runtime
-* YESSSSSSSSSSSSSSSSSS: Mark some methods as private/protected 
-* all test errors should also assert msg (esp test/test__reader.rb)
-* tests to ensure orig history remains unchanged
-* test case all valid, except EXTRA blank lines on bottom
+* Mark some methods as private/protected 
+* test case all valid, except EXTRA blank lines on bottom -- WHICH SHOULD BE OK
+* see todos 
+* fail on operation '4 4'

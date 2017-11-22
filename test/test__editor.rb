@@ -17,12 +17,17 @@ class Test_Editor < Test::Unit::TestCase
     current_state = HistoryManager.current_state(history: h2)
 
     self.assert_equal("ab3", current_state)
+    self.assert_equal([""], h1)
+    self.assert_equal(["", "ab3"], h2)
 
     appendage_string = "deF"
     h3 = Editor.append(history: h2, appendage_string: appendage_string)
     current_state = HistoryManager.current_state(history: h3)
 
     self.assert_equal("ab3deF", current_state)
+    self.assert_equal([""], h1)
+    self.assert_equal(["", "ab3"], h2)
+    self.assert_equal(["", "ab3", "ab3deF"], h3)
   end
 
   def test_deleteLastChars_1
@@ -34,18 +39,25 @@ class Test_Editor < Test::Unit::TestCase
     current_state = HistoryManager.current_state(history: h2)
 
     self.assert_equal("abcdef", current_state)
+    self.assert_equal([""], h1)
 
     count = 1
     h3 = Editor.delete_last_chars(history: h2, chars_to_delete_count: count)
     current_state = HistoryManager.current_state(history: h3)
 
     self.assert_equal("abcde", current_state)
+    self.assert_equal([""], h1)
+    self.assert_equal(["", "abcdef"], h2)
 
     count = 5
     h4 = Editor.delete_last_chars(history: h3, chars_to_delete_count: count)
     current_state = HistoryManager.current_state(history: h4)
 
     self.assert_equal("", current_state)
+    self.assert_equal([""], h1)
+    self.assert_equal(["", "abcdef"], h2)
+    self.assert_equal(["", "abcdef", "abcde"], h3)
+    self.assert_equal(["", "abcdef", "abcde", ""], h4)
   end
 
   def test_deleteLastChars_2

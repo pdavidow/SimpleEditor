@@ -31,12 +31,12 @@ module Helper
      !string.match(/^[[:alpha:]]+$/).nil?
   end
 
-  def self.raise_format_error(line_number:, problem_description:)
-    raise FormatError.new(line_number: line_number, problem_description: problem_description)
+  def self.raise_format_error(line_number:, problem:)
+    raise FormatError.new(line_number: line_number, problem: problem)
   end
 
-  def self.raise_sequence_error(line_number:, problem_description:)
-    raise SequenceError.new(line_number: line_number, problem_description: problem_description)
+  def self.raise_sequence_error(line_number:, problem:)
+    raise SequenceError.new(line_number: line_number, problem: problem)
   end
 
 end
