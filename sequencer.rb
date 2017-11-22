@@ -5,8 +5,8 @@ require_relative 'helper'
 class Sequencer
   include Helper
 
-  def self.sequence
-    operations = Reader.read
+  def self.sequence(filename:)
+    operations = Reader.read(filename: filename)
     editor_manager = EditorManager.new
 
     operations.each {|op|

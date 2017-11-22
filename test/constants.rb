@@ -28,7 +28,7 @@ module Constants
   TEST_INPUT_BAD_FILE_NAME_18 = 'test_input_bad_18.txt'
   TEST_INPUT_BAD_FILE_NAME_19 = 'test_input_bad_19.txt'
   TEST_INPUT_BAD_FILE_NAME_20 = 'test_input_bad_20.txt'
-
+  TEST_INPUT_BAD_FILE_NAME_21 = 'test_input_bad_21.txt'
 
   TEST_OUTPUT_STRING_1 =
 'c
