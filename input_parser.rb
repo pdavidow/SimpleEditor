@@ -7,7 +7,7 @@ class InputParser
 
   def self.parsed_operation_count(line_number:, string:)
     count = Helper.non_negative_integer_from(string: string)
-    Helper.raise_format_error(line_number: line_number, problem: "Operation count must be a non_negative integer") if count.nil?
+    Helper.raise_format_error(line_number: line_number, error: "Operation count must be a non_negative integer") if count.nil?
     count
   end
 
@@ -28,25 +28,25 @@ class InputParser
   def self.validated_type_code(line_number:, code:)
     case code
       when 1,2,3,4 then code
-      else Helper.raise_format_error(line_number: line_number, problem: "Operation type must be 1, 2, 3, or 4")
+      else Helper.raise_format_error(line_number: line_number, error: "Operation type must be 1, 2, 3, or 4")
     end
   end
 
   def self.validated_appendage(line_number:, string:)
-    Helper.raise_format_error(line_number: line_number, problem: "Appendage must be all lower case") unless (string.downcase == string)
-    Helper.raise_format_error(line_number: line_number, problem: "Appendage must be all English letters") if !Helper.is_alpha(string: string)
+    Helper.raise_format_error(line_number: line_number, error: "Appendage must be all lower case") unless (string.downcase == string)
+    Helper.raise_format_error(line_number: line_number, error: "Appendage must be all English letters") if !Helper.is_alpha(string: string)
     string
   end
 
   def self.validated_char_count(line_number:, string:)
     int = Helper.positive_integer_from(string: string)
-    Helper.raise_format_error(line_number: line_number, problem: "Char count must be positive integer") if int.nil?
+    Helper.raise_format_error(line_number: line_number, error: "Char count must be positive integer") if int.nil?
     int
   end
 
   def self.validated_char_position(line_number:, string:)
     int = Helper.positive_integer_from(string: string)
-    Helper.raise_format_error(line_number: line_number, problem: "Char position must be positive integer") if int.nil?
+    Helper.raise_format_error(line_number: line_number, error: "Char position must be positive integer") if int.nil?
     int
   end
 

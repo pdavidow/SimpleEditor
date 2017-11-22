@@ -5,15 +5,15 @@ module EditorExceptions
 
   class AbstractLineError < AbstractEditorError
 
-    attr_accessor :line_number, :problem
+    attr_accessor :line_number, :error
 
-    def initialize(line_number:, problem:)
+    def initialize(line_number:, error:)
       self.line_number = line_number
-      self.problem = problem
+      self.error = error
     end
 
     def message
-      "#{self.error_type} error on line# #{self.line_number.to_s}: #{self.problem}"
+      "#{self.error_type} error on line# #{self.line_number.to_s}: #{self.error}"
     end
 
     def error_type

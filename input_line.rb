@@ -27,18 +27,18 @@ class InputLine
   end
 
   def self.validate_for_presence_of_operation_count(line_number:, substrings:)
-    Helper.raise_format_error(line_number: line_number, problem: "Operation type expected") if substrings.length == 0
-    Helper.raise_format_error(line_number: line_number, problem: "Operation type expected, and nothing else") if substrings.length > 1
+    Helper.raise_format_error(line_number: line_number, error: 'Operation count expected') if substrings.length == 0
+    Helper.raise_format_error(line_number: line_number, error: 'Operation count expected, and nothing else') if substrings.length > 1
   end
 
   def self.validate_for_presence_of_type_code(line_number:, substrings:)
-    Helper.raise_format_error(line_number: line_number, problem: "Operation type expected") if substrings.length == 0
+    Helper.raise_format_error(line_number: line_number, error: 'Operation type expected') if substrings.length == 0
   end
 
   def self.validate_for_presence_of_arg(line_number:, substrings:, type_code:)
     case type_code
-      when 1,2,3 then Helper.raise_format_error(line_number: line_number, problem: "Argument expected for operation type #{type_code.to_s}") if substrings.length == 1
-      when 4 then Helper.raise_format_error(line_number: line_number, problem: "No argument expected for operation type 4") if substrings.length > 1
+      when 1,2,3 then Helper.raise_format_error(line_number: line_number, error: "Argument expected for operation type #{type_code.to_s}") if substrings.length == 1
+      when 4 then Helper.raise_format_error(line_number: line_number, error: 'No argument expected for operation type 4') if substrings.length > 1
       else
     end
   end

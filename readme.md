@@ -11,7 +11,4 @@ A few things to keep in mind:
 **todo**
 * Use meaningful method names -- e.g., NOT "s" 
 * 10 to the 6th stuff. generate test input at runtime
-* Mark some methods as private/protected 
-* test case all valid, except EXTRA blank lines on bottom -- WHICH SHOULD BE OK
 * see todos 
-* fail on operation '4 4'

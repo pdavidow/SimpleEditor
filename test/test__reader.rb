@@ -8,90 +8,124 @@ class Test_Reader < Test::Unit::TestCase
   include Constants
   include EditorExceptions
 
-  def test_operation_count_1
-    ops = Helper.redirect_stdin_to_file_then_process(filename: TEST_INPUT_GOOD_FILE_NAME_1, proc: Proc.new{Reader.read})
+  def test_1
+    ops = Reader.read(filename: TEST_INPUT_GOOD_FILE_NAME_1)
     self.assert_equal(8, ops.length)
   end
 
-  def test_operation_count_2
-    ops = Helper.redirect_stdin_to_file_then_process(filename: TEST_INPUT_GOOD_FILE_NAME_2, proc: Proc.new{Reader.read})
+  def test_2
+    ops = Reader.read(filename: TEST_INPUT_GOOD_FILE_NAME_2)
     self.assert_equal(0, ops.length)
   end
 
-  def test_operation_count_3
-    ops = Helper.redirect_stdin_to_file_then_process(filename: TEST_INPUT_GOOD_FILE_NAME_3, proc: Proc.new{Reader.read})
+  def test_3
+    ops = Reader.read(filename: TEST_INPUT_GOOD_FILE_NAME_3)
     self.assert_equal(8, ops.length)
   end
 
-  ### todo: hangs system, not sure why
-  # def test_operation_count_4
-  #   ops = Helper.redirect_stdin_to_file_then_process(filename: TEST_INPUT_GOOD_FILE_NAME_4, proc: Proc.new{Reader.read})
-  #   self.assert_equal(8, ops.length)
-  # end
-
-  ### todo: hangs system, not sure why
-  # def test_operation_count_5
-  #   ops = Helper.redirect_stdin_to_file_then_process(filename: TEST_INPUT_GOOD_FILE_NAME_5, proc: Proc.new{Reader.read})
-  #   self.assert_equal(8, ops.length)
-  # end
-
-  def test_operation_count_6
-    exception = self.assert_raise(FormatError){Helper.redirect_stdin_to_file_then_process(filename: TEST_INPUT_BAD_FILE_NAME_1, proc: Proc.new{Reader.read})}
-    self.assert_equal("Format error on line# 1: Operation count must be a non_negative integer", exception.message)
+  def test_4
+    ops = Reader.read(filename: TEST_INPUT_GOOD_FILE_NAME_4)
+    self.assert_equal(8, ops.length)
   end
 
-  #
-  # def test_validation_1
-  #   self.assert_raise(FormatError){Reader.new(filename: TEST_INPUT_BAD_FILE_NAME_1)}
-  # end
-  #
-  # def test_validation_2
-  #   exception = self.assert_raise(FormatError){Reader.new(filename: TEST_INPUT_BAD_FILE_NAME_2)}
-  #   self.assert_equal("Format error on line# 1: Number of actual operations is wrong", exception.message)
-  # end
-  #
-  # def test_validation_3
-  #   exception = self.assert_raise(FormatError){Reader.new(filename: TEST_INPUT_BAD_FILE_NAME_3)}
-  #   self.assert_equal("Format error on line# 1: Number of actual operations is wrong", exception.message)
-  # end
-  #
-  # def test_validation_4
-  #   exception = self.assert_raise(FormatError){Reader.new(filename: TEST_INPUT_BAD_FILE_NAME_4)}
-  #   self.assert_equal("Format error on line# 1: Operation count expected, and must be a non_negative integer. Nothing else on the line expected.", exception.message)
-  # end
-  #
-  # def test_validation_5
-  #   exception = self.assert_raise(FormatError){Reader.new(filename: TEST_INPUT_BAD_FILE_NAME_5)}
-  #   self.assert_equal("Format error on line# 1: Operation count expected, and must be a non_negative integer. Nothing else on the line expected.", exception.message)
-  # end
-  #
-  # def test_validation_6
-  #   exception = self.assert_raise(FormatError){Reader.new(filename: TEST_INPUT_BAD_FILE_NAME_6)}
-  #   self.assert_equal("Format error on line# 1: Operation count expected, and must be a non_negative integer. Nothing else on the line expected.", exception.message)
-  # end
-  #
-  # def test_validation_7
-  #   exception = self.assert_raise(FormatError){Reader.new(filename: TEST_INPUT_BAD_FILE_NAME_7)}
-  #   self.assert_equal("Format error on line# 1: Operation count expected, and must be a non_negative integer. Nothing else on the line expected.", exception.message)
-  # end
-  #
-  # def test_validation_8
-  #   exception = self.assert_raise(FormatError){Reader.new(filename: TEST_INPUT_BAD_FILE_NAME_8)}
-  #   self.assert_equal("Format error on line# 2: Operation type must be 1, 2, 3, or 4", exception.message)
-  # end
-  #
-  # def test_validation_9
-  #   exception = self.assert_raise(FormatError){Reader.new(filename: TEST_INPUT_BAD_FILE_NAME_9)}
-  #   self.assert_equal("Format error on line# 2: Appendage must be all English letters", exception.message)
-  # end
-  #
-  # def test_validation_10
-  #   exception = self.assert_raise(FormatError){Reader.new(filename: TEST_INPUT_BAD_FILE_NAME_10)}
-  #   self.assert_equal("Format error on line# 1: Operation count expected, and must be a non_negative integer. Nothing else on the line expected.", exception.message)
-  # end
-  #
-  # def test_validation_11
-  #   exception = self.assert_raise(FormatError){Reader.new(filename: TEST_INPUT_BAD_FILE_NAME_11)}
-  #   self.assert_equal("Format error on line# 1: Operation count expected, and must be a non_negative integer. Nothing else on the line expected.", exception.message)
-  # end
+  def test_5
+    ops = Reader.read(filename: TEST_INPUT_GOOD_FILE_NAME_5)
+    self.assert_equal(8, ops.length)
+  end
+
+  def test_6
+    exception = self.assert_raise(FormatError){Reader.read(filename:  TEST_INPUT_BAD_FILE_NAME_1)}
+    self.assert_equal('Format error on line# 1: Operation count must be a non_negative integer', exception.message)
+  end
+
+  def test_7
+    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_3)}
+    self.assert_equal('Format error on line# 5: Operation expected', exception.message)
+  end
+
+  def test_8
+    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_4)}
+    self.assert_equal('Format error on line# 1: Operation count expected, and nothing else', exception.message)
+  end
+
+  def test_9
+    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_5)}
+    self.assert_equal('Format error on line# 1: Operation count expected', exception.message)
+  end
+
+  def test_10
+    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_6)}
+    self.assert_equal('Format error on line# 1: Operation count expected', exception.message)
+  end
+
+  def test_11
+    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_7)}
+    self.assert_equal('Format error on line# 1: Operation count expected', exception.message)
+  end
+
+  def test_12
+    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_8)}
+    self.assert_equal('Format error on line# 2: Operation type must be 1, 2, 3, or 4', exception.message)
+  end
+
+  def test_13a
+    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_9)}
+    self.assert_equal('Format error on line# 2: Appendage must be all English letters', exception.message)
+  end
+
+  def test_13b
+    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_13)}
+    self.assert_equal('Format error on line# 2: Appendage must be all lower case', exception.message)
+  end
+
+  def test_14
+    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_10)}
+    self.assert_equal('Format error on line# 1: Operation count must be a non_negative integer', exception.message)
+  end
+
+  def test_15
+    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_11)}
+    self.assert_equal('Format error on line# 1: Operation count must be a non_negative integer', exception.message)
+  end
+
+  def test_16
+    # Sequencer -- not Reader -- error
+    ops = Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_12)
+    self.assert_equal(2, ops.length)
+  end
+
+  def test_17
+    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_14)}
+    self.assert_equal('Format error on line# 3: No argument expected for operation type 4', exception.message)
+  end
+
+  def test_18
+    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_15)}
+    self.assert_equal('Format error on line# 2: Argument expected for operation type 1', exception.message)
+  end
+
+  def test_19
+    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_16)}
+    self.assert_equal('Format error on line# 2: Argument expected for operation type 2', exception.message)
+  end
+
+  def test_20
+    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_17)}
+    self.assert_equal('Format error on line# 2: Argument expected for operation type 3', exception.message)
+  end
+
+  def test_21
+    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_18)}
+    self.assert_equal('Format error on line# 2: Operation expected', exception.message)
+  end
+
+  def test_22
+    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_19)}
+    self.assert_equal('Format error on line# 2: Char count must be positive integer', exception.message)
+  end
+
+  def test_23
+    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_20)}
+    self.assert_equal('Format error on line# 2: Char position must be positive integer', exception.message)
+  end
 end

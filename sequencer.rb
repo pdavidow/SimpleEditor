@@ -12,8 +12,8 @@ class Sequencer
     operations.each {|op|
       begin
         op.proc.call(editor_manager)
-      rescue Exception => exception
-        Helper.raise_sequence_error(line_number: op.line_number, problem: exception.message)
+      rescue StandardError => exception
+        Helper.raise_sequence_error(line_number: op.line_number, error: exception.message)
       end
     }
   end
