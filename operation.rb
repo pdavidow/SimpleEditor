@@ -22,10 +22,10 @@ class Operation
 
   def self.proc_for(type_code:, arg:)
     case type_code
-      when 1 then Proc.new{|editor_mgr| editor_mgr.append(w: arg)}
-      when 2 then Proc.new{|editor_mgr| editor_mgr.delete(k: arg)}
-      when 3 then Proc.new{|editor_mgr| editor_mgr.print_char_at(k: arg)}
-      when 4 then Proc.new{|editor_mgr| editor_mgr.undo}
+      when TYPE_APPEND then Proc.new{|editor_mgr| editor_mgr.append(w: arg)}
+      when TYPE_DELETE then Proc.new{|editor_mgr| editor_mgr.delete(k: arg)}
+      when TYPE_PRINT then Proc.new{|editor_mgr| editor_mgr.print_char_at(k: arg)}
+      when TYPE_UNDO then Proc.new{|editor_mgr| editor_mgr.undo}
       else
     end
   end

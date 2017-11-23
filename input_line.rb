@@ -36,7 +36,11 @@ class InputLine
 
   def self.validate_for_presence_of_arg(line_number:, substrings:, type_code:)
     case type_code
-      when TYPE_APPEND,TYPE_DELETE,TYPE_PRINT then Helper.raise_format_error(line_number: line_number, error: "Argument expected for operation type #{type_code.to_s}") if substrings.length == 1
+      when
+        TYPE_APPEND,
+        TYPE_DELETE,
+        TYPE_PRINT
+          then Helper.raise_format_error(line_number: line_number, error: "Argument expected for operation type #{type_code.to_s}") if substrings.length == 1
       when TYPE_UNDO then Helper.raise_format_error(line_number: line_number, error: "No argument expected for operation type #{TYPE_UNDO.to_s}") if substrings.length > 1
       else
     end

@@ -1,5 +1,9 @@
 require 'stringio'
-# todo DELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
+require_relative 'constants'
+require_relative '../constants' #todo ??????????
+
+# todo DELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
+
 module Helper
 
   def self.with_captured_stdout
@@ -50,22 +54,85 @@ module Helper
   ##############################################################################
 
   # todo have containgin method that handles file lifecycle , use proc...
-  def self.generate_input_file__exceed_global_constraint__total_appendage_length_sum(filename:)
-    appendages = self.generated_mono_char_strings(total_length: 1 + TOTAL_APPENDAGE_SUM_LENGTH_UPPER_LIMIT)
-    self.operaton_input_file_on(filename: filename, appendages: appendages)
+  def self.generate_input_file__exceed_global_constraint__total_appendage_length_sum(filename:, generated_total_length:)
+    appendages = self.generated_mono_char_strings(
+        total_length: generated_total_length,
+        section_length: GENERATED_APPENDAGE_SECTION_DEFAULT_LENGTH
+    )
+    operation_count = appendages.length
+
+    proc = Proc.new { |file|
+      self.write_operation_count_on(file: file, count: operation_count)
+      self.write_append_operations_on(file: file, appendages: appendages)
+    }
+
+    self.write_on(filename: filename, proc_with_file_arg: proc)
   end
 
-  def self.operaton_input_file_on(filename:, appendages:)
-    file = File.open(filename, "w") {|f|
-      operation_count_line = operation_count_line(count: appendages.length)
-      f.write(operation_count_line)
+  def self.generate_input_file__exceed_global_constraint__total_char_delete_count(filename:, char_count_exceeding_limit:)
+    is_exceeding_limit = char_count_exceeding_limit > 0
 
-      appendages.each {|a|
-        operation_line = self.append_operation_line(appendage: a)
-        f.write(operation_line)
-      }
+    appendages = self.generated_mono_char_strings(
+        total_length: TOTAL_APPENDAGE_LENGTH_UPPER_LIMIT,
+        section_length: GENERATED_APPENDAGE_SECTION_DEFAULT_LENGTH
+    )
+
+    delete_operation_char_count_1 = GENERATED_APPENDAGE_SECTION_DEFAULT_LENGTH
+    delete_operation_char_count_2 = delete_operation_char_count_1
+    delete_operation_char_count_3 = char_count_exceeding_limit
+
+    append_operation_count = appendages.length
+    delete_operation_count_1 = append_operation_count
+    undo_operation_count = delete_operation_count_1
+    delete_operation_count_2 = delete_operation_count_1
+    delete_operation_count_3 = is_exceeding_limit ? 1 : 0
+    total_operation_count = append_operation_count + delete_operation_count_1 + undo_operation_count + delete_operation_count_2 + delete_operation_count_3
+
+    proc = Proc.new { |file|
+      self.write_operation_count_on(file: file, count: total_operation_count)
+
+      self.write_append_operations_on(file: file, appendages: appendages)
+      self.write_delete_operations_on(file: file, delete_operation_count: delete_operation_count_1, char_count: delete_operation_char_count_1)
+      self.write_undo_operations_on(file: file, undo_operation_count: undo_operation_count)
+      self.write_delete_operations_on(file: file, delete_operation_count: delete_operation_count_2, char_count: delete_operation_char_count_2)
+      if is_exceeding_limit then
+        self.write_delete_operations_on(file: file, delete_operation_count: delete_operation_count_3, char_count: delete_operation_char_count_3)
+      end
     }
-    file
+
+    self.write_on(filename: filename, proc_with_file_arg: proc)
+  end
+
+  def self.write_on(filename:, proc_with_file_arg:)
+    File.open(filename, "w") { |file| proc_with_file_arg.call(file)}
+  end
+
+  def self.write_operation_count_on(file:, count:)
+    line = self.operation_count_line(count: count)
+    file.write(line)
+  end
+
+  # todo need separate test file for tsting the test -helper code
+
+  def self.write_append_operations_on(file:, appendages:)
+    appendages.each {|a|
+      line = self.append_operation_line(appendage: a)
+      file.write(line)
+    }
+  end
+
+  def self.write_delete_operations_on(file:, delete_operation_count:, char_count:)
+    (1..delete_operation_count).each { |i|
+      line = self.delete_operation_line(char_count: char_count)
+      file.write(line)
+    }
+  end
+
+  def self.write_undo_operations_on(file:, undo_operation_count:)
+    (1..undo_operation_count).each { |i|
+      line = self.undo_operation_line
+      file.write(line)
+    }
   end
 
   def self.operation_count_line(count:)
@@ -73,10 +140,18 @@ module Helper
   end
 
   def self.append_operation_line(appendage:)
-    "1 " + appendage + "\n"
+    "#{TYPE_APPEND.to_s}" + OPERATION_DELIMETER + appendage + "\n"
   end
 
-  def self.generated_mono_char_strings(total_length:, section_length: section_length = 5000)
+  def self.delete_operation_line(char_count:)
+    "#{TYPE_DELETE.to_s}" + OPERATION_DELIMETER + "#{char_count.to_s}\n"
+  end
+
+  def self.undo_operation_line
+    "#{TYPE_UNDO.to_s}\n"
+  end
+
+  def self.generated_mono_char_strings(total_length:, section_length:)
     return self.generated_mono_char_string(char_count: total_length) if total_length < section_length
 
     array = []
@@ -100,8 +175,6 @@ module Helper
     string
   end
 
-  #File.delete(TEST_OUTPUT_FILE_NAME) if File.exists?(TEST_OUTPUT_FILE_NAME)
-
   def self.output_to_file_named(filename, strings)
     file = File.open(filename, "w") {|f|
       strings.each {|s|
@@ -111,5 +184,6 @@ module Helper
     file
   end
 
+  #File.delete(TEST_OUTPUT_FILE_NAME) if File.exists?(TEST_OUTPUT_FILE_NAME)
   #############File.delete(TEST_INPUT_BAD_GENERATED_FILE_NAME_1) if File.exists?(TEST_INPUT_BAD_GENERATED_FILE_NAME_1)
 end

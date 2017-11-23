@@ -6,7 +6,6 @@ require_relative '../sequencer'
 
 class Test_Sequencer < Test::Unit::TestCase
   include Helper
-  include Constants
   include EditorExceptions
 
   def test_1

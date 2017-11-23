@@ -27,7 +27,12 @@ class InputParser
 
   def self.validated_type_code(line_number:, code:)
     case code
-      when TYPE_APPEND, TYPE_DELETE, TYPE_PRINT, TYPE_UNDO then code
+      when
+        TYPE_APPEND,
+        TYPE_DELETE,
+        TYPE_PRINT,
+        TYPE_UNDO
+          then code
       else Helper.raise_format_error(line_number: line_number, error: "Operation type must be #{TYPE_APPEND.to_s}, #{TYPE_DELETE.to_s}, #{TYPE_PRINT.to_s}, or #{TYPE_UNDO.to_s}")
     end
   end
