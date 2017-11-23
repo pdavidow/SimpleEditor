@@ -5,16 +5,16 @@ class Test_HistoryManager < Test::Unit::TestCase
 
   def test_add_state
     h0 = HistoryManager.new.history
-    state = "abc"
+    state = 'abc'
 
     h1 = HistoryManager.add_state(history: h0, state: state)
     current_state = HistoryManager.current_state(history: h1)
-    self.assert_equal(current_state, "abc")
+    self.assert_equal(current_state, 'abc')
 
-    state[2] = "q"
+    state[2] = 'q'
 
-    self.assert_equal(state, "abq")
-    self.assert_equal(current_state, "abc")
+    self.assert_equal(state, 'abq')
+    self.assert_equal(current_state, 'abc')
   end
 
   def test_current_state

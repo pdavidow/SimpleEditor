@@ -38,20 +38,20 @@ class InputParser
   end
 
   def self.validated_appendage(line_number:, string:)
-    Helper.raise_format_error(line_number: line_number, error: "Appendage must be all lower case") unless (string.downcase == string)
-    Helper.raise_format_error(line_number: line_number, error: "Appendage must be all English letters") if !Helper.is_alpha(string: string)
+    Helper.raise_format_error(line_number: line_number, error: 'Appendage must be all lower case') unless (string.downcase == string)
+    Helper.raise_format_error(line_number: line_number, error: 'Appendage must be all English letters') if !Helper.is_alpha(string: string)
     string
   end
 
   def self.validated_char_count(line_number:, string:)
     int = Helper.positive_integer_from(string: string)
-    Helper.raise_format_error(line_number: line_number, error: "Char count must be positive integer") if int.nil?
+    Helper.raise_format_error(line_number: line_number, error: 'Char count must be positive integer') if int.nil?
     int
   end
 
   def self.validated_char_position(line_number:, string:)
     int = Helper.positive_integer_from(string: string)
-    Helper.raise_format_error(line_number: line_number, error: "Char position must be positive integer") if int.nil?
+    Helper.raise_format_error(line_number: line_number, error: 'Char position must be positive integer') if int.nil?
     int
   end
 

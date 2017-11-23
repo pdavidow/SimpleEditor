@@ -11,6 +11,5 @@ A few things to keep in mind:
 **todo**
 * Use meaningful method names -- e.g., NOT "s" 
 * see todos 
-* strings single quote -- unless interpolate
 *  protected_class_method
 * change all procs to lambdas https://stackoverflow.com/questions/626/when-to-use-lambda-when-to-use-proc-new
