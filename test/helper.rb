@@ -1,8 +1,6 @@
 require 'stringio'
 require_relative 'constants'
-require_relative '../constants' #todo ??????????
-
-# todo DELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL
+require_relative '../constants'
 
 module Helper
 
@@ -33,25 +31,6 @@ module Helper
         proc: Proc.new{self.with_captured_stdout {Sequencer.sequence}}
     )
   end
-
-
-
-  ### hangs system, don't use ################################################# todo
-  def self.redirect_stdin_to_string_then_process(string:, proc:)
-    #old_stdin = $stdin
-    $stdin = StringIO.new(string)
-    result = proc.call
-    #$stdin = old_stdin
-    #result
-  end
-
-  def self.redirect_stdin_to_string_then_sequence(string:)
-    self.redirect_stdin_to_string_then_process(
-        string: string,
-        proc: Proc.new{self.with_captured_stdout {Sequencer.sequence}}
-    )
-  end
-  ##############################################################################
 
   # todo have containgin method that handles file lifecycle , use proc...
   def self.generate_input_file__exceed_global_constraint__total_appendage_length_sum(filename:, generated_total_length:)
@@ -173,15 +152,6 @@ module Helper
     string = ''
     (1..char_count).each {|i| string = string + char_string}
     string
-  end
-
-  def self.output_to_file_named(filename, strings)
-    file = File.open(filename, "w") {|f|
-      strings.each {|s|
-        f.write(s)
-      }
-    }
-    file
   end
 
   #File.delete(TEST_OUTPUT_FILE_NAME) if File.exists?(TEST_OUTPUT_FILE_NAME)

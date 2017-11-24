@@ -7,20 +7,20 @@ class EditorManager
   attr_accessor :history
   public
 
-  def self.s(history:)
+  def self.state(history:)
     HistoryManager.current_state(history: history)
   end
 
-  def self.append(w:, history:)
-    Editor.append(history: history, appendage_string: w)
+  def self.append(appendage_string:, history:)
+    Editor.append(history: history, appendage_string: appendage_string)
   end
 
-  def self.delete(k:, history:)
-    Editor.delete_last_chars(history: history, chars_to_delete_count: k)
+  def self.delete(chars_to_delete_count:, history:)
+    Editor.delete_last_chars(history: history, chars_to_delete_count: chars_to_delete_count)
   end
 
-  def self.print_char_at(k:, s:) # with newline
-    result = Editor.char_at_position(string: s, position: k)
+  def self.print_char_at(position:, state:) # with newline
+    result = Editor.char_at_position(string: state, position: position)
     puts(result)
   end
 
@@ -36,20 +36,20 @@ class EditorManager
     )
   end
 
-  def s
-    self.class.s(history: self.history)
+  def state
+    self.class.state(history: self.history)
   end
 
-  def append(w:)
-    self.history = self.class.append(w: w, history: self.history)
+  def append(appendage_string:)
+    self.history = self.class.append(appendage_string: appendage_string, history: self.history)
   end
 
-  def delete(k:)
-    self.history = self.class.delete(k: k, history: self.history)
+  def delete(chars_to_delete_count:)
+    self.history = self.class.delete(chars_to_delete_count: chars_to_delete_count, history: self.history)
   end
 
-  def print_char_at(k:)
-    self.class.print_char_at(k: k, s: self.s)
+  def print_char_at(position:)
+    self.class.print_char_at(position: position, state: self.state)
   end
 
   def undo

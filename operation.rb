@@ -20,21 +20,23 @@ class Operation
     operation.type_code == TYPE_UNDO
   end
 
-  def self.proc_for(type_code:, arg:)
+  #########################################################################################
+
+  private def proc_for(type_code:, arg:)
     case type_code
-      when TYPE_APPEND then Proc.new{|editor_mgr| editor_mgr.append(w: arg)}
-      when TYPE_DELETE then Proc.new{|editor_mgr| editor_mgr.delete(k: arg)}
-      when TYPE_PRINT then Proc.new{|editor_mgr| editor_mgr.print_char_at(k: arg)}
+      when TYPE_APPEND then Proc.new{|editor_mgr| editor_mgr.append(appendage_string: arg)}
+      when TYPE_DELETE then Proc.new{|editor_mgr| editor_mgr.delete(chars_to_delete_count: arg)}
+      when TYPE_PRINT then Proc.new{|editor_mgr| editor_mgr.print_char_at(position: arg)}
       when TYPE_UNDO then Proc.new{|editor_mgr| editor_mgr.undo}
       else
     end
   end
 
-  def initialize(line_number:, type_code:, arg:)
+  private def initialize(line_number:, type_code:, arg:)
     self.line_number = line_number
     self.type_code = type_code
     self.arg = arg
-    self.proc = self.class.proc_for(type_code: type_code, arg: arg)
+    self.proc = proc_for(type_code: type_code, arg: arg)
   end
 
 end
