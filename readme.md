@@ -10,6 +10,10 @@ A few things to keep in mind:
 
 **todo**
 (((((*))))) change all procs to lambdas https://stackoverflow.com/questions/626/when-to-use-lambda-when-to-use-proc-new
-* test multiple undos -- past the original
 * test input files in test dir
-* testcode for test-helper
+* ** testcode for test-helper
+* better error message for sequence errors '1 >= position <= string length' '1 >= count <= string length'  -- what is the string??????
+(*) flip all args in assert_equal assert_equal( expected, actual) see http://ruby-doc.org/stdlib-2.0.0/libdoc/test/unit/rdoc/Test/Unit/Assertions.html#method-i-assert_equal
+* ************* EditorManager inst methods not pure: Sequencer should pass history to the op_proc, no more EditorManager instance
+* combine Editor , EditorManager
+* document that unlimited undo does not raise error

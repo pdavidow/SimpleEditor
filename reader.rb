@@ -3,7 +3,7 @@ require_relative 'input_line'
 class Reader
 
   def self.read(filename:)
-    proc = Proc.new { |file|
+    proc = Proc.new {|file|
       count = read_operation_count(file: file)
       operations = read_operations(file: file, operation_count: count)
 

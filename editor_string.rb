@@ -1,4 +1,7 @@
+require_relative 'editor_exceptions'
+
 class EditorString
+  include EditorExceptions
 
   def self.append(base_string:, appendage_string:)
     raise TypeError.new('base_string must be a string') unless (base_string.kind_of? String)
@@ -12,7 +15,7 @@ class EditorString
     raise TypeError.new('Count must be an integer') unless (chars_to_delete_count.kind_of? Integer)
 
     raise ArgumentError.new('String may not be empty') unless (string.length >= 1)
-    raise ArgumentError.new('1 >= count <= string length') unless ((chars_to_delete_count >= 1) && (chars_to_delete_count <= string.length))
+    raise CharArgumentError.new('1 >= count <= string length') unless ((chars_to_delete_count >= 1) && (chars_to_delete_count <= string.length))
 
     keep_count = string.length - chars_to_delete_count
     string.slice(0, keep_count)
@@ -23,7 +26,7 @@ class EditorString
     raise TypeError.new('Position must be an integer') unless (position.kind_of? Integer)
 
     raise ArgumentError.new('String may not be empty') unless (string.length >= 1)
-    raise ArgumentError.new('1 >= position <= string length') unless ((position >= 1) && (position <= string.length))
+    raise CharArgumentError.new('1 >= position <= string length') unless ((position >= 1) && (position <= string.length))
 
     string[position - 1]
   end

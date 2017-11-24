@@ -1,7 +1,9 @@
 require 'test/unit'
 require_relative '../editor_string'
+require_relative '../editor_exceptions'
 
 class Test_EditorString < Test::Unit::TestCase
+  include EditorExceptions
 
   def test_append_arg1
     s1 = 123
@@ -109,7 +111,7 @@ class Test_EditorString < Test::Unit::TestCase
     s = 'abcdef'
     k = 0
 
-    exception = self.assert_raise(ArgumentError){EditorString.delete_last_chars(string: s, chars_to_delete_count: k)}
+    exception = self.assert_raise(CharArgumentError){EditorString.delete_last_chars(string: s, chars_to_delete_count: k)}
     self.assert_equal('1 >= count <= string length', exception.message)
 
     self.assert_equal('abcdef', s)
@@ -120,7 +122,7 @@ class Test_EditorString < Test::Unit::TestCase
     s = 'abcdef'
     k = 7
 
-    exception = self.assert_raise(ArgumentError){EditorString.delete_last_chars(string: s, chars_to_delete_count: k)}
+    exception = self.assert_raise(CharArgumentError){EditorString.delete_last_chars(string: s, chars_to_delete_count: k)}
     self.assert_equal('1 >= count <= string length', exception.message)
 
     self.assert_equal('abcdef', s)
@@ -188,7 +190,7 @@ class Test_EditorString < Test::Unit::TestCase
     s = 'abc'
     k = 0
 
-    exception = self.assert_raise(ArgumentError){EditorString.char_at_position(string: s, position: k)}
+    exception = self.assert_raise(CharArgumentError){EditorString.char_at_position(string: s, position: k)}
     self.assert_equal('1 >= position <= string length', exception.message)
 
     self.assert_equal('abc', s)
@@ -199,7 +201,7 @@ class Test_EditorString < Test::Unit::TestCase
     s = 'abc'
     k = 4
 
-    exception = self.assert_raise(ArgumentError){EditorString.char_at_position(string: s, position: k)}
+    exception = self.assert_raise(CharArgumentError){EditorString.char_at_position(string: s, position: k)}
     self.assert_equal('1 >= position <= string length', exception.message)
 
     self.assert_equal('abc', s)

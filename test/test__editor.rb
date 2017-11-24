@@ -1,8 +1,10 @@
 require 'test/unit'
 require_relative '../editor'
 require_relative '../history_manager'
+require_relative '../editor_exceptions'
 
 class Test_Editor < Test::Unit::TestCase
+  include EditorExceptions
 
   def test_initialState
     self.assert_equal('', Editor.initial_state)
@@ -72,7 +74,7 @@ class Test_Editor < Test::Unit::TestCase
 
     count = 7
 
-    exception = self.assert_raise(ArgumentError){Editor.delete_last_chars(history: h2, chars_to_delete_count: count)}
+    exception = self.assert_raise(CharArgumentError){Editor.delete_last_chars(history: h2, chars_to_delete_count: count)}
     self.assert_equal('1 >= count <= string length', exception.message)
 
     current_state = HistoryManager.current_state(history: h2)
@@ -91,7 +93,7 @@ class Test_Editor < Test::Unit::TestCase
 
     count = 0
 
-    exception = self.assert_raise(ArgumentError){Editor.delete_last_chars(history: h2, chars_to_delete_count: count)}
+    exception = self.assert_raise(CharArgumentError){Editor.delete_last_chars(history: h2, chars_to_delete_count: count)}
     self.assert_equal('1 >= count <= string length', exception.message)
 
     current_state = HistoryManager.current_state(history: h2)
@@ -142,7 +144,7 @@ class Test_Editor < Test::Unit::TestCase
     s = 'abc'
     k = 0
 
-    exception = self.assert_raise(ArgumentError){Editor.char_at_position(string: s, position: k)}
+    exception = self.assert_raise(CharArgumentError){Editor.char_at_position(string: s, position: k)}
     self.assert_equal('1 >= position <= string length', exception.message)
 
     self.assert_equal('abc', s)
@@ -153,7 +155,7 @@ class Test_Editor < Test::Unit::TestCase
     s = 'abc'
     k = 4
 
-    exception = self.assert_raise(ArgumentError){Editor.char_at_position(string: s, position: k)}
+    exception = self.assert_raise(CharArgumentError){Editor.char_at_position(string: s, position: k)}
     self.assert_equal('1 >= position <= string length', exception.message)
 
     self.assert_equal('abc', s)

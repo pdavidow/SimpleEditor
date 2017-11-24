@@ -39,7 +39,7 @@ module Helper
     )
     operation_count = appendages.length
 
-    proc = Proc.new { |file|
+    proc = Proc.new {|file|
       self.write_operation_count_on(file: file, count: operation_count)
       self.write_append_operations_on(file: file, appendages: appendages)
       file
@@ -67,7 +67,7 @@ module Helper
     delete_operation_count_3 = is_exceeding_limit ? 1 : 0
     total_operation_count = append_operation_count + delete_operation_count_1 + undo_operation_count + delete_operation_count_2 + delete_operation_count_3
 
-    proc = Proc.new { |file|
+    proc = Proc.new {|file|
       self.write_operation_count_on(file: file, count: total_operation_count)
 
       self.write_append_operations_on(file: file, appendages: appendages)
@@ -100,14 +100,14 @@ module Helper
   end
 
   def self.write_delete_operations_on(file:, delete_operation_count:, char_count:)
-    (1..delete_operation_count).each { |i|
+    (1..delete_operation_count).each {|i|
       line = self.delete_operation_line(char_count: char_count)
       file.write(line)
     }
   end
 
   def self.write_undo_operations_on(file:, undo_operation_count:)
-    (1..undo_operation_count).each { |i|
+    (1..undo_operation_count).each {|i|
       line = self.undo_operation_line
       file.write(line)
     }

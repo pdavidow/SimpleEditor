@@ -1,9 +1,11 @@
 require 'test/unit'
 require_relative '../editor_manager'
 require_relative 'helper'
+require_relative '../editor_exceptions'
 
 class Test_EditorManager < Test::Unit::TestCase
   include Helper
+  include EditorExceptions
 
   def test_initialize
     mgr = EditorManager.new
@@ -62,7 +64,7 @@ class Test_EditorManager < Test::Unit::TestCase
     w1 = 'abcdef'
     mgr.append(appendage_string: w1)
 
-    exception = self.assert_raise(ArgumentError){mgr.delete(chars_to_delete_count: 0)}
+    exception = self.assert_raise(CharArgumentError){mgr.delete(chars_to_delete_count: 0)}
     self.assert_equal('1 >= count <= string length', exception.message)
 
     self.assert_equal(mgr.state, 'abcdef')
@@ -73,7 +75,7 @@ class Test_EditorManager < Test::Unit::TestCase
     w1 = 'abcdef'
     mgr.append(appendage_string: w1)
 
-    exception = self.assert_raise(ArgumentError){mgr.delete(chars_to_delete_count: 7)}
+    exception = self.assert_raise(CharArgumentError){mgr.delete(chars_to_delete_count: 7)}
     self.assert_equal('1 >= count <= string length', exception.message)
 
     self.assert_equal(mgr.state, 'abcdef')
@@ -139,7 +141,7 @@ class Test_EditorManager < Test::Unit::TestCase
     mgr.append(appendage_string: w1)
 
     k = 0
-    exception = self.assert_raise(ArgumentError){Helper.with_captured_stdout {mgr.print_char_at(position: k)}}
+    exception = self.assert_raise(CharArgumentError){Helper.with_captured_stdout {mgr.print_char_at(position: k)}}
     self.assert_equal('1 >= position <= string length', exception.message)
 
     self.assert_equal(w1, 'abc')
@@ -152,7 +154,7 @@ class Test_EditorManager < Test::Unit::TestCase
     mgr.append(appendage_string: w1)
 
     k = 4
-    exception = self.assert_raise(ArgumentError){Helper.with_captured_stdout {mgr.print_char_at(position: k)}}
+    exception = self.assert_raise(CharArgumentError){Helper.with_captured_stdout {mgr.print_char_at(position: k)}}
     self.assert_equal('1 >= position <= string length', exception.message)
 
     self.assert_equal(w1, 'abc')
