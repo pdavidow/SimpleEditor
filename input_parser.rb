@@ -7,7 +7,7 @@ class InputParser
   def self.parsed_operation_count(line_number:, string:)
     count = Helper.positive_integer_from(string: string)
     Helper.raise_format_error(line_number: line_number, error: 'Operation count must be a positive integer') if count.nil?
-    Helper.raise_format_error(line_number: line_number, error: "Operation count must be a positive integer <= #{OPERATION_COUNT_UPPER_LIMIT.to_s}") if count > OPERATION_COUNT_UPPER_LIMIT
+    Helper.raise_format_error(line_number: line_number, error: "Operation count must be a positive integer <= #{OPERATION_COUNT__UPPER_LIMIT.to_s}") if count > OPERATION_COUNT__UPPER_LIMIT
     count
   end
 

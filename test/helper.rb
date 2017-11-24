@@ -32,7 +32,6 @@ module Helper
     )
   end
 
-  # todo have containgin method that handles file lifecycle , use proc...
   def self.generate_input_file__exceed_global_constraint__total_appendage_length_sum(filename:, generated_total_length:)
     appendages = self.generated_mono_char_strings(
         total_length: generated_total_length,
@@ -43,6 +42,7 @@ module Helper
     proc = Proc.new { |file|
       self.write_operation_count_on(file: file, count: operation_count)
       self.write_append_operations_on(file: file, appendages: appendages)
+      file
     }
 
     self.write_on(filename: filename, proc_with_file_arg: proc)
@@ -52,7 +52,7 @@ module Helper
     is_exceeding_limit = char_count_exceeding_limit > 0
 
     appendages = self.generated_mono_char_strings(
-        total_length: TOTAL_APPENDAGE_LENGTH_UPPER_LIMIT,
+        total_length: TOTAL_APPENDAGE_LENGTH__UPPER_LIMIT,
         section_length: GENERATED_APPENDAGE_SECTION_DEFAULT_LENGTH
     )
 
@@ -77,6 +77,7 @@ module Helper
       if is_exceeding_limit then
         self.write_delete_operations_on(file: file, delete_operation_count: delete_operation_count_3, char_count: delete_operation_char_count_3)
       end
+      file
     }
 
     self.write_on(filename: filename, proc_with_file_arg: proc)
@@ -90,8 +91,6 @@ module Helper
     line = self.operation_count_line(count: count)
     file.write(line)
   end
-
-  # todo need separate test file for tsting the test -helper code
 
   def self.write_append_operations_on(file:, appendages:)
     appendages.each {|a|
@@ -154,6 +153,4 @@ module Helper
     string
   end
 
-  #File.delete(TEST_OUTPUT_FILE_NAME) if File.exists?(TEST_OUTPUT_FILE_NAME)
-  #############File.delete(TEST_INPUT_BAD_GENERATED_FILE_NAME_1) if File.exists?(TEST_INPUT_BAD_GENERATED_FILE_NAME_1)
 end

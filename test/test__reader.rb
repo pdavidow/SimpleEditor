@@ -137,20 +137,24 @@ class Test_Reader < Test::Unit::TestCase
     filename = TEST_INPUT_BAD_GENERATED_FILE_NAME_1
     Helper.generate_input_file__exceed_global_constraint__total_appendage_length_sum(
         filename: filename,
-        generated_total_length: TOTAL_APPENDAGE_LENGTH_UPPER_LIMIT + 1)
+        generated_total_length: TOTAL_APPENDAGE_LENGTH__UPPER_LIMIT + 1)
 
     exception = self.assert_raise(GlobalConstraintError){Reader.read(filename: filename)}
     self.assert_equal('The sum of the lengths of all appendage arguments (for operation type 1) must be <= 1000000, but instead is 1000001', exception.message)
+
+    File.delete(filename)
   end
 
   def test_27
     filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_1
     Helper.generate_input_file__exceed_global_constraint__total_appendage_length_sum(
         filename: filename,
-        generated_total_length: TOTAL_APPENDAGE_LENGTH_UPPER_LIMIT)
+        generated_total_length: TOTAL_APPENDAGE_LENGTH__UPPER_LIMIT)
 
     ops = Reader.read(filename: filename)
-    self.assert_equal(1000000, Reader.sum_length_appendages(operations: ops))
+    self.assert_equal(TOTAL_APPENDAGE_LENGTH__UPPER_LIMIT, Reader.sum_length_appendages(operations: ops))
+
+    File.delete(filename)
   end
 
   def test_28
@@ -162,6 +166,8 @@ class Test_Reader < Test::Unit::TestCase
 
     exception = self.assert_raise(GlobalConstraintError){Reader.read(filename: filename)}
     self.assert_equal('The total char delete count (for operation type 2) must be <= 2000000, but instead is 2000001', exception.message)
+
+    File.delete(filename)
   end
 
   def test_29
@@ -172,7 +178,9 @@ class Test_Reader < Test::Unit::TestCase
     )
 
     ops = Reader.read(filename: filename)
-    self.assert_equal(2000000, Reader.total_char_delete_count(operations: ops))
+    self.assert_equal(TOTAL_CHAR_DELETE_COUNT__UPPER_LIMIT, Reader.total_char_delete_count(operations: ops))
+
+    File.delete(filename)
   end
 
 end
