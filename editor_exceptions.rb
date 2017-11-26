@@ -4,6 +4,7 @@ module EditorExceptions
   end
 
   class StatefulError < AbstractEditorError
+    # Error message should also give current state
   end
 
   class CharArgumentError < StatefulError

@@ -1,6 +1,5 @@
 GENERATED_APPENDAGE_SECTION_DEFAULT_LENGTH = 5000
 
-# TEST_INPUT_FILE_NAME = '../test/input.txt' ### todo: doesn't work, so keep in main dir for now
 
 TEST_INPUT_GOOD_FILE_NAME_1 = 'test_input_good_1.txt'
 TEST_INPUT_GOOD_FILE_NAME_3 = 'test_input_good_3.txt'
@@ -40,8 +39,3 @@ TEST_INPUT_GOOD_GENERATED_FILE_NAME_3 = 'test_input_good_generated_3.txt'
 
 TEST_INPUT_BAD_GENERATED_FILE_NAME_1 = 'test_input_bad_generated_1.txt'
 TEST_INPUT_BAD_GENERATED_FILE_NAME_2 = 'test_input_bad_generated_2.txt'
-
-
-TEST_OUTPUT_STRING_1 = "c\ny\na\n"
-
-

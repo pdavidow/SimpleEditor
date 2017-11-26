@@ -9,8 +9,7 @@ A few things to keep in mind:
 •               I'm confident that you can create a solution which works – our goal with this challenge is more to understand the way you approach problems rather than to verify you are able to solve this particular one. I would much rather have you take an extra week and submit something clean than do a quick-and-dirty job, so take all the time you need.
 
 **todo**
-(((((*))))) change all procs to lambdas https://stackoverflow.com/questions/626/when-to-use-lambda-when-to-use-proc-new
+
 * move test input files in test dir, if not doc as such todo
 * document that unlimited undo does not raise error -- but does this contradict spec :Undo the last (not previously undone) ??????????
 * doc future enhancement: read from STDIO
-* meaningful test names

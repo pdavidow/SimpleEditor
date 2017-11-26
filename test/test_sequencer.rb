@@ -10,27 +10,27 @@ class Test_Sequencer < Test::Unit::TestCase
 
   def test_1
     result = Helper.with_captured_stdout{ Sequencer.sequence(filename: TEST_INPUT_GOOD_FILE_NAME_1) }
-    self.assert_equal(result, TEST_OUTPUT_STRING_1)
+    self.assert_equal("c\ny\na\n", result)
   end
 
   def test_2
     result = Helper.with_captured_stdout{ Sequencer.sequence(filename: TEST_INPUT_GOOD_FILE_NAME_3) }
-    self.assert_equal(result, TEST_OUTPUT_STRING_1)
+    self.assert_equal("c\ny\na\n", result)
   end
 
   def test_3
     result = Helper.with_captured_stdout{ Sequencer.sequence(filename: TEST_INPUT_GOOD_FILE_NAME_4) }
-    self.assert_equal(result, TEST_OUTPUT_STRING_1)
+    self.assert_equal("c\ny\na\n", result)
   end
 
   def test_4
     result = Helper.with_captured_stdout{ Sequencer.sequence(filename: TEST_INPUT_GOOD_FILE_NAME_5) }
-    self.assert_equal(result, TEST_OUTPUT_STRING_1)
+    self.assert_equal("c\ny\na\n", result)
   end
 
   def test_5
     result = Helper.with_captured_stdout{ Sequencer.sequence(filename: TEST_INPUT_GOOD_FILE_NAME_6) }
-    self.assert_equal(result, TEST_OUTPUT_STRING_1)
+    self.assert_equal("c\ny\na\n", result)
   end
 
   def test_6
