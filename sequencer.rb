@@ -15,7 +15,7 @@ class Sequencer
       begin
         history = op.proc.call(history)
       rescue StatefulError => exception
-        error = Editor.statefulErrorFor(message: exception.message, history: history)
+        error = Editor.statefulMessageFor(message: exception.message, history: history)
         Helper.raise_sequence_error(line_number: op.line_number, error: error)
       rescue StandardError => exception
         Helper.raise_sequence_error(line_number: op.line_number, error: exception.message)

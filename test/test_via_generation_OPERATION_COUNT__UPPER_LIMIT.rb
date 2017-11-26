@@ -17,7 +17,7 @@ class Test_Sequencer < Test::Unit::TestCase
 
     result = Helper.with_captured_stdout{ Sequencer.sequence(filename: filename) }
     expected = OPERATION_COUNT__UPPER_LIMIT.even? ? "o\n" : "o\no\n"
-    self.assert_equal(result, expected)
+    self.assert_equal(expected, result)
 
     File.delete(filename)
   end
