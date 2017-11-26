@@ -130,7 +130,7 @@ class Test_Reader < Test::Unit::TestCase
 
   def test_25
     exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_23)}
-    self.assert_equal('Format error on line# 1: Operation count must be a positive integer <= 1000000', exception.message)
+    self.assert_equal("Format error on line# 1: Operation count must be a positive integer <= #{OPERATION_COUNT__UPPER_LIMIT.to_s}", exception.message)
   end
 
   def test_26
@@ -140,7 +140,7 @@ class Test_Reader < Test::Unit::TestCase
         generated_total_length: TOTAL_APPENDAGE_LENGTH__UPPER_LIMIT + 1)
 
     exception = self.assert_raise(GlobalConstraintError){Reader.read(filename: filename)}
-    self.assert_equal('The sum of the lengths of all appendage arguments (for operation type 1) must be <= 1000000, but instead is 1000001', exception.message)
+    self.assert_equal("The sum of the lengths of all appendage arguments (for operation type 1) must be <= #{OPERATION_COUNT__UPPER_LIMIT.to_s}, but instead is #{(OPERATION_COUNT__UPPER_LIMIT + 1).to_s}", exception.message)
 
     File.delete(filename)
   end

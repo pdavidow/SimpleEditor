@@ -24,10 +24,10 @@ class Operation
 
   private def proc_for(type_code:, arg:)
     case type_code
-      when TYPE_APPEND then Proc.new{|editor_mgr| editor_mgr.append(appendage_string: arg)}
-      when TYPE_DELETE then Proc.new{|editor_mgr| editor_mgr.delete(chars_to_delete_count: arg)}
-      when TYPE_PRINT then Proc.new{|editor_mgr| editor_mgr.print_char_at(position: arg)}
-      when TYPE_UNDO then Proc.new{|editor_mgr| editor_mgr.undo}
+      when TYPE_APPEND then Proc.new{|history| Editor.append(appendage_string: arg, history: history)}
+      when TYPE_DELETE then Proc.new{|history| Editor.delete_last_chars(chars_to_delete_count: arg, history: history)}
+      when TYPE_PRINT then Proc.new{|history| Editor.print_with_newline__char_at(position: arg, history: history)}
+      when TYPE_UNDO then Proc.new{|history| Editor.undo(history: history)}
       else
     end
   end
@@ -36,7 +36,7 @@ class Operation
     self.line_number = line_number
     self.type_code = type_code
     self.arg = arg
-    self.proc = proc_for(type_code: type_code, arg: arg)
+    self.proc = proc_for(type_code: self.type_code, arg: self.arg)
   end
 
 end

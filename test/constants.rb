@@ -36,14 +36,12 @@ TEST_INPUT_BAD_FILE_NAME_24 = 'test_input_bad_24.txt'
 
 TEST_INPUT_GOOD_GENERATED_FILE_NAME_1 = 'test_input_good_generated_1.txt'
 TEST_INPUT_GOOD_GENERATED_FILE_NAME_2 = 'test_input_good_generated_2.txt'
+TEST_INPUT_GOOD_GENERATED_FILE_NAME_3 = 'test_input_good_generated_3.txt'
 
 TEST_INPUT_BAD_GENERATED_FILE_NAME_1 = 'test_input_bad_generated_1.txt'
 TEST_INPUT_BAD_GENERATED_FILE_NAME_2 = 'test_input_bad_generated_2.txt'
 
 
-  TEST_OUTPUT_STRING_1 =
-'c
-y
-a
-'
+TEST_OUTPUT_STRING_1 = "c\ny\na\n"
+
 

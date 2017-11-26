@@ -3,7 +3,10 @@ module EditorExceptions
   class AbstractEditorError < StandardError
   end
 
-  class CharArgumentError < AbstractEditorError
+  class StatefulError < AbstractEditorError
+  end
+
+  class CharArgumentError < StatefulError
   end
 
   class GlobalConstraintError < AbstractEditorError

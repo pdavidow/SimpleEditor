@@ -2,17 +2,14 @@ require 'test/unit'
 require_relative '../editor'
 require_relative '../history_manager'
 require_relative '../editor_exceptions'
+require_relative 'helper'
 
 class Test_Editor < Test::Unit::TestCase
+  include Helper
   include EditorExceptions
 
-  def test_initialState
-    self.assert_equal('', Editor.initial_state)
-  end
-
   def test_append_1
-    h0 = HistoryManager.new.history
-    h1 = HistoryManager.add_state(history: h0, state: Editor.initial_state)
+    h1 = HistoryManager.initial_history
 
     appendage_string = 'ab3'
     h2 = Editor.append(history: h1, appendage_string: appendage_string)
@@ -33,8 +30,7 @@ class Test_Editor < Test::Unit::TestCase
   end
 
   def test_deleteLastChars_1
-    h0 = HistoryManager.new.history
-    h1 = HistoryManager.add_state(history: h0, state: Editor.initial_state)
+    h1 = HistoryManager.initial_history
 
     appendage_string = 'abcdef'
     h2 = Editor.append(history: h1, appendage_string: appendage_string)
@@ -63,8 +59,7 @@ class Test_Editor < Test::Unit::TestCase
   end
 
   def test_deleteLastChars_2
-    h0 = HistoryManager.new.history
-    h1 = HistoryManager.add_state(history: h0, state: Editor.initial_state)
+    h1 = HistoryManager.initial_history
 
     appendage_string = 'abcdef'
     h2 = Editor.append(history: h1, appendage_string: appendage_string)
@@ -82,8 +77,7 @@ class Test_Editor < Test::Unit::TestCase
   end
 
   def test_deleteLastChars_3
-    h0 = HistoryManager.new.history
-    h1 = HistoryManager.add_state(history: h0, state: Editor.initial_state)
+    h1 = HistoryManager.initial_history
 
     appendage_string = 'abcdef'
     h2 = Editor.append(history: h1, appendage_string: appendage_string)
@@ -101,8 +95,7 @@ class Test_Editor < Test::Unit::TestCase
   end
 
   def test_deleteLastChars_4
-    h0 = HistoryManager.new.history
-    h1 = HistoryManager.add_state(history: h0, state: Editor.initial_state)
+    h1 = HistoryManager.initial_history
     current_state = HistoryManager.current_state(history: h1)
 
     self.assert_equal('', current_state)
@@ -117,59 +110,122 @@ class Test_Editor < Test::Unit::TestCase
   end
 
   def test_charAtPosition_1
-    s = 'abc'
-    k = 3
+    h1 = HistoryManager.initial_history
 
-    result = Editor.char_at_position(string: s, position: k)
+    appendage_string = 'abc'
+    h2 = Editor.append(history: h1, appendage_string: appendage_string)
 
+    position = 3
+
+    result = Editor.char_at_position(history: h2, position: position)
     self.assert_equal('c', result)
-
-    self.assert_equal('abc', s)
-    self.assert_equal(3, k)
   end
 
   def test_charAtPosition_2
-    s = 'abc'
-    k = 1
+    h1 = HistoryManager.initial_history
 
-    result = Editor.char_at_position(string: s, position: k)
+    appendage_string = 'abc'
+    h2 = Editor.append(history: h1, appendage_string: appendage_string)
 
+    position = 1
+
+    result = Editor.char_at_position(history: h2, position: position)
     self.assert_equal('a', result)
-
-    self.assert_equal('abc', s)
-    self.assert_equal(1, k)
   end
 
   def test_charAtPosition_3
-    s = 'abc'
-    k = 0
+    h1 = HistoryManager.initial_history
 
-    exception = self.assert_raise(CharArgumentError){Editor.char_at_position(string: s, position: k)}
+    appendage_string = 'abc'
+    h2 = Editor.append(history: h1, appendage_string: appendage_string)
+
+    position = 0
+
+    exception = self.assert_raise(CharArgumentError){Editor.char_at_position(history: h2, position: position)}
     self.assert_equal('1 >= position <= string length', exception.message)
-
-    self.assert_equal('abc', s)
-    self.assert_equal(0, k)
   end
 
   def test_charAtPosition_4
-    s = 'abc'
-    k = 4
+    h1 = HistoryManager.initial_history
 
-    exception = self.assert_raise(CharArgumentError){Editor.char_at_position(string: s, position: k)}
+    appendage_string = 'abc'
+    h2 = Editor.append(history: h1, appendage_string: appendage_string)
+
+    position = 4
+
+    exception = self.assert_raise(CharArgumentError){Editor.char_at_position(history: h2, position: position)}
     self.assert_equal('1 >= position <= string length', exception.message)
-
-    self.assert_equal('abc', s)
-    self.assert_equal(4, k)
   end
 
   def test_char_at_position_5
-    s = ''
-    k = 1
+    h1 = HistoryManager.initial_history
 
-    exception = self.assert_raise(ArgumentError){Editor.char_at_position(string: s, position: k)}
+    appendage_string = ''
+    h2 = Editor.append(history: h1, appendage_string: appendage_string)
+
+    position = 1
+
+    exception = self.assert_raise(ArgumentError){Editor.char_at_position(history: h2, position: position)}
     self.assert_equal('String may not be empty', exception.message)
+  end
 
-    self.assert_equal('', s)
-    self.assert_equal(1, k)
+  def test_print_with_newline__char_at_1
+    h1 = HistoryManager.initial_history
+
+    appendage_string = 'abc'
+    h2 = Editor.append(history: h1, appendage_string: appendage_string)
+    appendage_string = 'def'
+    h3 = Editor.append(history: h2, appendage_string: appendage_string)
+
+    position = 6
+    result = Helper.with_captured_stdout {Editor.print_with_newline__char_at(position: position, history: h3)}
+    self.assert_equal(result, "f\n")
+  end
+
+  def test_print_with_newline__char_at_2
+    h1 = HistoryManager.initial_history
+
+    appendage_string = 'abc'
+    h2 = Editor.append(history: h1, appendage_string: appendage_string)
+
+    position = 0
+    exception = self.assert_raise(CharArgumentError){Editor.print_with_newline__char_at(position: position, history: h2)}
+    self.assert_equal('1 >= position <= string length', exception.message)
+  end
+
+
+  def test_print_with_newline__char_at_3
+    h1 = HistoryManager.initial_history
+
+    appendage_string = 'abc'
+    h2 = Editor.append(history: h1, appendage_string: appendage_string)
+
+    position = 4
+    exception = self.assert_raise(CharArgumentError){Editor.print_with_newline__char_at(position: position, history: h2)}
+    self.assert_equal('1 >= position <= string length', exception.message)
+  end
+
+  def test_undo
+    h1 = HistoryManager.initial_history
+
+    appendage_string = 'a'
+    h2 = Editor.append(history: h1, appendage_string: appendage_string)
+    appendage_string = 'b'
+    h3 = Editor.append(history: h2, appendage_string: appendage_string)
+    appendage_string = 'c'
+    h4 = Editor.append(history: h3, appendage_string: appendage_string)
+    self.assert_equal('abc', Editor.state(history: h4))
+
+    h5 = Editor.undo(history: h4)
+    self.assert_equal('ab', Editor.state(history: h5))
+
+    h6 = Editor.undo(history: h5)
+    self.assert_equal('a', Editor.state(history: h6))
+
+    h7 = Editor.undo(history: h6)
+    self.assert_equal('', Editor.state(history: h7))
+
+    h8 = Editor.undo(history: h7)
+    self.assert_equal('', Editor.state(history: h8))
   end
 end

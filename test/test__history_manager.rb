@@ -4,7 +4,7 @@ require_relative '../history_manager'
 class Test_HistoryManager < Test::Unit::TestCase
 
   def test_add_state
-    h0 = HistoryManager.new.history
+    h0 = HistoryManager.initial_history
     state = 'abc'
 
     h1 = HistoryManager.add_state(history: h0, state: state)
@@ -18,10 +18,10 @@ class Test_HistoryManager < Test::Unit::TestCase
   end
 
   def test_current_state
-    h0 = HistoryManager.new.history
+    h0 = HistoryManager.initial_history
 
     current_state = HistoryManager.current_state(history: h0)
-    self.assert_equal(current_state, nil)
+    self.assert_equal(current_state, '')
 
     h1 = HistoryManager.add_state(history: h0, state: 1)
     current_state = HistoryManager.current_state(history: h1)
@@ -29,7 +29,10 @@ class Test_HistoryManager < Test::Unit::TestCase
   end
 
   def test_remove_current_state
-    h0 = HistoryManager.new.history
+    h0 = HistoryManager.initial_history
+
+    current_state = HistoryManager.current_state(history: h0)
+    self.assert_equal(current_state, '')
 
     h1 = HistoryManager.add_state(history: h0, state: 1)
     h2 = HistoryManager.add_state(history: h1, state: 2)
@@ -45,7 +48,7 @@ class Test_HistoryManager < Test::Unit::TestCase
 
     h6 = HistoryManager.remove_current_state(history: h5)
     current_state = HistoryManager.current_state(history: h6)
-    self.assert_equal(current_state, nil)
+    self.assert_equal(current_state, '')
 
     h7 = HistoryManager.remove_current_state(history: h6)
     current_state = HistoryManager.current_state(history: h7)

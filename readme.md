@@ -10,9 +10,7 @@ A few things to keep in mind:
 
 **todo**
 (((((*))))) change all procs to lambdas https://stackoverflow.com/questions/626/when-to-use-lambda-when-to-use-proc-new
-* test input files in test dir
-* ** testcode for test-helper
-(*) flip all args in assert_equal assert_equal( expected, actual) see http://ruby-doc.org/stdlib-2.0.0/libdoc/test/unit/rdoc/Test/Unit/Assertions.html#method-i-assert_equal
-* ************* EditorManager inst methods not pure: Sequencer should pass history to the op_proc, no more EditorManager instance
-* combine Editor , EditorManager
-* document that unlimited undo does not raise error
+* move test input files in test dir, if not doc as such todo
+* document that unlimited undo does not raise error -- but does this contradict spec :Undo the last (not previously undone) ??????????
+* doc future enhancement: read from STDIO
+* meaningful test names

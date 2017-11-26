@@ -1,7 +1,13 @@
+require_relative 'constants'
+
 class HistoryManager
 
-  def history
-    @history ||= []
+  def self.initial_history
+    self.add_state(history: [], state: INITIAL_STATE)
+  end
+
+  def self.initial_history?(history:)
+    history.length == 1
   end
 
   def self.current_state(history:)
