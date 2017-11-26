@@ -35,12 +35,12 @@ class Test_Sequencer < Test::Unit::TestCase
 
   def test_6
     exception = self.assert_raise(SequenceError){Helper.with_captured_stdout{Sequencer.sequence(filename: TEST_INPUT_BAD_FILE_NAME_12)}}
-    self.assert_equal("Sequence error on line# 3: 1 >= count <= string length, for current string of 'abc'", exception.message)
+    self.assert_equal("Sequence error on line# 3: 1 >= count <= string length. Current string is 'abc'", exception.message)
   end
 
   def test_7
     exception = self.assert_raise(SequenceError){Helper.with_captured_stdout{Sequencer.sequence(filename: TEST_INPUT_BAD_FILE_NAME_21)}}
-    self.assert_equal("Sequence error on line# 4: 1 >= position <= string length, for current string of 'abcdef'", exception.message)
+    self.assert_equal("Sequence error on line# 4: 1 >= position <= string length. Current string is 'abcdef'", exception.message)
   end
 
   def test_8

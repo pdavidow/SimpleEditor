@@ -39,4 +39,9 @@ class Editor
     HistoryManager.remove_current_state(history: history)
   end
 
+  def self.statefulErrorFor(message:, history:)
+    state = self.state(history: history)
+    message + ". Current string is '#{state.to_s}'"
+  end
+
 end
