@@ -1,6 +1,6 @@
 GENERATED_APPENDAGE_SECTION_DEFAULT_LENGTH = 5000
 
-ROOT = "#{File.dirname(__FILE__)}/file/" unless defined?(ROOT) # https://stackoverflow.com/questions/909855/ruby-path-management
+ROOT = "#{File.dirname(__FILE__)}/input/" unless defined?(ROOT) # https://stackoverflow.com/questions/909855/ruby-path-management
 
 TEST_INPUT_GOOD_FILE_NAME_1 = "#{ROOT}test_input_good_1.txt"
 TEST_INPUT_GOOD_FILE_NAME_3 = "#{ROOT}test_input_good_3.txt"
