@@ -62,5 +62,5 @@ History is simply an array treated as a stack.  For example, undo pops the stack
 Unlimited undo is safe (does not raise error).
 
 **TODO**
-1) Read input from Standard IO
-2) Move test input files under test dir
+
+Read input from Standard IO
