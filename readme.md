@@ -58,7 +58,7 @@ History is simply an array treated as a stack.  For example, undo pops the stack
 
 **USAGE**
 
-`Sequencer.sequence(filename:)`
+`Sequencer.sequence`
 
 **NOTE**
 
