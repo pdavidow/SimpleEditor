@@ -7,8 +7,8 @@ class Sequencer
   include Helper
   include EditorExceptions
 
-  def self.sequence(filename:)
-    operations = Reader.read(filename: filename)
+  def self.sequence
+    operations = Reader.read
     history = HistoryManager.initial_history
 
     operations.each {|op|

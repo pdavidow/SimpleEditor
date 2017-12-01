@@ -12,12 +12,18 @@ class Test_Sequencer < Test::Unit::TestCase
     filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_3
     Helper.generate_input_file__reach_global_constraint__operation_count_upper_limit(filename: filename)
 
-    ops = Reader.read(filename: filename)
-    self.assert_equal(OPERATION_COUNT__UPPER_LIMIT, ops.length)
+    proc = Proc.new {
+      ops = Reader.read
+      self.assert_equal(OPERATION_COUNT__UPPER_LIMIT, ops.length)
+    }
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
 
-    result = Helper.with_captured_stdout{ Sequencer.sequence(filename: filename) }
-    expected = OPERATION_COUNT__UPPER_LIMIT.even? ? "o\n" : "o\no\n"
-    self.assert_equal(expected, result)
+    proc = Proc.new {
+      result = Helper.with_captured_stdout{ Sequencer.sequence }
+      expected = OPERATION_COUNT__UPPER_LIMIT.even? ? "o\n" : "o\no\n"
+      self.assert_equal(expected, result)
+    }
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
 
     File.delete(filename)
   end

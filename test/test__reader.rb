@@ -8,129 +8,204 @@ class Test_Reader < Test::Unit::TestCase
   include EditorExceptions
 
   def test_1
-    ops = Reader.read(filename: TEST_INPUT_GOOD_FILE_NAME_1)
-    self.assert_equal(8, ops.length)
+    proc = Proc.new {
+      ops = Reader.read
+      self.assert_equal(8, ops.length)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_GOOD_FILE_NAME_1, proc: proc)
   end
 
   def test_3
-    ops = Reader.read(filename: TEST_INPUT_GOOD_FILE_NAME_3)
-    self.assert_equal(8, ops.length)
+    proc = Proc.new {
+      ops = Reader.read
+      self.assert_equal(8, ops.length)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_GOOD_FILE_NAME_3, proc: proc)
   end
 
   def test_4
-    ops = Reader.read(filename: TEST_INPUT_GOOD_FILE_NAME_4)
-    self.assert_equal(8, ops.length)
+    proc = Proc.new {
+      ops = Reader.read
+      self.assert_equal(8, ops.length)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_GOOD_FILE_NAME_4, proc: proc)
   end
 
   def test_5
-    ops = Reader.read(filename: TEST_INPUT_GOOD_FILE_NAME_5)
-    self.assert_equal(8, ops.length)
+    proc = Proc.new {
+      ops = Reader.read
+      self.assert_equal(8, ops.length)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_GOOD_FILE_NAME_5, proc: proc)
   end
 
   def test_6
-    exception = self.assert_raise(FormatError){Reader.read(filename:  TEST_INPUT_BAD_FILE_NAME_1)}
-    self.assert_equal('Format error on line# 1: Operation count must be a positive integer', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 1: Operation count must be a positive integer', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_1, proc: proc)
   end
 
   def test_7
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_3)}
-    self.assert_equal('Format error on line# 5: Operation expected', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 5: Operation expected', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_3, proc: proc)
   end
 
   def test_8
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_4)}
-    self.assert_equal('Format error on line# 1: Operation count expected, and nothing else', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 1: Operation count expected, and nothing else', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_4, proc: proc)
   end
 
   def test_9
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_5)}
-    self.assert_equal('Format error on line# 1: Operation count expected', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 1: Operation count expected', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_5, proc: proc)
   end
 
   def test_10
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_6)}
-    self.assert_equal('Format error on line# 1: Operation count expected', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 1: Operation count expected', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_6, proc: proc)
   end
 
   def test_11
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_7)}
-    self.assert_equal('Format error on line# 1: Operation count expected', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 1: Operation count expected', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_7, proc: proc)
   end
 
   def test_12
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_8)}
-    self.assert_equal('Format error on line# 2: Operation type must be 1, 2, 3, or 4', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 2: Operation type must be 1, 2, 3, or 4', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_8, proc: proc)
   end
 
   def test_13a
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_9)}
-    self.assert_equal('Format error on line# 2: Appendage must be all English letters', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 2: Appendage must be all English letters', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_9, proc: proc)
   end
 
   def test_13b
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_13)}
-    self.assert_equal('Format error on line# 2: Appendage must be all lower case', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 2: Appendage must be all lower case', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_13, proc: proc)
   end
 
   def test_14
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_10)}
-    self.assert_equal('Format error on line# 1: Operation count must be a positive integer', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 1: Operation count must be a positive integer', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_10, proc: proc)
   end
 
   def test_15
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_11)}
-    self.assert_equal('Format error on line# 1: Operation count must be a positive integer', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 1: Operation count must be a positive integer', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_11, proc: proc)
   end
 
   def test_16
-    # Sequencer -- not Reader -- error
-    ops = Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_12)
-    self.assert_equal(2, ops.length)
+    proc = Proc.new {
+      # Sequencer -- not Reader -- error
+      ops = Reader.read
+      self.assert_equal(2, ops.length)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_12, proc: proc)
   end
 
   def test_17
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_14)}
-    self.assert_equal('Format error on line# 3: No argument expected for operation type 4', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 3: No argument expected for operation type 4', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_14, proc: proc)
   end
 
   def test_18
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_15)}
-    self.assert_equal('Format error on line# 2: Argument expected for operation type 1', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 2: Argument expected for operation type 1', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_15, proc: proc)
   end
 
   def test_19
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_16)}
-    self.assert_equal('Format error on line# 2: Argument expected for operation type 2', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 2: Argument expected for operation type 2', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_16, proc: proc)
   end
 
   def test_20
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_17)}
-    self.assert_equal('Format error on line# 2: Argument expected for operation type 3', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 2: Argument expected for operation type 3', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_17, proc: proc)
   end
 
   def test_21
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_18)}
-    self.assert_equal('Format error on line# 2: Operation expected', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 2: Operation expected', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_18, proc: proc)
   end
 
   def test_22
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_19)}
-    self.assert_equal('Format error on line# 2: Char count must be positive integer', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 2: Char count must be positive integer', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_19, proc: proc)
   end
 
   def test_23
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_20)}
-    self.assert_equal('Format error on line# 2: Char position must be positive integer', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 2: Char position must be positive integer', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_20, proc: proc)
   end
 
   def test_24
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_22)}
-    self.assert_equal('Format error on line# 1: Operation count must be a positive integer', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal('Format error on line# 1: Operation count must be a positive integer', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_22, proc: proc)
   end
 
   def test_25
-    exception = self.assert_raise(FormatError){Reader.read(filename: TEST_INPUT_BAD_FILE_NAME_23)}
-    self.assert_equal("Format error on line# 1: Operation count must be a positive integer <= #{OPERATION_COUNT__UPPER_LIMIT.to_s}", exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Reader.read}
+      self.assert_equal("Format error on line# 1: Operation count must be a positive integer <= #{OPERATION_COUNT__UPPER_LIMIT.to_s}", exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_23, proc: proc)
   end
 
   def test_26
@@ -139,8 +214,11 @@ class Test_Reader < Test::Unit::TestCase
         filename: filename,
         generated_total_length: TOTAL_APPENDAGE_LENGTH__UPPER_LIMIT + 1)
 
-    exception = self.assert_raise(GlobalConstraintError){Reader.read(filename: filename)}
-    self.assert_equal("The sum of the lengths of all appendage arguments (for operation type 1) must be <= #{OPERATION_COUNT__UPPER_LIMIT.to_s}, but instead is #{(OPERATION_COUNT__UPPER_LIMIT + 1).to_s}", exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(GlobalConstraintError){Reader.read}
+      self.assert_equal("The sum of the lengths of all appendage arguments (for operation type 1) must be <= #{OPERATION_COUNT__UPPER_LIMIT.to_s}, but instead is #{(OPERATION_COUNT__UPPER_LIMIT + 1).to_s}", exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
 
     File.delete(filename)
   end
@@ -151,8 +229,11 @@ class Test_Reader < Test::Unit::TestCase
         filename: filename,
         generated_total_length: TOTAL_APPENDAGE_LENGTH__UPPER_LIMIT)
 
-    ops = Reader.read(filename: filename)
-    self.assert_equal(TOTAL_APPENDAGE_LENGTH__UPPER_LIMIT, Reader.sum_length_appendages(operations: ops))
+    proc = Proc.new {
+      ops = Reader.read
+      self.assert_equal(TOTAL_APPENDAGE_LENGTH__UPPER_LIMIT, Reader.sum_length_appendages(operations: ops))
+    }
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
 
     File.delete(filename)
   end
@@ -164,8 +245,11 @@ class Test_Reader < Test::Unit::TestCase
         char_count_exceeding_limit: 1
     )
 
-    exception = self.assert_raise(GlobalConstraintError){Reader.read(filename: filename)}
-    self.assert_equal('The total char delete count (for operation type 2) must be <= 2000000, but instead is 2000001', exception.message)
+    proc = Proc.new {
+      exception = self.assert_raise(GlobalConstraintError){Reader.read}
+      self.assert_equal('The total char delete count (for operation type 2) must be <= 2000000, but instead is 2000001', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
 
     File.delete(filename)
   end
@@ -177,8 +261,11 @@ class Test_Reader < Test::Unit::TestCase
         char_count_exceeding_limit: 0
     )
 
-    ops = Reader.read(filename: filename)
-    self.assert_equal(TOTAL_CHAR_DELETE_COUNT__UPPER_LIMIT, Reader.total_char_delete_count(operations: ops))
+    proc = Proc.new {
+      ops = Reader.read
+      self.assert_equal(TOTAL_CHAR_DELETE_COUNT__UPPER_LIMIT, Reader.total_char_delete_count(operations: ops))
+    }
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
 
     File.delete(filename)
   end

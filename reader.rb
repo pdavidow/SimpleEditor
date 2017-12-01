@@ -2,16 +2,12 @@ require_relative 'input_line'
 
 class Reader
 
-  def self.read(filename:)
-    proc = Proc.new {|file|
-      count = read_operation_count(file: file)
-      operations = read_operations(file: file, operation_count: count)
+  def self.read
+    count = read_operation_count
+    operations = read_operations(operation_count: count)
 
-      validate_global_constraints(operations: operations)
-      operations
-    }
-
-    file = File.open(filename, "r")  { |file| proc.call(file)}
+    validate_global_constraints(operations: operations)
+    operations
   end
 
   def self.sum_length_appendages(operations:)
@@ -28,20 +24,20 @@ class Reader
 
   #########################################################################################
 
-  private_class_method def self.read_operation_count(file:)
+  private_class_method def self.read_operation_count
     line_number = 1
 
     begin
-      InputLine.operation_count_from(line_number: line_number, string: file.readline)
+      InputLine.operation_count_from(line_number: line_number, string: $stdin.readline)
     rescue EOFError
       Helper.raise_format_error(line_number: line_number, error: 'Operation count expected')
     end
   end
 
-  private_class_method def self.read_operations(file:, operation_count:)
+  private_class_method def self.read_operations(operation_count:)
     (2..(operation_count + 1)).map {|line_number|
       begin
-        InputLine.operation_from(line_number: line_number, string: file.readline)
+        InputLine.operation_from(line_number: line_number, string: $stdin.readline)
       rescue EOFError
         Helper.raise_format_error(line_number: line_number, error: 'Operation expected')
       end
