@@ -5,25 +5,26 @@ require_relative '../constants'
 module Helper
 
   def self.redirect_stdin_to_file(filename:, proc:)
-    original_stdin = $stdin
-    file = File.open(filename, "r")
-    $stdin = file
-
-    proc.call
-
-    $stdin = original_stdin
-    file.close
+    begin
+      original_stdin = $stdin
+      file = File.open(filename, "r")
+      $stdin = file
+      proc.call
+    ensure
+      $stdin = original_stdin
+      file.close
+    end
   end
 
   def self.with_captured_stdout
     # https://stackoverflow.com/questions/14987362/how-can-i-capture-stdout-to-a-string
 
-    old_stdout = $stdout
+    original_stdout = $stdout
     $stdout = StringIO.new
     yield
     $stdout.string
-  ensure
-    $stdout = old_stdout
+    ensure
+      $stdout = original_stdout
   end
 
   def self.generate_input_file__exceed_global_constraint__total_appendage_length_sum(filename:, generated_total_length:)
