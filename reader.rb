@@ -28,7 +28,8 @@ class Reader
     line_number = 1
 
     begin
-      InputLine.operation_count_from(line_number: line_number, string: $stdin.readline)
+      string = $stdin.readline
+      InputLine.operation_count_from(line_number: line_number, string: string)
     rescue EOFError
       Helper.raise_format_error(line_number: line_number, error: 'Operation count expected')
     end
@@ -37,7 +38,8 @@ class Reader
   private_class_method def self.read_operations(operation_count:)
     (2..(operation_count + 1)).map {|line_number|
       begin
-        InputLine.operation_from(line_number: line_number, string: $stdin.readline)
+        string = $stdin.readline
+        InputLine.operation_from(line_number: line_number, string: string)
       rescue EOFError
         Helper.raise_format_error(line_number: line_number, error: 'Operation expected')
       end
