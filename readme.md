@@ -18,6 +18,8 @@ Input is from Standard IO.
 
 **Constraints**
 
+* 1 <= _Q_ <= 1000000
+* 1 <= k <= _S_ length
 * The sum of the lengths of all _W_ in the input <= 1000000
 * The sum of _k_ over all delete operations <= 2000000
 * All input characters are lowercase English letters.
