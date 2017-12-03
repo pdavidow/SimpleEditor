@@ -2,7 +2,7 @@ require_relative 'constants'
 
 class Operation
 
-  attr_accessor :line_number,:type_code, :arg, :proc
+  attr_accessor :type_code, :arg, :proc
 
   def self.append?(operation:)
     operation.type_code == TYPE_APPEND
@@ -32,8 +32,7 @@ class Operation
     end
   end
 
-  private def initialize(line_number:, type_code:, arg:)
-    self.line_number = line_number
+  private def initialize(type_code:, arg:)
     self.type_code = type_code
     self.arg = arg
     self.proc = proc_for(type_code: self.type_code, arg: self.arg)

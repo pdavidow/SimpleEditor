@@ -54,9 +54,10 @@ a
 
 **OVERALL APPROACH**
 
-Parse input to create an array of proc.  Each proc takes a history for an arg.
-The proc performs the operation, and returns a new updated history.
-History is simply an array treated as a stack.  For example, undo pops the stack.
+* First read the operation count, then parse each input line at a time into a proc.  This is a 1-arg proc which takes a history.
+* The proc performs the operation, and returns a new updated history. 
+* History is simply an array treated as a stack.  
+* To conserve memory, operations are not stored, and strings are stored as symbols on the stack.
 
 **USAGE**
 

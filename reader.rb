@@ -2,6 +2,33 @@ require_relative 'input_line'
 
 class Reader
 
+  def self.read_operation_count
+    line_number = 1
+
+    begin
+      string = $stdin.readline
+      InputLine.operation_count_from(line_number: line_number, string: string)
+    rescue EOFError
+      Helper.raise_format_error(line_number: line_number, error: 'Operation count expected')
+    end
+  end
+
+  def self.read_operation(line_number:)
+    begin
+      string = $stdin.readline
+      InputLine.operation_from(line_number: line_number, string: string)
+    rescue EOFError
+      Helper.raise_format_error(line_number: line_number, error: 'Operation expected')
+    end
+  end
+
+
+
+
+
+
+
+
   def self.read
     count = read_operation_count
     operations = read_operations(operation_count: count)
@@ -23,28 +50,6 @@ class Reader
   end
 
   #########################################################################################
-
-  private_class_method def self.read_operation_count
-    line_number = 1
-
-    begin
-      string = $stdin.readline
-      InputLine.operation_count_from(line_number: line_number, string: string)
-    rescue EOFError
-      Helper.raise_format_error(line_number: line_number, error: 'Operation count expected')
-    end
-  end
-
-  private_class_method def self.read_operations(operation_count:)
-    (2..(operation_count + 1)).map {|line_number|
-      begin
-        string = $stdin.readline
-        InputLine.operation_from(line_number: line_number, string: string)
-      rescue EOFError
-        Helper.raise_format_error(line_number: line_number, error: 'Operation expected')
-      end
-    }
-  end
 
   private_class_method def self.validate_global_constraints(operations:)
     validate_global_constraint__total_appendage_length_sum(operations: operations)

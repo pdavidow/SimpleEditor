@@ -3,7 +3,7 @@ require_relative 'constants'
 class HistoryManager
 
   def self.initial_history
-    self.add_state(history: [], state: INITIAL_STATE)
+    self.add_string_state(history: [], string_state: INITIAL_STATE)
   end
 
   def self.initial_history?(history:)
@@ -11,12 +11,22 @@ class HistoryManager
   end
 
   def self.current_state(history:)
-    history.last.clone
+    history.last
+  end
+
+  def self.current_string_state(history:)
+    (self.current_state(history: history))
+      .to_s
+  end
+
+  def self.add_string_state(history:, string_state:)
+    symbol = string_state.to_sym
+    self.add_state(history: history, state: symbol)
   end
 
   def self.add_state(history:, state:)
     history_clone = history.clone
-    history_clone.push(state.clone)
+    history_clone.push(state)
 
     history_clone
   end

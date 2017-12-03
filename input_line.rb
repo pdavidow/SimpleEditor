@@ -22,7 +22,7 @@ class InputLine
     validate_for_presence_of_arg(line_number: line_number, substrings: substrings, type_code: type_code)
     arg = InputParser.parsed_arg(line_number: line_number, string: substrings[1], type_code: type_code)
 
-    Operation.new(line_number: line_number, type_code: type_code, arg: arg)
+    Operation.new(type_code: type_code, arg: arg)
   end
 
   #########################################################################################

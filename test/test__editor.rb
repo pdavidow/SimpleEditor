@@ -11,22 +11,22 @@ class Test_Editor < Test::Unit::TestCase
   def test_append_1
     h1 = HistoryManager.initial_history
 
-    appendage_string = 'ab3'
-    h2 = Editor.append(history: h1, appendage_string: appendage_string)
-    current_state = HistoryManager.current_state(history: h2)
+    appendage_string1 = 'ab3'
+    h2 = Editor.append(history: h1, appendage_string: appendage_string1)
+    current_string_state1 = HistoryManager.current_string_state(history: h2)
 
-    self.assert_equal('ab3', current_state)
-    self.assert_equal([''], h1)
-    self.assert_equal(['', 'ab3'], h2)
+    self.assert_equal('ab3', current_string_state1)
+    self.assert_equal([:''], h1)
+    self.assert_equal([:'', :'ab3'], h2)
 
-    appendage_string = 'deF'
-    h3 = Editor.append(history: h2, appendage_string: appendage_string)
-    current_state = HistoryManager.current_state(history: h3)
+    appendage_string2 = 'deF'
+    h3 = Editor.append(history: h2, appendage_string: appendage_string2)
+    current_string_state2 = HistoryManager.current_string_state(history: h3)
 
-    self.assert_equal('ab3deF', current_state)
-    self.assert_equal([''], h1)
-    self.assert_equal(['', 'ab3'], h2)
-    self.assert_equal(['', 'ab3', 'ab3deF'], h3)
+    self.assert_equal('ab3deF', current_string_state2)
+    self.assert_equal([:''], h1)
+    self.assert_equal([:'', :'ab3'], h2)
+    self.assert_equal([:'', :'ab3', :'ab3deF'], h3)
   end
 
   def test_deleteLastChars_1
@@ -34,28 +34,28 @@ class Test_Editor < Test::Unit::TestCase
 
     appendage_string = 'abcdef'
     h2 = Editor.append(history: h1, appendage_string: appendage_string)
-    current_state = HistoryManager.current_state(history: h2)
+    current_string_state1 = HistoryManager.current_string_state(history: h2)
 
-    self.assert_equal('abcdef', current_state)
-    self.assert_equal([''], h1)
+    self.assert_equal('abcdef', current_string_state1)
+    self.assert_equal([:''], h1)
 
     count = 1
     h3 = Editor.delete_last_chars(history: h2, chars_to_delete_count: count)
-    current_state = HistoryManager.current_state(history: h3)
+    current_string_state2 = HistoryManager.current_string_state(history: h3)
 
-    self.assert_equal('abcde', current_state)
-    self.assert_equal([''], h1)
-    self.assert_equal(['', 'abcdef'], h2)
+    self.assert_equal('abcde', current_string_state2)
+    self.assert_equal([:''], h1)
+    self.assert_equal([:'', :'abcdef'], h2)
 
     count = 5
     h4 = Editor.delete_last_chars(history: h3, chars_to_delete_count: count)
-    current_state = HistoryManager.current_state(history: h4)
+    current_string_state3 = HistoryManager.current_string_state(history: h4)
 
-    self.assert_equal('', current_state)
-    self.assert_equal([''], h1)
-    self.assert_equal(['', 'abcdef'], h2)
-    self.assert_equal(['', 'abcdef', 'abcde'], h3)
-    self.assert_equal(['', 'abcdef', 'abcde', ''], h4)
+    self.assert_equal('', current_string_state3)
+    self.assert_equal([:''], h1)
+    self.assert_equal([:'', :'abcdef'], h2)
+    self.assert_equal([:'', :'abcdef', :'abcde'], h3)
+    self.assert_equal([:'', :'abcdef', :'abcde', :''], h4)
   end
 
   def test_deleteLastChars_2
@@ -63,9 +63,9 @@ class Test_Editor < Test::Unit::TestCase
 
     appendage_string = 'abcdef'
     h2 = Editor.append(history: h1, appendage_string: appendage_string)
-    current_state = HistoryManager.current_state(history: h2)
+    current_string_state = HistoryManager.current_string_state(history: h2)
 
-    self.assert_equal('abcdef', current_state)
+    self.assert_equal('abcdef', current_string_state)
 
     count = 7
 
@@ -73,7 +73,7 @@ class Test_Editor < Test::Unit::TestCase
     self.assert_equal('1 >= count <= string length', exception.message)
 
     current_state = HistoryManager.current_state(history: h2)
-    self.assert_equal('abcdef', current_state)
+    self.assert_equal(:'abcdef', current_state)
   end
 
   def test_deleteLastChars_3
@@ -81,32 +81,32 @@ class Test_Editor < Test::Unit::TestCase
 
     appendage_string = 'abcdef'
     h2 = Editor.append(history: h1, appendage_string: appendage_string)
-    current_state = HistoryManager.current_state(history: h2)
+    current_string_state1 = HistoryManager.current_string_state(history: h2)
 
-    self.assert_equal('abcdef', current_state)
+    self.assert_equal('abcdef', current_string_state1)
 
     count = 0
 
     exception = self.assert_raise(CharArgumentError){Editor.delete_last_chars(history: h2, chars_to_delete_count: count)}
     self.assert_equal('1 >= count <= string length', exception.message)
 
-    current_state = HistoryManager.current_state(history: h2)
-    self.assert_equal('abcdef', current_state)
+    current_string_state2 = HistoryManager.current_string_state(history: h2)
+    self.assert_equal('abcdef', current_string_state2)
   end
 
   def test_deleteLastChars_4
     h1 = HistoryManager.initial_history
-    current_state = HistoryManager.current_state(history: h1)
+    current_string_state1 = HistoryManager.current_string_state(history: h1)
 
-    self.assert_equal('', current_state)
+    self.assert_equal('', current_string_state1)
 
     count = 1
 
     exception = self.assert_raise(ArgumentError){Editor.delete_last_chars(history: h1, chars_to_delete_count: count)}
     self.assert_equal('String may not be empty', exception.message)
 
-    current_state = HistoryManager.current_state(history: h1)
-    self.assert_equal('', current_state)
+    current_string_state2 = HistoryManager.current_string_state(history: h1)
+    self.assert_equal('', current_string_state2)
   end
 
   def test_charAtPosition_1
@@ -214,18 +214,18 @@ class Test_Editor < Test::Unit::TestCase
     h3 = Editor.append(history: h2, appendage_string: appendage_string)
     appendage_string = 'c'
     h4 = Editor.append(history: h3, appendage_string: appendage_string)
-    self.assert_equal('abc', Editor.state(history: h4))
+    self.assert_equal('abc', Editor.string_state(history: h4))
 
     h5 = Editor.undo(history: h4)
-    self.assert_equal('ab', Editor.state(history: h5))
+    self.assert_equal('ab', Editor.string_state(history: h5))
 
     h6 = Editor.undo(history: h5)
-    self.assert_equal('a', Editor.state(history: h6))
+    self.assert_equal('a', Editor.string_state(history: h6))
 
     h7 = Editor.undo(history: h6)
-    self.assert_equal('', Editor.state(history: h7))
+    self.assert_equal('', Editor.string_state(history: h7))
 
     h8 = Editor.undo(history: h7)
-    self.assert_equal('', Editor.state(history: h8))
+    self.assert_equal('', Editor.string_state(history: h8))
   end
 end

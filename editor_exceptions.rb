@@ -10,9 +10,6 @@ module EditorExceptions
   class CharArgumentError < StatefulError
   end
 
-  class GlobalConstraintError < AbstractEditorError
-  end
-
   class AbstractLineError < AbstractEditorError
 
     attr_accessor :line_number, :error
@@ -45,6 +42,14 @@ module EditorExceptions
     # E.g., string was appended on a prior line, and now attempting to delete char past end of string
     def error_type
       'Sequence'
+    end
+  end
+
+
+  class GlobalConstraintError < SequenceError
+    # E.g., The sum of the lengths of all W in the input <= 1000000
+    def error_type
+      'Global Constraint'
     end
   end
 

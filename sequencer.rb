@@ -8,17 +8,20 @@ class Sequencer
   include EditorExceptions
 
   def self.sequence
-    operations = Reader.read
+    operation_count = Reader.read_operation_count
     history = HistoryManager.initial_history
 
-    operations.each {|op|
+    (2..(operation_count + 1)).each {|line_number|
       begin
-        history = op.proc.call(history)
+        operation = Reader.read_operation(line_number: line_number)
+        history = operation.proc.call(history)
+      rescue FormatError => exception
+        raise exception
       rescue StatefulError => exception
         error = Editor.statefulMessageFor(message: exception.message, history: history)
-        Helper.raise_sequence_error(line_number: op.line_number, error: error)
+        Helper.raise_sequence_error(line_number: line_number, error: error)
       rescue StandardError => exception
-        Helper.raise_sequence_error(line_number: op.line_number, error: exception.message)
+        Helper.raise_sequence_error(line_number: line_number, error: exception.message)
       end
     }
   end

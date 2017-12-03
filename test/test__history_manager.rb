@@ -5,23 +5,23 @@ class Test_HistoryManager < Test::Unit::TestCase
 
   def test_add_state
     h0 = HistoryManager.initial_history
-    state = 'abc'
+    string_state = 'abc'
 
-    h1 = HistoryManager.add_state(history: h0, state: state)
+    h1 = HistoryManager.add_string_state(history: h0, string_state: string_state)
     current_state = HistoryManager.current_state(history: h1)
-    self.assert_equal(current_state, 'abc')
+    self.assert_equal(:'abc', current_state)
 
-    state[2] = 'q'
+    string_state[2] = 'q'
 
-    self.assert_equal('abq', state)
-    self.assert_equal('abc', current_state)
+    self.assert_equal('abq', string_state)
+    self.assert_equal(:'abc', current_state)
   end
 
   def test_current_state
     h0 = HistoryManager.initial_history
 
     current_state = HistoryManager.current_state(history: h0)
-    self.assert_equal('', current_state)
+    self.assert_equal(:'', current_state)
 
     h1 = HistoryManager.add_state(history: h0, state: 1)
     current_state = HistoryManager.current_state(history: h1)
@@ -32,7 +32,7 @@ class Test_HistoryManager < Test::Unit::TestCase
     h0 = HistoryManager.initial_history
 
     current_state = HistoryManager.current_state(history: h0)
-    self.assert_equal('', current_state)
+    self.assert_equal(:'', current_state)
 
     h1 = HistoryManager.add_state(history: h0, state: 1)
     h2 = HistoryManager.add_state(history: h1, state: 2)
@@ -48,7 +48,7 @@ class Test_HistoryManager < Test::Unit::TestCase
 
     h6 = HistoryManager.remove_current_state(history: h5)
     current_state = HistoryManager.current_state(history: h6)
-    self.assert_equal('', current_state)
+    self.assert_equal(:'', current_state)
 
     h7 = HistoryManager.remove_current_state(history: h6)
     current_state = HistoryManager.current_state(history: h7)

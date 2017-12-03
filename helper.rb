@@ -39,8 +39,8 @@ module Helper
     raise SequenceError.new(line_number: line_number, error: error)
   end
 
-  def self.raise__global_constraint__error(error:)
-    raise GlobalConstraintError.new(error)
+  def self.raise__global_constraint__error(line_number:, error:)
+    raise GlobalConstraintError.new(line_number: line_number, error: error)
   end
 
 end
