@@ -18,7 +18,12 @@ class EditorString
     raise CharArgumentError.new('1 >= count <= string length') unless ((chars_to_delete_count >= 1) && (chars_to_delete_count <= string.length))
 
     keep_count = string.length - chars_to_delete_count
-    string.slice(0, keep_count)
+    #string.slice(0, keep_count) todo del
+
+    # substrings = string.split(/(.{#{keep_count}})(.*)/)[1..2] # https://stackoverflow.com/questions/47632190/ruby-efficiently-split-arbitrary-string-at-index
+    substrings = string.split(/(?<=^.{#{keep_count}})/) #https://stackoverflow.com/questions/47632190/ruby-efficiently-split-arbitrary-string-at-index
+    return { :keep => "", :delete => string} if substrings.length == 1
+    { :keep => substrings[0], :delete => substrings[1] }
   end
 
   def self.char_at_position(string:, position:)
