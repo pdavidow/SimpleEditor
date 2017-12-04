@@ -54,10 +54,9 @@ a
 
 **OVERALL APPROACH**
 
-* First read the operation count, then parse each input line at a time into a proc.  This is a 1-arg proc which takes a history.
-* The proc performs the operation, and returns a new updated history. 
-* History is simply an array treated as a stack.  
-* FIRST PASS: To conserve memory, operations are not stored, and strings are stored as symbols on the stack.
+* First read the operation count, then process each line.
+* History is array of current string (stored as symbol), treated as a stack.  
+* Long test 6.598589 seconds
 
 **USAGE**
 
