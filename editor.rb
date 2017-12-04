@@ -35,18 +35,18 @@ class Editor
   end
 
   def self.delete_last_chars(chars_to_delete_count:, operation:, model: model, is_store_undo:) # todo make private...
-    result = EditorString.delete_last_chars(string: model.string, chars_to_delete_count: chars_to_delete_count)
+    string = EditorString.delete_last_chars(string: model.string, chars_to_delete_count: chars_to_delete_count)
 
     history = if is_store_undo
       then
-        appendage_string = result[:delete]
+        appendage_string = model.string.slice(-chars_to_delete_count, chars_to_delete_count)
         undo_operation = Operation.new(type_code: TYPE_APPEND, arg: appendage_string)
         HistoryManager.add_state(history: model.history, state: undo_operation)
       else
         model.history
       end
 
-    Model.new(string: result[:keep], history: history)
+    Model.new(string: string, history: history)
   end
 
   def self.print_with_newline__char_at(position:, model:)
