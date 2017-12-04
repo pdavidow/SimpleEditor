@@ -1,41 +1,42 @@
-require_relative 'constants'
-
 class Operation
 
-  attr_accessor :type_code, :arg, :proc
+  attr_accessor :type_code
 
-  def self.append?(operation:)
-    operation.type_code == TYPE_APPEND
-  end
+  def self.undo_operation_for(operation:, string: nil)
+    case operation.type_code
+      when TYPE_APPEND then self.new(type_code: TYPE_DELETE, arg: operation.arg.length)
+      when TYPE_DELETE then
+        count = operation.arg
+        appendage_string = string.slice(-count, count)
+        self.new(type_code: TYPE_APPEND, arg: appendage_string)
+      else self.new(type_code: TYPE_NIL)
+    end
 
-  def self.delete?(operation:)
-    operation.type_code == TYPE_DELETE
-  end
-
-  def self.print?(operation:)
-    operation.type_code == TYPE_PRINT
-  end
-
-  def self.undo?(operation:)
-    operation.type_code == TYPE_UNDO
   end
 
   #########################################################################################
 
-  private def proc_for(type_code:, arg:)
+  def arg
+    external_arg
+  end
+
+  private def initialize(type_code:, arg: nil)
+    self.type_code = type_code
+    @internal_arg = internal_arg(type_code: self.type_code, arg: arg)
+  end
+
+  private def internal_arg(type_code:, arg:)
     case type_code
-      when TYPE_APPEND then Proc.new{|history| Editor.append(appendage_string: arg, history: history)}
-      when TYPE_DELETE then Proc.new{|history| Editor.delete_last_chars(chars_to_delete_count: arg, history: history)}
-      when TYPE_PRINT then Proc.new{|history| Editor.print_with_newline__char_at(position: arg, history: history)}
-      when TYPE_UNDO then Proc.new{|history| Editor.undo(history: history)}
-      else
+      when TYPE_APPEND then arg#.to_sym todo
+      else arg
     end
   end
 
-  private def initialize(type_code:, arg:)
-    self.type_code = type_code
-    self.arg = arg
-    self.proc = proc_for(type_code: self.type_code, arg: self.arg)
+  private def external_arg
+    case type_code
+      when TYPE_APPEND then @internal_arg#.to_s todo
+      else @internal_arg
+    end
   end
 
 end
