@@ -55,9 +55,8 @@ a
 **OVERALL APPROACH**
 
 * First read the operation count, then parse each input line at a time into a proc.  This is a 1-arg proc which takes a history.
-* The proc performs the operation, and returns a new updated history. 
-* History is simply an array treated as a stack.  
-* To conserve memory, operations are not stored, and strings are stored as symbols on the stack.
+history stores undo ops; delete only splits string once; no symbols
+Long test 9.874639 seconds
 
 **USAGE**
 
