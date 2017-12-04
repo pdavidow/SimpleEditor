@@ -54,9 +54,9 @@ a
 
 **OVERALL APPROACH**
 
-* First read the operation count, then parse each input line at a time into a proc.  This is a 1-arg proc which takes a history.
-history stores undo ops; delete only splits string once; no symbols
-Long test 9.874639 seconds
+* First read the operation count, then parse each input line at a time.
+* History stores undo ops; delete only splits string once; no symbols
+* Long test 9.874639 seconds
 
 **USAGE**
 
