@@ -14,7 +14,7 @@ module EditorExceptions
 
     attr_accessor :line_number, :error
 
-    def initialize(line_number:, error:)
+    def initialize(line_number: nil, error:)
       self.line_number = line_number
       self.error = error
     end

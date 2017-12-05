@@ -50,7 +50,7 @@ module Helper
     is_exceeding_limit = char_count_exceeding_limit > 0
 
     appendages = self.generated_mono_char_strings(
-        total_length: TOTAL_APPENDAGE_LENGTH__UPPER_LIMIT,
+        total_length: APPENDAGE_LENGTH_SUM__UPPER_LIMIT,
         section_length: GENERATED_APPENDAGE_SECTION_DEFAULT_LENGTH
     )
 

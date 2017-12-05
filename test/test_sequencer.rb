@@ -252,11 +252,11 @@ class Test_Sequencer < Test::Unit::TestCase
     filename = TEST_INPUT_BAD_GENERATED_FILE_NAME_1
     Helper.generate_input_file__exceed_global_constraint__total_appendage_length_sum(
         filename: filename,
-        generated_total_length: TOTAL_APPENDAGE_LENGTH__UPPER_LIMIT + 1)
+        generated_total_length: APPENDAGE_LENGTH_SUM__UPPER_LIMIT + 1)
 
     proc = Proc.new {
       exception = self.assert_raise(GlobalConstraintError){Sequencer.sequence}
-      self.assert_equal("The sum of the lengths of all appendage arguments (for operation type 1) must be <= #{OPERATION_COUNT__UPPER_LIMIT.to_s}, but instead is #{(OPERATION_COUNT__UPPER_LIMIT + 1).to_s}", exception.message)
+      self.assert_equal("Global Constraint error on line# 202: The sum of the lengths of all appendage arguments (for operation type 1) must be <= #{OPERATION_COUNT__UPPER_LIMIT.to_s}, but instead is #{(OPERATION_COUNT__UPPER_LIMIT + 1).to_s}", exception.message)
     }
     Helper.redirect_stdin_to_file(filename: filename, proc: proc)
 

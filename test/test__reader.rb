@@ -13,7 +13,7 @@ class Test_Reader < Test::Unit::TestCase
     filename = TEST_INPUT_BAD_GENERATED_FILE_NAME_1
     Helper.generate_input_file__exceed_global_constraint__total_appendage_length_sum(
         filename: filename,
-        generated_total_length: TOTAL_APPENDAGE_LENGTH__UPPER_LIMIT + 1)
+        generated_total_length: APPENDAGE_LENGTH_SUM__UPPER_LIMIT + 1)
 
     proc = Proc.new {
       exception = self.assert_raise(GlobalConstraintError){Reader.read}
@@ -28,11 +28,11 @@ class Test_Reader < Test::Unit::TestCase
     filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_1
     Helper.generate_input_file__exceed_global_constraint__total_appendage_length_sum(
         filename: filename,
-        generated_total_length: TOTAL_APPENDAGE_LENGTH__UPPER_LIMIT)
+        generated_total_length: APPENDAGE_LENGTH_SUM__UPPER_LIMIT)
 
     proc = Proc.new {
       ops = Reader.read
-      self.assert_equal(TOTAL_APPENDAGE_LENGTH__UPPER_LIMIT, Reader.sum_length_appendages(operations: ops))
+      self.assert_equal(APPENDAGE_LENGTH_SUM__UPPER_LIMIT, Reader.sum_length_appendages(operations: ops))
     }
     Helper.redirect_stdin_to_file(filename: filename, proc: proc)
 
