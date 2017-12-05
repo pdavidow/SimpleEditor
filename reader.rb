@@ -35,8 +35,8 @@ class Reader
 
   private_class_method def self.validate_global_constraint__total_char_delete_count(operations: operations)
     count = self.total_char_delete_count(operations: operations)
-    if count > TOTAL_CHAR_DELETE_COUNT__UPPER_LIMIT then
-      Helper.raise__global_constraint__error(error: "The total char delete count (for operation type #{TYPE_DELETE}) must be <= #{TOTAL_CHAR_DELETE_COUNT__UPPER_LIMIT}, but instead is #{count}")
+    if count > CHAR_DELETE_COUNT_SUM__UPPER_LIMIT then
+      Helper.raise__global_constraint__error(error: "The total char delete count (for operation type #{TYPE_DELETE}) must be <= #{CHAR_DELETE_COUNT_SUM__UPPER_LIMIT}, but instead is #{count}")
     end
   end
 

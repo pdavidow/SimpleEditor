@@ -33,12 +33,16 @@ class Editor
   end
 
   def self.delete_last_chars(chars_to_delete_count:, model:)
+    sum = model.char_delete_count_sum + chars_to_delete_count
+    validate__char_delete_count_sum(sum: sum)
+
     string_state = self.string_state(model: model)
     result = EditorString.delete_last_chars(string: string_state, chars_to_delete_count: chars_to_delete_count)
     history = HistoryManager.add_string_state(history: model.history, string_state: result)
 
     new_model = model.clone
     new_model.history = history
+    new_model.char_delete_count_sum = sum
     new_model
   end
 
@@ -73,5 +77,11 @@ class Editor
       Helper.raise__global_constraint__error(error: "The sum of the lengths of all appendage arguments (for operation type #{TYPE_APPEND.to_s}) must be <= #{APPENDAGE_LENGTH_SUM__UPPER_LIMIT.to_s}, but instead is #{sum}")
     end
   end
+
+  private_class_method def self.validate__char_delete_count_sum(sum:)
+   if sum > CHAR_DELETE_COUNT_SUM__UPPER_LIMIT then
+     Helper.raise__global_constraint__error(error: "The total char delete count (for operation type #{TYPE_DELETE}) must be <= #{CHAR_DELETE_COUNT_SUM__UPPER_LIMIT}, but instead is #{sum}")
+   end
+ end
 
 end

@@ -262,4 +262,20 @@ class Test_Sequencer < Test::Unit::TestCase
 
     File.delete(filename)
   end
+
+  def test_32
+    filename = TEST_INPUT_BAD_GENERATED_FILE_NAME_2
+    Helper.generate_input_file__exceed_global_constraint__total_char_delete_count(
+        filename: filename,
+        char_count_exceeding_limit: 1
+    )
+
+    proc = Proc.new {
+      exception = self.assert_raise(GlobalConstraintError){Sequencer.sequence}
+      self.assert_equal('Global Constraint error on line# 802: The total char delete count (for operation type 2) must be <= 2000000, but instead is 2000001', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
+
+    File.delete(filename)
+  end
 end
