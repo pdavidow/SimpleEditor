@@ -22,9 +22,17 @@ class Reader
     end
   end
 
-
-
-
+# todo
+  def self.sum_length_appendages(operations:)
+    (operations.select{|op| Operation.append?(operation: op)})
+        .map{|op| op.arg.length}
+        .sum
+  end
+  def self.total_char_delete_count(operations:)
+    (operations.select{|op| Operation.delete?(operation: op)})
+        .map{|op| op.arg}
+        .sum
+  end
 
 
 

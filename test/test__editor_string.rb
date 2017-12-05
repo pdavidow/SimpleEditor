@@ -112,7 +112,7 @@ class Test_EditorString < Test::Unit::TestCase
     k = 0
 
     exception = self.assert_raise(CharArgumentError){EditorString.delete_last_chars(string: s, chars_to_delete_count: k)}
-    self.assert_equal('1 >= count <= string length', exception.message)
+    self.assert_equal('1 <= count <= string length', exception.message)
 
     self.assert_equal('abcdef', s)
     self.assert_equal(0, k)
@@ -123,7 +123,7 @@ class Test_EditorString < Test::Unit::TestCase
     k = 7
 
     exception = self.assert_raise(CharArgumentError){EditorString.delete_last_chars(string: s, chars_to_delete_count: k)}
-    self.assert_equal('1 >= count <= string length', exception.message)
+    self.assert_equal('1 <= count <= string length', exception.message)
 
     self.assert_equal('abcdef', s)
     self.assert_equal(7, k)
@@ -191,7 +191,7 @@ class Test_EditorString < Test::Unit::TestCase
     k = 0
 
     exception = self.assert_raise(CharArgumentError){EditorString.char_at_position(string: s, position: k)}
-    self.assert_equal('1 >= position <= string length', exception.message)
+    self.assert_equal('1 <= position <= string length', exception.message)
 
     self.assert_equal('abc', s)
     self.assert_equal(0, k)
@@ -202,7 +202,7 @@ class Test_EditorString < Test::Unit::TestCase
     k = 4
 
     exception = self.assert_raise(CharArgumentError){EditorString.char_at_position(string: s, position: k)}
-    self.assert_equal('1 >= position <= string length', exception.message)
+    self.assert_equal('1 <= position <= string length', exception.message)
 
     self.assert_equal('abc', s)
     self.assert_equal(4, k)

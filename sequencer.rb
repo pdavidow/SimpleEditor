@@ -17,6 +17,8 @@ class Sequencer
         history = operation.proc.call(history)
       rescue FormatError => exception
         raise exception
+      rescue GlobalConstraintError => exception
+        raise exception
       rescue StatefulError => exception
         error = Editor.statefulMessageFor(message: exception.message, history: history)
         Helper.raise_sequence_error(line_number: line_number, error: error)
