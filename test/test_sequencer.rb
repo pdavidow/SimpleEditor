@@ -3,7 +3,7 @@ require_relative 'helper'
 require_relative 'constants'
 require_relative '../editor_exceptions'
 require_relative '../sequencer'
-
+# todo re-organize, del dup...
 class Test_Sequencer < Test::Unit::TestCase
   include Helper
   include EditorExceptions

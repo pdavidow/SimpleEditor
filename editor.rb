@@ -9,16 +9,22 @@ class Editor
 
   def self.perform_operation(operation:, model:)
     case operation.type_code
-      when TYPE_APPEND then self.append(appendage_string: operation.arg, model: model)
-      when TYPE_DELETE then self.delete_last_chars(chars_to_delete_count: operation.arg, model: model)
-      when TYPE_PRINT then self.print_with_newline__char_at(position: operation.arg, model: model)
-      when TYPE_UNDO then self.undo(model: model)
+      when TYPE_APPEND then append(appendage_string: operation.arg, model: model)
+      when TYPE_DELETE then delete_last_chars(chars_to_delete_count: operation.arg, model: model)
+      when TYPE_PRINT then print_with_newline__char_at(position: operation.arg, model: model)
+      when TYPE_UNDO then undo(model: model)
       else
     end
   end
 
-# todo privatize...
-  def self.append(appendage_string:, model:)
+  def self.stateful_message_for(message:, model:)
+    string_state = self.string_state(model: model)
+    message + ". Current string is '#{string_state}'"
+  end
+
+  #########################################################################################
+
+  private_class_method def self.append(appendage_string:, model:)
     sum = model.appendage_length_sum + appendage_string.length
     validate__appendage_length_sum(sum: sum)
 
@@ -32,7 +38,7 @@ class Editor
     new_model
   end
 
-  def self.delete_last_chars(chars_to_delete_count:, model:)
+  private_class_method def self.delete_last_chars(chars_to_delete_count:, model:)
     sum = model.char_delete_count_sum + chars_to_delete_count
     validate__char_delete_count_sum(sum: sum)
 
@@ -46,13 +52,13 @@ class Editor
     new_model
   end
 
-  def self.print_with_newline__char_at(position:, model:)
-    result = self.char_at_position(position: position, model: model)
+  private_class_method def self.print_with_newline__char_at(position:, model:)
+    result = char_at_position(position: position, model: model)
     puts(result)
     model
   end
 
-  def self.undo(model:)
+  private_class_method def self.undo(model:)
     return model if HistoryManager.initial_history?(history: model.history)
 
     history = HistoryManager.remove_current_state(history: model.history)
@@ -62,14 +68,9 @@ class Editor
     new_model
   end
 
-  def self.char_at_position(position:, model:)
+  private_class_method def self.char_at_position(position:, model:)
     string_state = self.string_state(model: model)
     EditorString.char_at_position(string: string_state, position: position)
-  end
-
-  def self.stateful_message_for(message:, model:)
-    string_state = self.string_state(model: model)
-    message + ". Current string is '#{string_state}'"
   end
 
   private_class_method def self.validate__appendage_length_sum(sum:)
@@ -79,9 +80,9 @@ class Editor
   end
 
   private_class_method def self.validate__char_delete_count_sum(sum:)
-   if sum > CHAR_DELETE_COUNT_SUM__UPPER_LIMIT then
+    if sum > CHAR_DELETE_COUNT_SUM__UPPER_LIMIT then
      Helper.raise__global_constraint__error(error: "The total char delete count (for operation type #{TYPE_DELETE}) must be <= #{CHAR_DELETE_COUNT_SUM__UPPER_LIMIT}, but instead is #{sum}")
-   end
- end
+    end
+  end
 
 end
