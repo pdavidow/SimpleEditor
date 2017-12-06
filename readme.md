@@ -54,9 +54,8 @@ a
 
 **OVERALL APPROACH**
 
-* First read the operation count, then process each line.
+* First read the operation count, then read and process one operation line at a time.
 * History is array of current string (stored as symbol), treated as a stack.  
-* Long test 6.598589 seconds
 
 **USAGE**
 
