@@ -3,7 +3,7 @@ require_relative 'helper'
 require_relative 'constants'
 require_relative '../editor_exceptions'
 require_relative '../sequencer'
-# todo re-organize, del dup...
+
 class Test_Sequencer < Test::Unit::TestCase
   include Helper
   include EditorExceptions
@@ -48,39 +48,8 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_GOOD_FILE_NAME_6, proc: proc)
   end
 
+
   def test_6
-    proc = Proc.new {
-      exception = self.assert_raise(SequenceError){Helper.with_captured_stdout{Sequencer.sequence}}
-      self.assert_equal("Sequence error on line# 3: 1 <= count <= string length. Current string is 'abc'", exception.message)
-    }
-    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_12, proc: proc)
-  end
-
-  def test_7
-    proc = Proc.new {
-      exception = self.assert_raise(SequenceError){Helper.with_captured_stdout{Sequencer.sequence}}
-      self.assert_equal("Sequence error on line# 4: 1 <= position <= string length. Current string is 'abcdef'", exception.message)
-    }
-    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_21, proc: proc)
-  end
-
-  def test_8
-    proc = Proc.new {
-      exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
-      self.assert_equal('Format error on line# 2: Appendage must be all lower case', exception.message)
-    }
-    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_13, proc: proc)
-  end
-
-  def test_9
-    proc = Proc.new {
-      exception = self.assert_raise(SequenceError){Helper.with_captured_stdout{Sequencer.sequence}}
-      self.assert_equal('Sequence error on line# 14: String may not be empty', exception.message)
-    }
-    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_24, proc: proc)
-  end
-
-  def test_10
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 1: Operation count must be a positive integer', exception.message)
@@ -88,7 +57,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_1, proc: proc)
   end
 
-  def test_11
+  def test_7
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 5: Operation expected', exception.message)
@@ -96,7 +65,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_3, proc: proc)
   end
 
-  def test_12
+  def test_8
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 1: Operation count expected, and nothing else', exception.message)
@@ -104,7 +73,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_4, proc: proc)
   end
 
-  def test_13
+  def test_9
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 1: Operation count expected', exception.message)
@@ -112,7 +81,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_5, proc: proc)
   end
 
-  def test_14
+  def test_10
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 1: Operation count expected', exception.message)
@@ -120,7 +89,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_6, proc: proc)
   end
 
-  def test_15
+  def test_11
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 1: Operation count expected', exception.message)
@@ -128,7 +97,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_7, proc: proc)
   end
 
-  def test_16
+  def test_12
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 2: Operation type must be 1, 2, 3, or 4', exception.message)
@@ -136,7 +105,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_8, proc: proc)
   end
 
-  def test_17
+  def test_13
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 2: Appendage must be all English letters', exception.message)
@@ -144,15 +113,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_9, proc: proc)
   end
 
-  def test_18
-    proc = Proc.new {
-      exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
-      self.assert_equal('Format error on line# 2: Appendage must be all lower case', exception.message)
-    }
-    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_13, proc: proc)
-  end
-
-  def test_19
+  def test_14
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 1: Operation count must be a positive integer', exception.message)
@@ -160,7 +121,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_10, proc: proc)
   end
 
-  def test_20
+  def test_15
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 1: Operation count must be a positive integer', exception.message)
@@ -168,7 +129,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_11, proc: proc)
   end
 
-  def test_21
+  def test_16
     proc = Proc.new {
       exception = self.assert_raise(SequenceError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal("Sequence error on line# 3: 1 <= count <= string length. Current string is 'abc'", exception.message)
@@ -176,7 +137,15 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_12, proc: proc)
   end
 
-  def test_22
+  def test_17
+    proc = Proc.new {
+      exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
+      self.assert_equal('Format error on line# 2: Appendage must be all lower case', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_13, proc: proc)
+  end
+
+  def test_18
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 3: No argument expected for operation type 4', exception.message)
@@ -184,7 +153,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_14, proc: proc)
   end
 
-  def test_23
+  def test_19
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 2: Argument expected for operation type 1', exception.message)
@@ -192,7 +161,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_15, proc: proc)
   end
 
-  def test_24
+  def test_20
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 2: Argument expected for operation type 2', exception.message)
@@ -200,7 +169,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_16, proc: proc)
   end
 
-  def test_25
+  def test_21
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 2: Argument expected for operation type 3', exception.message)
@@ -208,7 +177,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_17, proc: proc)
   end
 
-  def test_26
+  def test_22
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 2: Operation expected', exception.message)
@@ -216,7 +185,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_18, proc: proc)
   end
 
-  def test_27
+  def test_23
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 2: Char count must be positive integer', exception.message)
@@ -224,7 +193,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_19, proc: proc)
   end
 
-  def test_28
+  def test_24
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 2: Char position must be positive integer', exception.message)
@@ -232,7 +201,15 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_20, proc: proc)
   end
 
-  def test_29
+  def test_25
+    proc = Proc.new {
+      exception = self.assert_raise(SequenceError){Helper.with_captured_stdout{Sequencer.sequence}}
+      self.assert_equal("Sequence error on line# 4: 1 <= position <= string length. Current string is 'abcdef'", exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_21, proc: proc)
+  end
+
+  def test_26
     proc = Proc.new {
       exception = self.assert_raise(FormatError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal('Format error on line# 1: Operation count must be a positive integer', exception.message)
@@ -240,7 +217,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_22, proc: proc)
   end
 
-  def test_30
+  def test_27
     proc = Proc.new {
       exception = self.assert_raise(GlobalConstraintError){Helper.with_captured_stdout{Sequencer.sequence}}
       self.assert_equal("Global Constraint error on line# 1: Operation count must be a positive integer <= #{OPERATION_COUNT__UPPER_LIMIT.to_s}", exception.message)
@@ -248,7 +225,15 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_23, proc: proc)
   end
 
-  def test_31
+  def test_28
+    proc = Proc.new {
+      exception = self.assert_raise(SequenceError){Helper.with_captured_stdout{Sequencer.sequence}}
+      self.assert_equal('Sequence error on line# 14: String may not be empty', exception.message)
+    }
+    Helper.redirect_stdin_to_file(filename: TEST_INPUT_BAD_FILE_NAME_24, proc: proc)
+  end
+
+  def test_29
     filename = TEST_INPUT_BAD_GENERATED_FILE_NAME_1
     Helper.generate_input_file__exceed_global_constraint__total_appendage_length_sum(
         filename: filename,
@@ -263,7 +248,7 @@ class Test_Sequencer < Test::Unit::TestCase
     File.delete(filename)
   end
 
-  def test_32
+  def test_30
     filename = TEST_INPUT_BAD_GENERATED_FILE_NAME_2
     Helper.generate_input_file__exceed_global_constraint__total_char_delete_count(
         filename: filename,
