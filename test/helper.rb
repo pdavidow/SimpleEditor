@@ -80,7 +80,7 @@ module Helper
     self.write_on(filename: filename, proc_with_file_arg: proc)
   end
 
-  def self.generate_input_file__reach_global_constraint__operation_count_upper_limit(filename:)
+  def self.generate_input_file__reach_global_constraint__OPERATION_COUNT__UPPER_LIMIT(filename:)
     # Assume OPERATION_COUNT__UPPER_LIMIT >= 2
 
     operation_count = OPERATION_COUNT__UPPER_LIMIT
@@ -97,6 +97,24 @@ module Helper
       self.write_append_operations_on(file: file, appendages: ['hello'])
       self.write_print_operations_on(file: file, print_operation_count: 1, position: 5)
       self.write_print_operations_on(file: file, print_operation_count: 1, position: 5) unless is_even
+      file
+    }
+    self.write_on(filename: filename, proc_with_file_arg: proc)
+  end
+
+  def self.generate_randomize_input_file__reach_global_constraint__APPENDAGE_LENGTH_SUM__UPPER_LIMIT(filename:)
+     # Assume OPERATION_COUNT__UPPER_LIMIT as per spec
+
+    operation_count = 5000
+    string_length = 200
+
+    proc = Proc.new {|file|
+      self.write_operation_count_on(file: file, count: operation_count)
+
+      (1..operation_count).each {|i|
+        random_string = self.rand_string(length: 200)
+        self.write_append_operations_on(file: file, appendages: [random_string])
+      }
       file
     }
     self.write_on(filename: filename, proc_with_file_arg: proc)
@@ -181,6 +199,13 @@ module Helper
     string = ''
     (1..char_count).each {|i| string = string + char_string}
     string
+  end
+
+  def self.rand_string(length: 0)
+    # https://stackoverflow.com/questions/88311/how-to-generate-a-random-string-in-ruby
+    s=''
+    length.times{ s << CHARS[rand(CHARS.length)] }
+    s
   end
 
 end
