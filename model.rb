@@ -1,14 +1,12 @@
 class Model
 
-  attr_accessor :history
+  attr_accessor :string, :history
 
-  def initialize(string: Editor.initial_string, history: HistoryManager.initial_history)
-    @symbol = string#.to_sym todo
+  #########################################################################################
+
+  private def initialize(string: Editor.initial_string, history: HistoryManager.initial_history)
+    self.string = string
     self.history = history
-  end
-
-  def string
-    @symbol#.to_s todo
   end
 
 end

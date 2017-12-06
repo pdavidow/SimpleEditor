@@ -115,6 +115,34 @@ module Helper
     self.write_on(filename: filename, proc_with_file_arg: proc)
   end
 
+  def self.generate_randomize_append_then_delete(filename:, operation_pair_count:, string_length:)
+    proc = Proc.new {|file|
+      self.write_operation_count_on(file: file, count: operation_pair_count * 2)
+
+      (1..operation_pair_count).each {|i|
+        random_string = self.rand_string(length: string_length)
+        self.write_append_operations_on(file: file, appendages: [random_string])
+      }
+      self.write_delete_operations_on(file: file, delete_operation_count: operation_pair_count, char_count: string_length)
+      file
+    }
+    self.write_on(filename: filename, proc_with_file_arg: proc)
+  end
+
+  def self.generate_randomize_append_then_undo(filename:, operation_pair_count:, string_length:)
+    proc = Proc.new {|file|
+      self.write_operation_count_on(file: file, count: operation_pair_count * 2)
+
+      (1..operation_pair_count).each {|i|
+        random_string = self.rand_string(length: string_length)
+        self.write_append_operations_on(file: file, appendages: [random_string])
+      }
+      self.write_undo_operations_on(file: file, undo_operation_count: operation_pair_count)
+      file
+    }
+    self.write_on(filename: filename, proc_with_file_arg: proc)
+  end
+
   def self.write_on(filename:, proc_with_file_arg:)
     File.open(filename, "w") { |file| proc_with_file_arg.call(file)}
   end

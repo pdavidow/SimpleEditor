@@ -55,8 +55,7 @@ a
 **OVERALL APPROACH**
 
 * First read the operation count, then parse each input line at a time.
-* History stores undo ops; delete slices twice; no symbols
-* Long test 8.223868 seconds
+* History stores undo operations
 
 **USAGE**
 

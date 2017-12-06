@@ -3,7 +3,7 @@ require_relative 'helper'
 require_relative 'constants'
 require_relative '../sequencer'
 
-# Test suite finished: 362.26366 seconds todo
+# without symbol: Test suite finished: 808.165095 seconds todo
 
 class Test_Sequencer < Test::Unit::TestCase
   include Helper
@@ -22,8 +22,8 @@ class Test_Sequencer < Test::Unit::TestCase
     File.delete(filename)
   end
 
-  def test_2
-    filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_5
+  def test_randomize_append_only
+    filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_3
     proc = Proc.new {Sequencer.sequence}
 
     operation_count = 5
@@ -61,7 +61,87 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.generate_randomize_append_only(filename: filename, operation_count: operation_count, string_length: string_length)
     Helper.redirect_stdin_to_file(filename: filename, proc: proc)
     File.delete(filename)
-
   end
 
+  def test_randomize_append_then_delete
+    filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_3
+    proc = Proc.new {Sequencer.sequence}
+
+    operation_pair_count = 4/2
+    string_length = 200000
+    Helper.generate_randomize_append_then_delete(filename: filename, operation_pair_count: operation_pair_count, string_length: string_length)
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
+    File.delete(filename)
+
+    operation_pair_count = 50/2
+    string_length = 20000
+    Helper.generate_randomize_append_then_delete(filename: filename, operation_pair_count: operation_pair_count, string_length: string_length)
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
+    File.delete(filename)
+
+    operation_pair_count = 500/2
+    string_length = 2000
+    Helper.generate_randomize_append_then_delete(filename: filename, operation_pair_count: operation_pair_count, string_length: string_length)
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
+    File.delete(filename)
+
+    operation_pair_count = 5000/2
+    string_length = 200
+    Helper.generate_randomize_append_then_delete(filename: filename, operation_pair_count: operation_pair_count, string_length: string_length)
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
+    File.delete(filename)
+
+    operation_pair_count = 50000/2
+    string_length = 20
+    Helper.generate_randomize_append_then_delete(filename: filename, operation_pair_count: operation_pair_count, string_length: string_length)
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
+    File.delete(filename)
+
+    operation_pair_count = 500000/2
+    string_length = 2
+    Helper.generate_randomize_append_then_delete(filename: filename, operation_pair_count: operation_pair_count, string_length: string_length)
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
+    File.delete(filename)
+  end
+
+  def test_randomize_append_then_undo
+    filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_3
+    proc = Proc.new {Sequencer.sequence}
+
+    operation_pair_count = 4/2
+    string_length = 200000
+    Helper.generate_randomize_append_then_undo(filename: filename, operation_pair_count: operation_pair_count, string_length: string_length)
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
+    File.delete(filename)
+
+    operation_pair_count = 50/2
+    string_length = 20000
+    Helper.generate_randomize_append_then_undo(filename: filename, operation_pair_count: operation_pair_count, string_length: string_length)
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
+    File.delete(filename)
+
+    operation_pair_count = 500/2
+    string_length = 2000
+    Helper.generate_randomize_append_then_undo(filename: filename, operation_pair_count: operation_pair_count, string_length: string_length)
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
+    File.delete(filename)
+
+    operation_pair_count = 5000/2
+    string_length = 200
+    Helper.generate_randomize_append_then_undo(filename: filename, operation_pair_count: operation_pair_count, string_length: string_length)
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
+    File.delete(filename)
+
+    operation_pair_count = 50000/2
+    string_length = 20
+    Helper.generate_randomize_append_then_undo(filename: filename, operation_pair_count: operation_pair_count, string_length: string_length)
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
+    File.delete(filename)
+
+    operation_pair_count = 500000/2
+    string_length = 2
+    Helper.generate_randomize_append_then_undo(filename: filename, operation_pair_count: operation_pair_count, string_length: string_length)
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
+    File.delete(filename)
+  end
 end
