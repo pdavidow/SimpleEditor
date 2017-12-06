@@ -102,6 +102,19 @@ module Helper
     self.write_on(filename: filename, proc_with_file_arg: proc)
   end
 
+  def self.generate_randomize_append_only(filename:, operation_count:, string_length:)
+    proc = Proc.new {|file|
+      self.write_operation_count_on(file: file, count: operation_count)
+
+      (1..operation_count).each {|i|
+        random_string = self.rand_string(length: string_length)
+        self.write_append_operations_on(file: file, appendages: [random_string])
+      }
+      file
+    }
+    self.write_on(filename: filename, proc_with_file_arg: proc)
+  end
+
   def self.write_on(filename:, proc_with_file_arg:)
     File.open(filename, "w") { |file| proc_with_file_arg.call(file)}
   end
@@ -181,6 +194,13 @@ module Helper
     string = ''
     (1..char_count).each {|i| string = string + char_string}
     string
+  end
+
+  def self.rand_string(length: 0)
+    # https://stackoverflow.com/questions/88311/how-to-generate-a-random-string-in-ruby
+    s=''
+    length.times{ s << CHARS[rand(CHARS.length)] }
+    s
   end
 
 end
