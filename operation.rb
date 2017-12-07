@@ -1,5 +1,3 @@
-require_relative 'constants'
-
 class Operation
 
   attr_accessor :type_code, :arg

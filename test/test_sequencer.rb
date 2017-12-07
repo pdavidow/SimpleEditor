@@ -249,7 +249,17 @@ class Test_Sequencer < Test::Unit::TestCase
   end
 
   def test_30
-    filename = TEST_INPUT_BAD_GENERATED_FILE_NAME_2
+    filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_1
+    Helper.generate_input_file__append_delete_undo__total_appendage_length_sum(filename: filename)
+
+    proc = Proc.new {Sequencer.sequence} # test that undo delete (which is an append) does _not_ affect appendage summation
+    Helper.redirect_stdin_to_file(filename: filename, proc: proc)
+
+    File.delete(filename)
+  end
+
+  def test_31
+    filename = TEST_INPUT_BAD_GENERATED_FILE_NAME_1
     Helper.generate_input_file__exceed_global_constraint__total_char_delete_count(
         filename: filename,
         char_count_exceeding_limit: 1
@@ -263,4 +273,5 @@ class Test_Sequencer < Test::Unit::TestCase
 
     File.delete(filename)
   end
+
 end

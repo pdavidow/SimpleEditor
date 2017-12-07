@@ -7,7 +7,7 @@ class EditorString
     raise TypeError.new('base_string must be a string') unless (base_string.kind_of? String)
     raise TypeError.new('appendage_string must be a string') unless (appendage_string.kind_of? String)
 
-    base_string ++ appendage_string
+    base_string + appendage_string
   end
 
   def self.delete_last_chars(string:, chars_to_delete_count:)

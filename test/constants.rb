@@ -1,3 +1,5 @@
+CHARS = ('a'..'z').to_a unless defined?(CHARS)
+
 GENERATED_APPENDAGE_SECTION_DEFAULT_LENGTH = 5000
 
 ROOT = "#{File.dirname(__FILE__)}/input/" unless defined?(ROOT) # https://stackoverflow.com/questions/909855/ruby-path-management
@@ -35,8 +37,5 @@ TEST_INPUT_BAD_FILE_NAME_24 = "#{ROOT}test_input_bad_24.txt"
 
 
 TEST_INPUT_GOOD_GENERATED_FILE_NAME_1 = "#{ROOT}test_input_good_generated_1.txt"
-TEST_INPUT_GOOD_GENERATED_FILE_NAME_2 = "#{ROOT}test_input_good_generated_2.txt"
-TEST_INPUT_GOOD_GENERATED_FILE_NAME_3 = "#{ROOT}test_input_good_generated_3.txt"
-
 TEST_INPUT_BAD_GENERATED_FILE_NAME_1 = "#{ROOT}test_input_bad_generated_1.txt"
-TEST_INPUT_BAD_GENERATED_FILE_NAME_2 = "#{ROOT}test_input_bad_generated_2.txt"
+

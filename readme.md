@@ -54,8 +54,8 @@ a
 
 **OVERALL APPROACH**
 
-* First read the operation count, then read and process one operation line at a time.
-* History is array of current string (stored as symbol), treated as a stack.  
+* First read the operation count, then parse each input line at a time.
+* History stores undo operations
 
 **USAGE**
 
