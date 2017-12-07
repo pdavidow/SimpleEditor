@@ -52,10 +52,16 @@ a
 ````
 
 
-**OVERALL APPROACH**
+**OVERALL APPROACH: UNTENABLE**
 
 * First read the operation count, then read and process one operation line at a time.
 * History is array of current string (stored as symbol), treated as a stack.  
+
+DIED on test_randomize_append_only for
+    operation_count = 500000
+    string_length = 2
+
+.../history_manager.rb:29:in `push': failed to allocate memory (NoMemoryError)
 
 **USAGE**
 
