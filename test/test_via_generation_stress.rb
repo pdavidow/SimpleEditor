@@ -143,7 +143,7 @@ class Test_Sequencer < Test::Unit::TestCase
     File.delete(filename)
   end
 
-  def test_randomize_append_max_once_then_cycle_delete_undo #todo
+  def test_randomize_append_max_once_then_cycle_delete_undo
     filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_3
     proc = Proc.new {Sequencer.sequence}
 
