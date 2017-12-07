@@ -1,231 +1,371 @@
 require 'test/unit'
+require_relative '../operation'
+require_relative '../model'
 require_relative '../editor'
 require_relative '../history_manager'
 require_relative '../editor_exceptions'
 require_relative 'helper'
-# todo needs work
+
 class Test_Editor < Test::Unit::TestCase
   include Helper
   include EditorExceptions
 
   def test_append_1
-    h1 = HistoryManager.initial_history
+    m1 = Model.new
 
     appendage_string1 = 'ab3'
-    h2 = Editor.append(history: h1, appendage_string: appendage_string1)
-    current_string_state1 = HistoryManager.current_string_state(history: h2)
+    op1 = Operation.new(type_code: TYPE_APPEND, arg: appendage_string1)
+    m2 = Editor.perform_operation(operation: op1, model: m1)
 
-    self.assert_equal('ab3', current_string_state1)
-    self.assert_equal([:''], h1)
-    self.assert_equal([:'', :'ab3'], h2)
+    self.assert_equal('ab3', m2.string)
+    self.assert_equal([], m1.history)
+    self.assert_equal(0, m1.appendage_length_sum)
+    self.assert_equal(0, m1.char_delete_count_sum)
+    self.assert_equal(1, m2.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m2.history[0].type_code)
+    self.assert_equal(3, m2.appendage_length_sum)
+    self.assert_equal(0, m2.char_delete_count_sum)
 
     appendage_string2 = 'deF'
-    h3 = Editor.append(history: h2, appendage_string: appendage_string2)
-    current_string_state2 = HistoryManager.current_string_state(history: h3)
+    op2 = Operation.new(type_code: TYPE_APPEND, arg: appendage_string2)
+    m3 = Editor.perform_operation(operation: op2, model: m2)
 
-    self.assert_equal('ab3deF', current_string_state2)
-    self.assert_equal([:''], h1)
-    self.assert_equal([:'', :'ab3'], h2)
-    self.assert_equal([:'', :'ab3', :'ab3deF'], h3)
+    self.assert_equal('ab3deF', m3.string)
+    self.assert_equal([], m1.history)
+    self.assert_equal(0, m1.appendage_length_sum)
+    self.assert_equal(0, m1.char_delete_count_sum)
+    self.assert_equal(1, m2.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m2.history[0].type_code)
+    self.assert_equal(3, m2.appendage_length_sum)
+    self.assert_equal(0, m2.char_delete_count_sum)
+    self.assert_equal(2, m3.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m3.history[1].type_code)
+    self.assert_equal(6, m3.appendage_length_sum)
+    self.assert_equal(0, m3.char_delete_count_sum)
   end
 
-  def test_deleteLastChars_1
-    h1 = HistoryManager.initial_history
+  def test_delete_1
+    m1 = Model.new
 
-    appendage_string = 'abcdef'
-    h2 = Editor.append(history: h1, appendage_string: appendage_string)
-    current_string_state1 = HistoryManager.current_string_state(history: h2)
+    appendage_string1 = 'abcdef'
+    op1 = Operation.new(type_code: TYPE_APPEND, arg: appendage_string1)
+    m2 = Editor.perform_operation(operation: op1, model: m1)
 
-    self.assert_equal('abcdef', current_string_state1)
-    self.assert_equal([:''], h1)
+    self.assert_equal('abcdef', m2.string)
+    self.assert_equal([], m1.history)
+    self.assert_equal(0, m1.appendage_length_sum)
+    self.assert_equal(0, m1.char_delete_count_sum)
+    self.assert_equal(1, m2.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m2.history[0].type_code)
+    self.assert_equal(6, m2.appendage_length_sum)
+    self.assert_equal(0, m2.char_delete_count_sum)
 
-    count = 1
-    h3 = Editor.delete_last_chars(history: h2, chars_to_delete_count: count)
-    current_string_state2 = HistoryManager.current_string_state(history: h3)
+    count1 = 1
+    op2 = Operation.new(type_code: TYPE_DELETE, arg: count1)
+    m3 = Editor.perform_operation(operation: op2, model: m2)
 
-    self.assert_equal('abcde', current_string_state2)
-    self.assert_equal([:''], h1)
-    self.assert_equal([:'', :'abcdef'], h2)
+    self.assert_equal('abcde', m3.string)
+    self.assert_equal([], m1.history)
+    self.assert_equal(0, m1.appendage_length_sum)
+    self.assert_equal(0, m1.char_delete_count_sum)
+    self.assert_equal(1, m2.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m2.history[0].type_code)
+    self.assert_equal(6, m2.appendage_length_sum)
+    self.assert_equal(0, m2.char_delete_count_sum)
+    self.assert_equal(2, m3.history.length)
+    self.assert_equal(TYPE_UNDO_DELETE, m3.history[1].type_code)
+    self.assert_equal(6, m3.appendage_length_sum)
+    self.assert_equal(1, m3.char_delete_count_sum)
 
-    count = 5
-    h4 = Editor.delete_last_chars(history: h3, chars_to_delete_count: count)
-    current_string_state3 = HistoryManager.current_string_state(history: h4)
+    count2 = 5
+    op3 = Operation.new(type_code: TYPE_DELETE, arg: count2)
+    m4 = Editor.perform_operation(operation: op3, model: m3)
 
-    self.assert_equal('', current_string_state3)
-    self.assert_equal([:''], h1)
-    self.assert_equal([:'', :'abcdef'], h2)
-    self.assert_equal([:'', :'abcdef', :'abcde'], h3)
-    self.assert_equal([:'', :'abcdef', :'abcde', :''], h4)
+    self.assert_equal('abcde', m3.string)
+    self.assert_equal([], m1.history)
+    self.assert_equal(0, m1.appendage_length_sum)
+    self.assert_equal(0, m1.char_delete_count_sum)
+    self.assert_equal(1, m2.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m2.history[0].type_code)
+    self.assert_equal(6, m2.appendage_length_sum)
+    self.assert_equal(0, m2.char_delete_count_sum)
+    self.assert_equal(2, m3.history.length)
+    self.assert_equal(TYPE_UNDO_DELETE, m3.history[1].type_code)
+    self.assert_equal(6, m3.appendage_length_sum)
+    self.assert_equal(1, m3.char_delete_count_sum)
+    self.assert_equal(3, m4.history.length)
+    self.assert_equal(TYPE_UNDO_DELETE, m4.history[2].type_code)
+    self.assert_equal(6, m4.appendage_length_sum)
+    self.assert_equal(6, m4.char_delete_count_sum)
   end
 
-  def test_deleteLastChars_2
-    h1 = HistoryManager.initial_history
+  def test_delete_2
+    m1 = Model.new
 
-    appendage_string = 'abcdef'
-    h2 = Editor.append(history: h1, appendage_string: appendage_string)
-    current_string_state = HistoryManager.current_string_state(history: h2)
-
-    self.assert_equal('abcdef', current_string_state)
+    appendage_string1 = 'abcdef'
+    op1 = Operation.new(type_code: TYPE_APPEND, arg: appendage_string1)
+    m2 = Editor.perform_operation(operation: op1, model: m1)
+    self.assert_equal('abcdef', m2.string)
 
     count = 7
-
-    exception = self.assert_raise(CharArgumentError){Editor.delete_last_chars(history: h2, chars_to_delete_count: count)}
+    op2 = Operation.new(type_code: TYPE_DELETE, arg: count)
+    exception = self.assert_raise(CharArgumentError){Editor.perform_operation(operation: op2, model: m2)}
     self.assert_equal('1 <= count <= string length', exception.message)
-
-    current_state = HistoryManager.current_state(history: h2)
-    self.assert_equal(:'abcdef', current_state)
+    self.assert_equal('abcdef', m2.string)
   end
 
-  def test_deleteLastChars_3
-    h1 = HistoryManager.initial_history
+  def test_delete_3
+    m1 = Model.new
 
-    appendage_string = 'abcdef'
-    h2 = Editor.append(history: h1, appendage_string: appendage_string)
-    current_string_state1 = HistoryManager.current_string_state(history: h2)
-
-    self.assert_equal('abcdef', current_string_state1)
+    appendage_string1 = 'abcdef'
+    op1 = Operation.new(type_code: TYPE_APPEND, arg: appendage_string1)
+    m2 = Editor.perform_operation(operation: op1, model: m1)
+    self.assert_equal('abcdef', m2.string)
 
     count = 0
-
-    exception = self.assert_raise(CharArgumentError){Editor.delete_last_chars(history: h2, chars_to_delete_count: count)}
+    op2 = Operation.new(type_code: TYPE_DELETE, arg: count)
+    exception = self.assert_raise(CharArgumentError){Editor.perform_operation(operation: op2, model: m2)}
     self.assert_equal('1 <= count <= string length', exception.message)
-
-    current_string_state2 = HistoryManager.current_string_state(history: h2)
-    self.assert_equal('abcdef', current_string_state2)
+    self.assert_equal('abcdef', m2.string)
   end
 
-  def test_deleteLastChars_4
-    h1 = HistoryManager.initial_history
-    current_string_state1 = HistoryManager.current_string_state(history: h1)
+  def test_delete_4
+    m1 = Model.new
 
-    self.assert_equal('', current_string_state1)
+    self.assert_equal('', m1.string)
 
     count = 1
-
-    exception = self.assert_raise(ArgumentError){Editor.delete_last_chars(history: h1, chars_to_delete_count: count)}
+    op1 = Operation.new(type_code: TYPE_DELETE, arg: count)
+    exception = self.assert_raise(ArgumentError){Editor.perform_operation(operation: op1, model: m1)}
     self.assert_equal('String may not be empty', exception.message)
-
-    current_string_state2 = HistoryManager.current_string_state(history: h1)
-    self.assert_equal('', current_string_state2)
+    self.assert_equal('', m1.string)
   end
 
-  def test_charAtPosition_1
-    h1 = HistoryManager.initial_history
+  def test_print_1
+    m1 = Model.new
 
-    appendage_string = 'abc'
-    h2 = Editor.append(history: h1, appendage_string: appendage_string)
+    appendage_string1 = 'abc'
+    op1 = Operation.new(type_code: TYPE_APPEND, arg: appendage_string1)
+    m2 = Editor.perform_operation(operation: op1, model: m1)
 
     position = 3
-
-    result = Editor.char_at_position(history: h2, position: position)
-    self.assert_equal('c', result)
+    op2 = Operation.new(type_code: TYPE_PRINT, arg: position)
+    result = Helper.with_captured_stdout{ Editor.perform_operation(operation: op2, model: m2) }
+    self.assert_equal("c\n", result)
   end
 
-  def test_charAtPosition_2
-    h1 = HistoryManager.initial_history
+  def test_print_2
+    m1 = Model.new
 
-    appendage_string = 'abc'
-    h2 = Editor.append(history: h1, appendage_string: appendage_string)
+    appendage_string1 = 'abc'
+    op1 = Operation.new(type_code: TYPE_APPEND, arg: appendage_string1)
+    m2 = Editor.perform_operation(operation: op1, model: m1)
 
     position = 1
-
-    result = Editor.char_at_position(history: h2, position: position)
-    self.assert_equal('a', result)
+    op2 = Operation.new(type_code: TYPE_PRINT, arg: position)
+    result = Helper.with_captured_stdout{ Editor.perform_operation(operation: op2, model: m2) }
+    self.assert_equal("a\n", result)
   end
 
-  def test_charAtPosition_3
-    h1 = HistoryManager.initial_history
+  def test_print_3
+    m1 = Model.new
 
     appendage_string = 'abc'
-    h2 = Editor.append(history: h1, appendage_string: appendage_string)
+    op1 = Operation.new(type_code: TYPE_APPEND, arg: appendage_string)
+    m2 = Editor.perform_operation(operation: op1, model: m1)
 
     position = 0
-
-    exception = self.assert_raise(CharArgumentError){Editor.char_at_position(history: h2, position: position)}
+    op2 = Operation.new(type_code: TYPE_PRINT, arg: position)
+    exception = self.assert_raise(CharArgumentError){Editor.perform_operation(operation: op2, model: m2)}
     self.assert_equal('1 <= position <= string length', exception.message)
   end
 
-  def test_charAtPosition_4
-    h1 = HistoryManager.initial_history
+  def test_print_4
+    m1 = Model.new
 
     appendage_string = 'abc'
-    h2 = Editor.append(history: h1, appendage_string: appendage_string)
+    op1 = Operation.new(type_code: TYPE_APPEND, arg: appendage_string)
+    m2 = Editor.perform_operation(operation: op1, model: m1)
 
     position = 4
-
-    exception = self.assert_raise(CharArgumentError){Editor.char_at_position(history: h2, position: position)}
+    op2 = Operation.new(type_code: TYPE_PRINT, arg: position)
+    exception = self.assert_raise(CharArgumentError){Editor.perform_operation(operation: op2, model: m2)}
     self.assert_equal('1 <= position <= string length', exception.message)
   end
 
-  def test_char_at_position_5
-    h1 = HistoryManager.initial_history
+  def test_print_5
+    m1 = Model.new
 
     appendage_string = ''
-    h2 = Editor.append(history: h1, appendage_string: appendage_string)
+    op1 = Operation.new(type_code: TYPE_APPEND, arg: appendage_string)
+    m2 = Editor.perform_operation(operation: op1, model: m1)
 
     position = 1
-
-    exception = self.assert_raise(ArgumentError){Editor.char_at_position(history: h2, position: position)}
+    op2 = Operation.new(type_code: TYPE_PRINT, arg: position)
+    exception = self.assert_raise(ArgumentError){Editor.perform_operation(operation: op2, model: m2)}
     self.assert_equal('String may not be empty', exception.message)
   end
 
-  def test_print_with_newline__char_at_1
-    h1 = HistoryManager.initial_history
+  def test_print_6
+    m1 = Model.new
 
-    appendage_string = 'abc'
-    h2 = Editor.append(history: h1, appendage_string: appendage_string)
-    appendage_string = 'def'
-    h3 = Editor.append(history: h2, appendage_string: appendage_string)
+    appendage_string1 = 'abc'
+    op1 = Operation.new(type_code: TYPE_APPEND, arg: appendage_string1)
+    m2 = Editor.perform_operation(operation: op1, model: m1)
+
+    appendage_string2 = 'def'
+    op2 = Operation.new(type_code: TYPE_APPEND, arg: appendage_string2)
+    m3 = Editor.perform_operation(operation: op2, model: m2)
 
     position = 6
-    result = Helper.with_captured_stdout {Editor.print_with_newline__char_at(position: position, history: h3)}
+    op3 = Operation.new(type_code: TYPE_PRINT, arg: position)
+    result = Helper.with_captured_stdout{ Editor.perform_operation(operation: op3, model: m3) }
     self.assert_equal(result, "f\n")
   end
 
-  def test_print_with_newline__char_at_2
-    h1 = HistoryManager.initial_history
-
-    appendage_string = 'abc'
-    h2 = Editor.append(history: h1, appendage_string: appendage_string)
-
-    position = 0
-    exception = self.assert_raise(CharArgumentError){Editor.print_with_newline__char_at(position: position, history: h2)}
-    self.assert_equal('1 <= position <= string length', exception.message)
-  end
-
-
-  def test_print_with_newline__char_at_3
-    h1 = HistoryManager.initial_history
-
-    appendage_string = 'abc'
-    h2 = Editor.append(history: h1, appendage_string: appendage_string)
-
-    position = 4
-    exception = self.assert_raise(CharArgumentError){Editor.print_with_newline__char_at(position: position, history: h2)}
-    self.assert_equal('1 <= position <= string length', exception.message)
-  end
 
   def test_undo
-    h1 = HistoryManager.initial_history
+    m1 = Model.new
+    self.assert_equal([], m1.history)
+    self.assert_equal('', m1.string)
 
-    appendage_string = 'a'
-    h2 = Editor.append(history: h1, appendage_string: appendage_string)
-    appendage_string = 'b'
-    h3 = Editor.append(history: h2, appendage_string: appendage_string)
-    appendage_string = 'c'
-    h4 = Editor.append(history: h3, appendage_string: appendage_string)
-    self.assert_equal('abc', Editor.string_state(history: h4))
+    appendage_string1 = 'a'
+    op1 = Operation.new(type_code: TYPE_APPEND, arg: appendage_string1)
+    m2 = Editor.perform_operation(operation: op1, model: m1)
+    self.assert_equal([], m1.history)
+    self.assert_equal('', m1.string)
+    self.assert_equal(1, m2.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m2.history[0].type_code)
+    self.assert_equal('a', m2.string)
 
-    h5 = Editor.undo(history: h4)
-    self.assert_equal('ab', Editor.string_state(history: h5))
+    appendage_string2 = 'b'
+    op2 = Operation.new(type_code: TYPE_APPEND, arg: appendage_string2)
+    m3 = Editor.perform_operation(operation: op2, model: m2)
+    self.assert_equal([], m1.history)
+    self.assert_equal('', m1.string)
+    self.assert_equal(1, m2.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m2.history[0].type_code)
+    self.assert_equal('a', m2.string)
+    self.assert_equal(2, m3.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m3.history[0].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m3.history[1].type_code)
+    self.assert_equal('ab', m3.string)
 
-    h6 = Editor.undo(history: h5)
-    self.assert_equal('a', Editor.string_state(history: h6))
+    appendage_string3 = 'c'
+    op3 = Operation.new(type_code: TYPE_APPEND, arg: appendage_string3)
+    m4 = Editor.perform_operation(operation: op3, model: m3)
+    self.assert_equal([], m1.history)
+    self.assert_equal('', m1.string)
+    self.assert_equal(1, m2.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m2.history[0].type_code)
+    self.assert_equal('a', m2.string)
+    self.assert_equal(2, m3.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m3.history[0].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m3.history[1].type_code)
+    self.assert_equal('ab', m3.string)
+    self.assert_equal(3, m4.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m4.history[0].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m4.history[1].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m4.history[1].type_code)
+    self.assert_equal('abc', m4.string)
 
-    h7 = Editor.undo(history: h6)
-    self.assert_equal('', Editor.string_state(history: h7))
+    op4 = Operation.new(type_code: TYPE_UNDO)
+    m5 = Editor.perform_operation(operation: op4, model: m4)
+    self.assert_equal([], m1.history)
+    self.assert_equal('', m1.string)
+    self.assert_equal(1, m2.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m2.history[0].type_code)
+    self.assert_equal('a', m2.string)
+    self.assert_equal(2, m3.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m3.history[0].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m3.history[1].type_code)
+    self.assert_equal('ab', m3.string)
+    self.assert_equal(3, m4.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m4.history[0].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m4.history[1].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m4.history[1].type_code)
+    self.assert_equal('abc', m4.string)
+    self.assert_equal(2, m5.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m5.history[0].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m5.history[1].type_code)
+    self.assert_equal('ab', m5.string)
 
-    h8 = Editor.undo(history: h7)
-    self.assert_equal('', Editor.string_state(history: h8))
+    op5 = Operation.new(type_code: TYPE_UNDO)
+    m6 = Editor.perform_operation(operation: op5, model: m5)
+    self.assert_equal([], m1.history)
+    self.assert_equal('', m1.string)
+    self.assert_equal(1, m2.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m2.history[0].type_code)
+    self.assert_equal('a', m2.string)
+    self.assert_equal(2, m3.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m3.history[0].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m3.history[1].type_code)
+    self.assert_equal('ab', m3.string)
+    self.assert_equal(3, m4.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m4.history[0].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m4.history[1].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m4.history[1].type_code)
+    self.assert_equal('abc', m4.string)
+    self.assert_equal(2, m5.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m5.history[0].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m5.history[1].type_code)
+    self.assert_equal('ab', m5.string)
+    self.assert_equal(1, m6.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m6.history[0].type_code)
+    self.assert_equal('a', m6.string)
+
+    op6 = Operation.new(type_code: TYPE_UNDO)
+    m7 = Editor.perform_operation(operation: op6, model: m6)
+    self.assert_equal([], m1.history)
+    self.assert_equal('', m1.string)
+    self.assert_equal(1, m2.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m2.history[0].type_code)
+    self.assert_equal('a', m2.string)
+    self.assert_equal(2, m3.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m3.history[0].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m3.history[1].type_code)
+    self.assert_equal('ab', m3.string)
+    self.assert_equal(3, m4.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m4.history[0].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m4.history[1].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m4.history[1].type_code)
+    self.assert_equal('abc', m4.string)
+    self.assert_equal(2, m5.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m5.history[0].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m5.history[1].type_code)
+    self.assert_equal('ab', m5.string)
+    self.assert_equal(1, m6.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m6.history[0].type_code)
+    self.assert_equal('a', m6.string)
+    self.assert_equal(0, m7.history.length)
+    self.assert_equal('', m7.string)
+
+    op7 = Operation.new(type_code: TYPE_UNDO)
+    m8 = Editor.perform_operation(operation: op7, model: m7)
+    self.assert_equal([], m1.history)
+    self.assert_equal('', m1.string)
+    self.assert_equal(1, m2.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m2.history[0].type_code)
+    self.assert_equal('a', m2.string)
+    self.assert_equal(2, m3.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m3.history[0].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m3.history[1].type_code)
+    self.assert_equal('ab', m3.string)
+    self.assert_equal(3, m4.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m4.history[0].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m4.history[1].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m4.history[1].type_code)
+    self.assert_equal('abc', m4.string)
+    self.assert_equal(2, m5.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m5.history[0].type_code)
+    self.assert_equal(TYPE_UNDO_APPEND, m5.history[1].type_code)
+    self.assert_equal('ab', m5.string)
+    self.assert_equal(1, m6.history.length)
+    self.assert_equal(TYPE_UNDO_APPEND, m6.history[0].type_code)
+    self.assert_equal('a', m6.string)
+    self.assert_equal(0, m7.history.length)
+    self.assert_equal('', m7.string)
+    self.assert_equal(0, m8.history.length)
+    self.assert_equal('', m8.string)
   end
 end
