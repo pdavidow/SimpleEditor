@@ -3,7 +3,7 @@ require_relative '../editor'
 require_relative '../history_manager'
 require_relative '../editor_exceptions'
 require_relative 'helper'
-
+# todo needs work
 class Test_Editor < Test::Unit::TestCase
   include Helper
   include EditorExceptions
@@ -70,7 +70,7 @@ class Test_Editor < Test::Unit::TestCase
     count = 7
 
     exception = self.assert_raise(CharArgumentError){Editor.delete_last_chars(history: h2, chars_to_delete_count: count)}
-    self.assert_equal('1 >= count <= string length', exception.message)
+    self.assert_equal('1 <= count <= string length', exception.message)
 
     current_state = HistoryManager.current_state(history: h2)
     self.assert_equal(:'abcdef', current_state)
@@ -88,7 +88,7 @@ class Test_Editor < Test::Unit::TestCase
     count = 0
 
     exception = self.assert_raise(CharArgumentError){Editor.delete_last_chars(history: h2, chars_to_delete_count: count)}
-    self.assert_equal('1 >= count <= string length', exception.message)
+    self.assert_equal('1 <= count <= string length', exception.message)
 
     current_string_state2 = HistoryManager.current_string_state(history: h2)
     self.assert_equal('abcdef', current_string_state2)
@@ -142,7 +142,7 @@ class Test_Editor < Test::Unit::TestCase
     position = 0
 
     exception = self.assert_raise(CharArgumentError){Editor.char_at_position(history: h2, position: position)}
-    self.assert_equal('1 >= position <= string length', exception.message)
+    self.assert_equal('1 <= position <= string length', exception.message)
   end
 
   def test_charAtPosition_4
@@ -154,7 +154,7 @@ class Test_Editor < Test::Unit::TestCase
     position = 4
 
     exception = self.assert_raise(CharArgumentError){Editor.char_at_position(history: h2, position: position)}
-    self.assert_equal('1 >= position <= string length', exception.message)
+    self.assert_equal('1 <= position <= string length', exception.message)
   end
 
   def test_char_at_position_5
@@ -190,7 +190,7 @@ class Test_Editor < Test::Unit::TestCase
 
     position = 0
     exception = self.assert_raise(CharArgumentError){Editor.print_with_newline__char_at(position: position, history: h2)}
-    self.assert_equal('1 >= position <= string length', exception.message)
+    self.assert_equal('1 <= position <= string length', exception.message)
   end
 
 
@@ -202,7 +202,7 @@ class Test_Editor < Test::Unit::TestCase
 
     position = 4
     exception = self.assert_raise(CharArgumentError){Editor.print_with_newline__char_at(position: position, history: h2)}
-    self.assert_equal('1 >= position <= string length', exception.message)
+    self.assert_equal('1 <= position <= string length', exception.message)
   end
 
   def test_undo

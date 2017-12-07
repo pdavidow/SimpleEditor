@@ -17,6 +17,10 @@ class Sequencer
         operation = Reader.read_operation(line_number: line_number)
         model = Editor.perform_operation(operation: operation, model: model)
       rescue FormatError => exception
+        exception.line_number = line_number if exception.line_number.nil?
+        raise exception
+      rescue GlobalConstraintError => exception
+        exception.line_number = line_number if exception.line_number.nil?
         raise exception
       rescue StatefulError => exception
         error = Editor.stateful_message_for(message: exception.message, model: model)

@@ -14,13 +14,13 @@ module EditorExceptions
 
     attr_accessor :line_number, :error
 
-    def initialize(line_number:, error:)
+    def initialize(line_number: nil, error:)
       self.line_number = line_number
       self.error = error
     end
 
     def message
-      "#{self.error_type} error on line# #{self.line_number.to_s}: #{self.error}"
+      "#{self.error_type} error on line# #{self.line_number}: #{self.error}"
     end
 
     def error_type

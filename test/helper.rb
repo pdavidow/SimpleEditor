@@ -44,13 +44,35 @@ module Helper
     self.write_on(filename: filename, proc_with_file_arg: proc)
   end
 
+  def self.generate_input_file__append_delete_undo__total_appendage_length_sum(filename:)
+    # Assume constants as per original specification
+
+    section_length = 5000
+
+    appendages = self.generated_mono_char_strings(
+        total_length: APPENDAGE_LENGTH_SUM__UPPER_LIMIT,
+        section_length: section_length
+    )
+    append_operation_count = appendages.length
+    operation_count = append_operation_count * 3
+
+    proc = Proc.new {|file|
+      self.write_operation_count_on(file: file, count: operation_count)
+      self.write_append_operations_on(file: file, appendages: appendages)
+      self.write_delete_operations_on(file: file, delete_operation_count: append_operation_count, char_count: section_length)
+      self.write_undo_operations_on(file: file, undo_operation_count: append_operation_count)
+      file
+    }
+    self.write_on(filename: filename, proc_with_file_arg: proc)
+  end
+
   def self.generate_input_file__exceed_global_constraint__total_char_delete_count(filename:, char_count_exceeding_limit:)
     # Assume constants as per original specification
 
     is_exceeding_limit = char_count_exceeding_limit > 0
 
     appendages = self.generated_mono_char_strings(
-        total_length: TOTAL_APPENDAGE_LENGTH__UPPER_LIMIT,
+        total_length: APPENDAGE_LENGTH_SUM__UPPER_LIMIT,
         section_length: GENERATED_APPENDAGE_SECTION_DEFAULT_LENGTH
     )
 
@@ -72,7 +94,7 @@ module Helper
       self.write_delete_operations_on(file: file, delete_operation_count: delete_operation_count_1, char_count: delete_operation_char_count_1)
       self.write_undo_operations_on(file: file, undo_operation_count: undo_operation_count)
       self.write_delete_operations_on(file: file, delete_operation_count: delete_operation_count_2, char_count: delete_operation_char_count_2)
-      if is_exceeding_limit then
+      if is_exceeding_limit
         self.write_delete_operations_on(file: file, delete_operation_count: delete_operation_count_3, char_count: delete_operation_char_count_3)
       end
       file
@@ -90,7 +112,7 @@ module Helper
     proc = Proc.new {|file|
       self.write_operation_count_on(file: file, count: operation_count)
 
-      (1..((even_operation_count / 2) - 1)).each {|i|
+      ((even_operation_count / 2) - 1).times {
         self.write_append_operations_on(file: file, appendages: ['c'])
         self.write_undo_operations_on(file: file, undo_operation_count: 1)
       }
@@ -106,7 +128,7 @@ module Helper
     proc = Proc.new {|file|
       self.write_operation_count_on(file: file, count: operation_count)
 
-      (1..operation_count).each {|i|
+      operation_count.times {
         random_string = self.rand_string(length: string_length)
         self.write_append_operations_on(file: file, appendages: [random_string])
       }
@@ -119,7 +141,7 @@ module Helper
     proc = Proc.new {|file|
       self.write_operation_count_on(file: file, count: operation_pair_count * 2)
 
-      (1..operation_pair_count).each {|i|
+      operation_pair_count.times {
         random_string = self.rand_string(length: string_length)
         self.write_append_operations_on(file: file, appendages: [random_string])
       }
@@ -133,11 +155,26 @@ module Helper
     proc = Proc.new {|file|
       self.write_operation_count_on(file: file, count: operation_pair_count * 2)
 
-      (1..operation_pair_count).each {|i|
+      operation_pair_count.times {
         random_string = self.rand_string(length: string_length)
         self.write_append_operations_on(file: file, appendages: [random_string])
       }
       self.write_undo_operations_on(file: file, undo_operation_count: operation_pair_count)
+      file
+    }
+    self.write_on(filename: filename, proc_with_file_arg: proc)
+  end
+
+  def self.generate_randomize_append_max_once_then_cycle_delete_undo(filename:, operation_pair_count:, delete_length:)
+    proc = Proc.new {|file|
+      self.write_operation_count_on(file: file, count: 1 + (operation_pair_count * 2))
+      random_string = self.rand_string(length: APPENDAGE_LENGTH_SUM__UPPER_LIMIT)
+      self.write_append_operations_on(file: file, appendages: [random_string])
+
+      operation_pair_count.times {
+        self.write_delete_operations_on(file: file, delete_operation_count: 1, char_count: delete_length)
+        self.write_undo_operations_on(file: file, undo_operation_count: 1)
+      }
       file
     }
     self.write_on(filename: filename, proc_with_file_arg: proc)
@@ -160,21 +197,21 @@ module Helper
   end
 
   def self.write_delete_operations_on(file:, delete_operation_count:, char_count:)
-    (1..delete_operation_count).each {|i|
+    delete_operation_count.times {
       line = self.delete_operation_line(char_count: char_count)
       file.write(line)
     }
   end
 
   def self.write_print_operations_on(file:, print_operation_count:, position:)
-    (1..print_operation_count).each {|i|
+    print_operation_count.times {
       line = self.print_operation_line(position: position)
       file.write(line)
     }
   end
 
   def self.write_undo_operations_on(file:, undo_operation_count:)
-    (1..undo_operation_count).each {|i|
+    undo_operation_count.times {
       line = self.undo_operation_line
       file.write(line)
     }
@@ -185,19 +222,19 @@ module Helper
   end
 
   def self.append_operation_line(appendage:)
-    "#{TYPE_APPEND.to_s}" + OPERATION_DELIMETER + appendage + "\n"
+    "#{TYPE_APPEND}" + OPERATION_DELIMETER + appendage + "\n"
   end
 
   def self.delete_operation_line(char_count:)
-    "#{TYPE_DELETE.to_s}" + OPERATION_DELIMETER + "#{char_count.to_s}\n"
+    "#{TYPE_DELETE}" + OPERATION_DELIMETER + "#{char_count}\n"
   end
 
-  def self.print_operation_line(position: position)
-    "#{TYPE_PRINT.to_s}" + OPERATION_DELIMETER + "#{position.to_s}\n"
+  def self.print_operation_line(position:)
+    "#{TYPE_PRINT}" + OPERATION_DELIMETER + "#{position}\n"
   end
 
   def self.undo_operation_line
-    "#{TYPE_UNDO.to_s}\n"
+    "#{TYPE_UNDO}\n"
   end
 
   def self.generated_mono_char_strings(total_length:, section_length:)
@@ -218,16 +255,16 @@ module Helper
     array
   end
 
-  def self.generated_mono_char_string(char: char_string = 'c', char_count:)
+  def self.generated_mono_char_string(char_string: 'c', char_count:)
     string = ''
-    (1..char_count).each {|i| string = string + char_string}
+    char_count.times {string = string + char_string}
     string
   end
 
   def self.rand_string(length: 0)
     # https://stackoverflow.com/questions/88311/how-to-generate-a-random-string-in-ruby
-    s=''
-    length.times{ s << CHARS[rand(CHARS.length)] }
+    s = ''
+    length.times { s << CHARS[rand(CHARS.length)] }
     s
   end
 
