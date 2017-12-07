@@ -259,7 +259,7 @@ class Test_Sequencer < Test::Unit::TestCase
   end
 
   def test_31
-    filename = TEST_INPUT_BAD_GENERATED_FILE_NAME_2
+    filename = TEST_INPUT_BAD_GENERATED_FILE_NAME_1
     Helper.generate_input_file__exceed_global_constraint__total_char_delete_count(
         filename: filename,
         char_count_exceeding_limit: 1

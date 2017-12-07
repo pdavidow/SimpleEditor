@@ -5,10 +5,6 @@ require_relative 'constants'
 
 class Editor
 
-  def self.initial_string
-    INITIAL_STATE
-  end
-
   def self.perform_operation(operation:, model:)
     case operation.type_code
       when TYPE_APPEND then append(appendage_string: operation.arg, model: model)

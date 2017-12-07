@@ -7,7 +7,7 @@ class Test_Sequencer < Test::Unit::TestCase
   include Helper
 
   def test_1
-    filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_3
+    filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_1
     Helper.generate_input_file__reach_global_constraint__operation_count_upper_limit(filename: filename)
 
     proc = Proc.new {
@@ -21,7 +21,7 @@ class Test_Sequencer < Test::Unit::TestCase
   end
 
   def test_randomize_append_only
-    filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_3
+    filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_1
     proc = Proc.new {Sequencer.sequence}
 
     operation_count = 5
@@ -62,7 +62,7 @@ class Test_Sequencer < Test::Unit::TestCase
   end
 
   def test_randomize_append_then_delete
-    filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_3
+    filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_1
     proc = Proc.new {Sequencer.sequence}
 
     operation_pair_count = 4/2
@@ -103,7 +103,7 @@ class Test_Sequencer < Test::Unit::TestCase
   end
 
   def test_randomize_append_then_undo
-    filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_3
+    filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_1
     proc = Proc.new {Sequencer.sequence}
 
     operation_pair_count = 4/2
@@ -144,7 +144,7 @@ class Test_Sequencer < Test::Unit::TestCase
   end
 
   def test_randomize_append_max_once_then_cycle_delete_undo
-    filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_3
+    filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_1
     proc = Proc.new {Sequencer.sequence}
 
     operation_pair_count = 4

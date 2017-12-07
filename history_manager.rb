@@ -1,5 +1,3 @@
-require_relative 'constants'
-
 class HistoryManager
 
   def self.initial_history

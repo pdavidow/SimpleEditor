@@ -35,7 +35,8 @@ class InputParser
         TYPE_PRINT,
         TYPE_UNDO
           then code
-      else Helper.raise_format_error(line_number: line_number, error: "Operation type must be #{TYPE_APPEND.to_s}, #{TYPE_DELETE.to_s}, #{TYPE_PRINT.to_s}, or #{TYPE_UNDO.to_s}")
+      else
+        Helper.raise_format_error(line_number: line_number, error: "Operation type must be #{TYPE_APPEND.to_s}, #{TYPE_DELETE.to_s}, #{TYPE_PRINT.to_s}, or #{TYPE_UNDO.to_s}")
     end
   end
 
