@@ -16,11 +16,11 @@ class HistoryManager
 
   def self.current_string_state(history:)
     (self.current_state(history: history))
-      .to_s
+      #.to_s # todo
   end
 
   def self.add_string_state(history:, string_state:)
-    symbol = string_state.to_sym
+    symbol = string_state#.to_sym # todo
     self.add_state(history: history, state: symbol)
   end
 
