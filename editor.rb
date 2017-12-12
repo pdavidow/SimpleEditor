@@ -28,8 +28,8 @@ class Editor
     validate__appendage_length_sum(sum: sum)
 
     chars_to_delete_count = appendage_string.length
-    undo_operation = Operation.new(type_code: TYPE_UNDO_APPEND, arg: chars_to_delete_count)
-    undos = model.undos + [undo_operation]
+    undo = Operation.new(type_code: TYPE_UNDO_APPEND, arg: chars_to_delete_count)
+    undos = model.undos + [undo]
 
     new_model = basic_append(appendage_string: appendage_string, model: model)
     new_model.undos = undos
@@ -42,8 +42,8 @@ class Editor
     validate__char_delete_count_sum(sum: sum)
 
     appendage_string = model.string.slice(-chars_to_delete_count, chars_to_delete_count)
-    undo_operation = Operation.new(type_code: TYPE_UNDO_DELETE, arg: appendage_string)
-    undos = model.undos + [undo_operation]
+    undo = Operation.new(type_code: TYPE_UNDO_DELETE, arg: appendage_string)
+    undos = model.undos + [undo]
 
     new_model = basic_delete_last_chars(chars_to_delete_count: chars_to_delete_count, model: model)
     new_model.undos = undos
