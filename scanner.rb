@@ -1,20 +1,20 @@
 require_relative 'model'
 require_relative 'editor'
-require_relative 'reader'
+require_relative 'parser'
 require_relative 'helper'
 require_relative 'editor_exceptions'
 
-class Sequencer
+class Scanner
   include Helper
   include EditorExceptions
 
-  def self.sequence
-    operation_count = Reader.read_operation_count
+  def self.scan
+    operation_count = read_operation_count
     model = Model.new
 
     (2..(operation_count + 1)).each {|line_number|
       begin
-        operation = Reader.read_operation(line_number: line_number)
+        operation = read_operation(line_number: line_number)
         model = Editor.perform_operation(operation: operation, model: model)
       rescue FormatError => exception
         exception.line_number = line_number if exception.line_number.nil?
@@ -29,6 +29,28 @@ class Sequencer
         Helper.raise_sequence_error(line_number: line_number, error: exception.message)
       end
     }
+  end
+
+  #########################################################################################
+
+  private_class_method def self.read_operation_count
+    line_number = 1
+
+    begin
+      string = $stdin.readline
+      Parser.operation_count_from(line_number: line_number, string: string)
+    rescue EOFError
+      Helper.raise_format_error(line_number: line_number, error: 'Operation count expected')
+    end
+  end
+
+  private_class_method def self.read_operation(line_number:)
+    begin
+      string = $stdin.readline
+      Parser.operation_from(line_number: line_number, string: string)
+    rescue EOFError
+      Helper.raise_format_error(line_number: line_number, error: 'Operation expected')
+    end
   end
 
 end

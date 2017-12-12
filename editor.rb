@@ -1,9 +1,9 @@
 require_relative 'model'
-require_relative 'history_manager'
-require_relative 'editor_string'
 require_relative 'constants'
+require_relative 'editor_exceptions'
 
 class Editor
+  include EditorExceptions
 
   def self.perform_operation(operation:, model:)
     case operation.type_code
@@ -29,17 +29,11 @@ class Editor
 
     chars_to_delete_count = appendage_string.length
     undo_operation = Operation.new(type_code: TYPE_UNDO_APPEND, arg: chars_to_delete_count)
-    history = HistoryManager.add_state(history: model.history, state: undo_operation)
+    history = model.history + [undo_operation]
 
     new_model = basic_append(appendage_string: appendage_string, model: model)
     new_model.history = history
     new_model.appendage_length_sum = sum
-    new_model
-  end
-
-  private_class_method def self.basic_append(appendage_string:, model:)
-    new_model = model.clone
-    new_model.string = EditorString.append(base_string: model.string, appendage_string: appendage_string)
     new_model
   end
 
@@ -49,17 +43,11 @@ class Editor
 
     appendage_string = model.string.slice(-chars_to_delete_count, chars_to_delete_count)
     undo_operation = Operation.new(type_code: TYPE_UNDO_DELETE, arg: appendage_string)
-    history = HistoryManager.add_state(history: model.history, state: undo_operation)
+    history = model.history + [undo_operation]
 
     new_model = basic_delete_last_chars(chars_to_delete_count: chars_to_delete_count, model: model)
     new_model.history = history
     new_model.char_delete_count_sum  = sum
-    new_model
-  end
-
-  private_class_method def self.basic_delete_last_chars(chars_to_delete_count:, model:)
-    new_model = model.clone
-    new_model.string = EditorString.delete_last_chars(string: model.string, chars_to_delete_count: chars_to_delete_count)
     new_model
   end
 
@@ -71,17 +59,42 @@ class Editor
   end
 
   private_class_method def self.undo(model:)
-    return model if HistoryManager.initial_history?(history: model.history)
+    return model if model.history.length == 0
 
-    undo_operation = HistoryManager.current_state(history: model.history)
+    undo_operation = model.history.last
 
     new_model = self.perform_operation(operation: undo_operation, model: model)
-    new_model.history = HistoryManager.remove_current_state(history: model.history)
+    new_model.history = model.history.slice(0, model.history.length - 1)
     new_model
   end
 
   private_class_method def self.char_at_position(position:, string:)
-    EditorString.char_at_position(string: string, position: position)
+    raise ArgumentError.new('String may not be empty') unless (string.length >= 1)
+    raise CharArgumentError.new('1 <= position <= string length') unless ((position >= 1) && (position <= string.length))
+
+    string[position - 1]
+  end
+
+  private_class_method def self.basic_append(appendage_string:, model:)
+    string = model.string + appendage_string
+
+    new_model = model.clone
+    new_model.string = string
+    new_model
+  end
+
+  private_class_method def self.basic_delete_last_chars(chars_to_delete_count:, model:)
+    original = model.string
+
+    raise ArgumentError.new('String may not be empty') unless (original.length >= 1)
+    raise CharArgumentError.new('1 <= count <= string length') unless ((chars_to_delete_count >= 1) && (chars_to_delete_count <= original.length))
+
+    keep_count = original.length - chars_to_delete_count
+    string = original.slice(0, keep_count)
+
+    new_model = model.clone
+    new_model.string = string
+    new_model
   end
 
   private_class_method def self.validate__appendage_length_sum(sum:)

@@ -1,9 +1,9 @@
 require 'test/unit'
 require_relative 'helper'
 require_relative 'constants'
-require_relative '../sequencer'
+require_relative '../scanner'
 
-class Test_Sequencer < Test::Unit::TestCase
+class Test_Stress < Test::Unit::TestCase
   include Helper
 
   def test_1
@@ -11,7 +11,7 @@ class Test_Sequencer < Test::Unit::TestCase
     Helper.generate_input_file__reach_global_constraint__operation_count_upper_limit(filename: filename)
 
     proc = Proc.new {
-      result = Helper.with_captured_stdout{ Sequencer.sequence }
+      result = Helper.with_captured_stdout{ Scanner.scan }
       expected = OPERATION_COUNT__UPPER_LIMIT.even? ? "o\n" : "o\no\n"
       self.assert_equal(expected, result)
     }
@@ -22,7 +22,7 @@ class Test_Sequencer < Test::Unit::TestCase
 
   def test_randomize_append_only
     filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_1
-    proc = Proc.new {Sequencer.sequence}
+    proc = Proc.new {Scanner.scan}
 
     operation_count = 1
     string_length = 1000000
@@ -75,7 +75,7 @@ class Test_Sequencer < Test::Unit::TestCase
 
   def test_randomize_append_then_delete
     filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_1
-    proc = Proc.new {Sequencer.sequence}
+    proc = Proc.new {Scanner.scan}
 
     operation_pair_count = 1
     string_length = 1000000
@@ -128,7 +128,7 @@ class Test_Sequencer < Test::Unit::TestCase
 
   def test_randomize_append_then_undo
     filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_1
-    proc = Proc.new {Sequencer.sequence}
+    proc = Proc.new {Scanner.scan}
 
     operation_pair_count = 1
     string_length = 1000000
@@ -181,7 +181,7 @@ class Test_Sequencer < Test::Unit::TestCase
 
   def test_randomize_append_max_once_then_cycle_delete_undo
     filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_1
-    proc = Proc.new {Sequencer.sequence}
+    proc = Proc.new {Scanner.scan}
 
     operation_pair_count = 4
     delete_length = 200000

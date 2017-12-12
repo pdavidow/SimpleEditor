@@ -2,7 +2,6 @@ require 'test/unit'
 require_relative '../operation'
 require_relative '../model'
 require_relative '../editor'
-require_relative '../history_manager'
 require_relative '../editor_exceptions'
 require_relative 'helper'
 
@@ -81,7 +80,7 @@ class Test_Editor < Test::Unit::TestCase
     op3 = Operation.new(type_code: TYPE_DELETE, arg: count2)
     m4 = Editor.perform_operation(operation: op3, model: m3)
 
-    self.assert_equal('abcde', m3.string)
+    self.assert_equal('', m4.string)
     self.assert_equal([], m1.history)
     self.assert_equal(0, m1.appendage_length_sum)
     self.assert_equal(0, m1.char_delete_count_sum)

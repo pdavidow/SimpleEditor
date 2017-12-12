@@ -59,7 +59,7 @@ a
 
 **USAGE**
 
-`Sequencer.sequence`
+`Scanner.scan`
 
 **NOTE**
 
