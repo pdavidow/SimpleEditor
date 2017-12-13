@@ -10,11 +10,11 @@ class Test_Stress < Test::Unit::TestCase
     filename = TEST_INPUT_GOOD_GENERATED_FILE_NAME_1
     Helper.generate_input_file__reach_global_constraint__operation_count_upper_limit(filename: filename)
 
-    proc = Proc.new {
+    proc = Proc.new do
       result = Helper.with_captured_stdout{ Scanner.scan }
       expected = OPERATION_COUNT__UPPER_LIMIT.even? ? "o\n" : "o\no\n"
       self.assert_equal(expected, result)
-    }
+    end
     Helper.redirect_stdin_to_file(filename: filename, proc: proc)
 
     File.delete(filename)

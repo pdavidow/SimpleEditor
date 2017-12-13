@@ -152,7 +152,7 @@ module Helper
   end
 
   def self.generate_randomize_append_then_undo(filename:, operation_pair_count:, string_length:)
-    proc = Proc.new {|file|
+    proc = Proc.new do |file|
       self.write_operation_count_on(file: file, count: operation_pair_count * 2)
 
       operation_pair_count.times {
@@ -161,12 +161,12 @@ module Helper
       }
       self.write_undo_operations_on(file: file, undo_operation_count: operation_pair_count)
       file
-    }
+    end
     self.write_on(filename: filename, proc_with_file_arg: proc)
   end
 
   def self.generate_randomize_append_max_once_then_cycle_delete_undo(filename:, operation_pair_count:, delete_length:)
-    proc = Proc.new {|file|
+    proc = Proc.new do |file|
       self.write_operation_count_on(file: file, count: 1 + (operation_pair_count * 2))
       random_string = self.rand_string(length: APPENDAGE_LENGTH_SUM__UPPER_LIMIT)
       self.write_append_operations_on(file: file, appendages: [random_string])
@@ -176,7 +176,7 @@ module Helper
         self.write_undo_operations_on(file: file, undo_operation_count: 1)
       }
       file
-    }
+    end
     self.write_on(filename: filename, proc_with_file_arg: proc)
   end
 
@@ -190,31 +190,31 @@ module Helper
   end
 
   def self.write_append_operations_on(file:, appendages:)
-    appendages.each {|a|
+    appendages.each do |a|
       line = self.append_operation_line(appendage: a)
       file.write(line)
-    }
+    end
   end
 
   def self.write_delete_operations_on(file:, delete_operation_count:, char_count:)
-    delete_operation_count.times {
+    delete_operation_count.times do
       line = self.delete_operation_line(char_count: char_count)
       file.write(line)
-    }
+    end
   end
 
   def self.write_print_operations_on(file:, print_operation_count:, position:)
-    print_operation_count.times {
+    print_operation_count.times do
       line = self.print_operation_line(position: position)
       file.write(line)
-    }
+    end
   end
 
   def self.write_undo_operations_on(file:, undo_operation_count:)
-    undo_operation_count.times {
+    undo_operation_count.times do
       line = self.undo_operation_line
       file.write(line)
-    }
+    end
   end
 
   def self.operation_count_line(count:)

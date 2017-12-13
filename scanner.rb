@@ -11,7 +11,7 @@ class Scanner
     operation_count = read_operation_count
     model = Editor.initial_model
 
-    (2..(operation_count + 1)).each {|line_number|
+    (2..(operation_count + 1)).each do |line_number|
       begin
         operation = read_operation(line_number: line_number)
         model = Editor.perform_operation(operation: operation, model: model)
@@ -27,7 +27,7 @@ class Scanner
       rescue StandardError => exception
         Helper.raise_sequence_error(line_number: line_number, error: exception.message)
       end
-    }
+    end
   end
 
   #########################################################################################
