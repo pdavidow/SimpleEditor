@@ -55,7 +55,7 @@ a
 **OVERALL APPROACH**
 
 * First read the operation count, then parse each input line at a time.
-* History stores undo operations
+* Append and Delete operations store their respective undo operation in an undo stack.
 
 **USAGE**
 
