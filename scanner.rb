@@ -1,4 +1,3 @@
-require_relative 'model'
 require_relative 'editor'
 require_relative 'parser'
 require_relative 'helper'
@@ -10,7 +9,7 @@ class Scanner
 
   def self.scan
     operation_count = read_operation_count
-    model = Model.new
+    model = Editor.initial_model
 
     (2..(operation_count + 1)).each {|line_number|
       begin

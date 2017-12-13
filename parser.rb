@@ -1,4 +1,3 @@
-require_relative 'operation'
 require_relative 'helper'
 require_relative 'constants'
 
@@ -21,7 +20,7 @@ class Parser
     validate_for_presence_of_arg(line_number: line_number, substrings: substrings, type_code: type_code)
     arg = parsed_arg(line_number: line_number, string: substrings[1], type_code: type_code)
 
-    Operation.new(type_code: type_code, arg: arg)
+    {type_code: type_code, arg: arg}
   end
 
   #########################################################################################

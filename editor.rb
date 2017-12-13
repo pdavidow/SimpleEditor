@@ -1,70 +1,73 @@
-require_relative 'model'
 require_relative 'constants'
 require_relative 'editor_exceptions'
 
 class Editor
   include EditorExceptions
 
+  def self.initial_model
+    {string: INITIAL_STRING, undos: [], appendage_length_sum: 0, char_delete_count_sum: 0}
+  end
+
   def self.perform_operation(operation:, model:)
-    case operation.type_code
-      when TYPE_APPEND then append(appendage_string: operation.arg, model: model)
-      when TYPE_DELETE then delete_last_chars(chars_to_delete_count: operation.arg, model: model)
-      when TYPE_PRINT then print_with_newline__char_at(position: operation.arg, model: model)
+    case operation[:type_code]
+      when TYPE_APPEND then append(appendage_string: operation[:arg], model: model)
+      when TYPE_DELETE then delete_last_chars(chars_to_delete_count: operation[:arg], model: model)
+      when TYPE_PRINT then print_with_newline__char_at(position: operation[:arg], model: model)
       when TYPE_UNDO then undo(model: model)
-      when TYPE_UNDO_APPEND then basic_delete_last_chars(chars_to_delete_count: operation.arg, model: model)
-      when TYPE_UNDO_DELETE then basic_append(appendage_string: operation.arg, model: model)
+      when TYPE_UNDO_APPEND then basic_delete_last_chars(chars_to_delete_count: operation[:arg], model: model)
+      when TYPE_UNDO_DELETE then basic_append(appendage_string: operation[:arg], model: model)
       else
     end
   end
 
   def self.stateful_message_for(message:, model:)
-    message + ". Current string is '#{model.string}'"
+    message + ". Current string is '#{model[:string]}'"
   end
 
   #########################################################################################
 
   private_class_method def self.append(appendage_string:, model:)
-    sum = model.appendage_length_sum + appendage_string.length
+    sum = model[:appendage_length_sum] + appendage_string.length
     validate__appendage_length_sum(sum: sum)
 
     chars_to_delete_count = appendage_string.length
-    undo = Operation.new(type_code: TYPE_UNDO_APPEND, arg: chars_to_delete_count)
-    undos = model.undos + [undo]
+    undo = {type_code: TYPE_UNDO_APPEND, arg: chars_to_delete_count}
+    undos = model[:undos] + [undo]
 
     new_model = basic_append(appendage_string: appendage_string, model: model)
-    new_model.undos = undos
-    new_model.appendage_length_sum = sum
+    new_model[:undos] = undos
+    new_model[:appendage_length_sum] = sum
     new_model
   end
 
   private_class_method def self.delete_last_chars(chars_to_delete_count:, model:)
-    sum = model.char_delete_count_sum + chars_to_delete_count
+    sum = model[:char_delete_count_sum] + chars_to_delete_count
     validate__char_delete_count_sum(sum: sum)
 
-    appendage_string = model.string.slice(-chars_to_delete_count, chars_to_delete_count)
-    undo = Operation.new(type_code: TYPE_UNDO_DELETE, arg: appendage_string)
-    undos = model.undos + [undo]
+    appendage_string = model[:string].slice(-chars_to_delete_count, chars_to_delete_count)
+    undo = {type_code: TYPE_UNDO_DELETE, arg: appendage_string}
+    undos = model[:undos] + [undo]
 
     new_model = basic_delete_last_chars(chars_to_delete_count: chars_to_delete_count, model: model)
-    new_model.undos = undos
-    new_model.char_delete_count_sum  = sum
+    new_model[:undos] = undos
+    new_model[:char_delete_count_sum]  = sum
     new_model
   end
 
   private_class_method def self.print_with_newline__char_at(position:, model:)
-    string = char_at_position(position: position, string: model.string)
+    string = char_at_position(position: position, string: model[:string])
     puts(string)
 
     model
   end
 
   private_class_method def self.undo(model:)
-    return model if model.undos.length == 0
+    return model if model[:undos].length == 0
 
-    undo_operation = model.undos.last
+    undo_operation = model[:undos].last
 
     new_model = self.perform_operation(operation: undo_operation, model: model)
-    new_model.undos = model.undos.slice(0, model.undos.length - 1)
+    new_model[:undos] = model[:undos].slice(0, model[:undos].length - 1)
     new_model
   end
 
@@ -76,15 +79,15 @@ class Editor
   end
 
   private_class_method def self.basic_append(appendage_string:, model:)
-    string = model.string + appendage_string
+    string = model[:string] + appendage_string
 
     new_model = model.clone
-    new_model.string = string
+    new_model[:string] = string
     new_model
   end
 
   private_class_method def self.basic_delete_last_chars(chars_to_delete_count:, model:)
-    original = model.string
+    original = model[:string]
 
     raise ArgumentError.new('String may not be empty') unless (original.length >= 1)
     raise CharArgumentError.new('1 <= count <= string length') unless ((chars_to_delete_count >= 1) && (chars_to_delete_count <= original.length))
@@ -93,7 +96,7 @@ class Editor
     string = original.slice(0, keep_count)
 
     new_model = model.clone
-    new_model.string = string
+    new_model[:string] = string
     new_model
   end
 
